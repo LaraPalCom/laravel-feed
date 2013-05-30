@@ -1,10 +1,10 @@
 <?php namespace Roumen\Feed;
 /**
- * Feed generator class for laravel-feed bundle.
+ * Feed generator class for laravel4-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.0.1
- * @link http://roumen.me/projects/laravel-feed
+ * @version 2.0.2
+ * @link http://roumen.me/projects/laravel4-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
@@ -58,7 +58,7 @@ class Feed
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
         if ($format == 'rss') $this->ctype = 'application/rss+xml';
 
-        \View::addNamespace('feed', '../workbench/roumen/feed/src/views');
+        \View::addNamespace('feed', '../vendor/roumen/feed/src/views');
 
         $channel = array(
             'title'=>$this->title,
