@@ -3,10 +3,14 @@
  * Feed generator class for laravel4-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.0.2
+ * @version 2.0.3
  * @link http://roumen.me/projects/laravel4-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
+
+use Config;
+use Response;
+use View;
 
 class Feed
 {
@@ -53,12 +57,10 @@ class Feed
      */
     public function render($format = 'atom')
     {
-        if (empty($this->lang)) $this->lang = \Config::get('application.language');
-        if (empty($this->link)) $this->link = \Config::get('application.url');
+        if (empty($this->lang)) $this->lang = Config::get('application.language');
+        if (empty($this->link)) $this->link = Config::get('application.url');
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
         if ($format == 'rss') $this->ctype = 'application/rss+xml';
-
-        \View::addNamespace('feed', '../vendor/roumen/feed/src/views');
 
         $channel = array(
             'title'=>$this->title,
@@ -68,7 +70,7 @@ class Feed
             'lang'=>$this->lang
         );
 
-        return \Response::make(\View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel) ), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+        return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel) ), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
     }
 
 }
