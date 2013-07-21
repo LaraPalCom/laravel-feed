@@ -68,6 +68,7 @@ class Feed
             'title'=>$this->title,
             'description'=>$this->description,
             'logo' => $this->logo,
+            'icon' => $this->icon,
             'link'=>$this->link,
             'pubdate'=>$this->pubdate,
             'lang'=>$this->lang
