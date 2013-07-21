@@ -21,7 +21,7 @@
             <title type="html"><![CDATA[{{ $item['title'] }}]]></title>
             <link rel="alternate" type="text/html" href="{{ $item['link'] }}"></link>
             <id>{{ $item['link'] }}</id>
-            <summary type="html"><![CDATA[{{ $item['description'] }}]]>}}</summary>
+            <summary type="html"><![CDATA[{{ $item['description'] }}]]></summary>
             <updated>{{ date('c', strtotime($item['pubdate'])) }}</updated>
         </entry>
         @endforeach
