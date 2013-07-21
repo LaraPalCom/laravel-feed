@@ -25,13 +25,14 @@ Then register this service provider with Laravel :
 Route::get('feed', function(){
 
     // creating rss feed with our most recent 20 posts
-    $posts = DB::table('posts')->order_by('created', 'desc')->take(20)->get();
+    $posts = DB::table('posts')->orderBy('created', 'desc')->take(20)->get();
 
     $feed = App::make("feed");
 
     // set your feed's title, description, link, pubdate and language
     $feed->title = 'Your title';
     $feed->description = 'Your description';
+    $feed->logo = 'http://yoursite.tld/logo.jpg';
     $feed->link = URL::to('feed');
     $feed->pubdate = $posts[0]->created;
     $feed->lang = 'en';

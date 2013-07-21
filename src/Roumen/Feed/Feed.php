@@ -3,7 +3,7 @@
  * Feed generator class for laravel4-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.1
+ * @version 2.2
  * @link http://roumen.me/projects/laravel4-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -19,6 +19,7 @@ class Feed
     public $title = 'My feed title';
     public $description = 'My feed description';
     public $link;
+    public $logo;
     public $pubdate;
     public $lang;
     public $charset = 'utf-8';
@@ -65,6 +66,7 @@ class Feed
         $channel = array(
             'title'=>$this->title,
             'description'=>$this->description,
+            'logo' => $this->logo,
             'link'=>$this->link,
             'pubdate'=>$this->pubdate,
             'lang'=>$this->lang
