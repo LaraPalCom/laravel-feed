@@ -5,6 +5,13 @@
         <link>{{ $channel['link'] }}</link>
         <description><![CDATA[{{ $channel['description'] }}]]></description>
         <atom:link href="{{ $channel['link'] }}" rel="self"></atom:link>
+        @if (!empty($channel['logo']))
+        <image>
+            <url>{{ $channel['logo'] }}</url>
+            <title><![CDATA[{{ $channel['title'] }}]]></title>
+            <link>{{ $channel['link'] }}</link>
+        </image>
+        @endif
         <language>{{ $channel['lang'] }}</language>
         <lastBuildDate>{{ date('D, d M Y H:i:s O', strtotime($channel['pubdate'])) }}</lastBuildDate>
         @foreach($items as $item)

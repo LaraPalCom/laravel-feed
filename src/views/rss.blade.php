@@ -4,6 +4,13 @@
         <title><![CDATA[{{ $channel['title'] }}]]></title>
         <link>{{ $channel['link'] }}</link>
         <description><![CDATA[{{ $channel['description'] }}]]></description>
+        @if (!empty($channel['logo']))
+        <image>
+            <url>{{ $channel['logo'] }}</url>
+            <title><![CDATA[{{ $channel['title'] }}]]></title>
+            <link>{{ $channel['link'] }}</link>
+        </image>
+        @endif
         <pubDate>{{ date('D, d M Y H:i:s O', strtotime($channel['pubdate'])) }}</pubDate>
         <generator>laravel-feed</generator>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
