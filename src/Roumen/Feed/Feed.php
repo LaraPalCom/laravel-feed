@@ -20,6 +20,7 @@ class Feed
     public $description = 'My feed description';
     public $link;
     public $logo;
+    public $icon;
     public $pubdate;
     public $lang;
     public $charset = 'utf-8';
