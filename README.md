@@ -19,6 +19,12 @@ Then register this service provider with Laravel :
 'Roumen\Feed\FeedServiceProvider',
 ```
 
+And add an alias to app.php:
+
+```php
+'Feed'            => 'Roumen\Feed\Facades\Feed',
+```
+
 ## Example
 
 ```php
@@ -27,7 +33,7 @@ Route::get('feed', function(){
     // creating rss feed with our most recent 20 posts
     $posts = DB::table('posts')->orderBy('created', 'desc')->take(20)->get();
 
-    $feed = App::make("feed");
+    $feed = Feed::make();
 
     // set your feed's title, description, link, pubdate and language
     $feed->title = 'Your title';
