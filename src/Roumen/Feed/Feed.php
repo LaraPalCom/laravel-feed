@@ -3,7 +3,7 @@
  * Feed generator class for laravel4-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.2
+ * @version 2.4
  * @link http://roumen.me/projects/laravel4-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -27,8 +27,9 @@ class Feed
     public $ctype = 'application/atom+xml';
 
     /**
-     * return new instance of Feed class
-     * @return Feed 
+     * Returns new instance of Feed class
+     *
+     * @return Feed
      */
     public function make()
     {

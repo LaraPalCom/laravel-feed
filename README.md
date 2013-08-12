@@ -22,7 +22,7 @@ Then register this service provider with Laravel :
 And add an alias to app.php:
 
 ```php
-'Feed'            => 'Roumen\Feed\Facades\Feed',
+'Feed' => 'Roumen\Feed\Facades\Feed',
 ```
 
 ## Example
