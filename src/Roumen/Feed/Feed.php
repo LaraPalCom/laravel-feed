@@ -26,6 +26,14 @@ class Feed
     public $charset = 'utf-8';
     public $ctype = 'application/atom+xml';
 
+    /**
+     * return new instance of Feed class
+     * @return Feed 
+     */
+    public function make()
+    {
+        return new Feed();
+    }
 
     /**
      * Add new item to $items array
