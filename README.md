@@ -1,4 +1,4 @@
-# [laravel4-feed](http://roumen.me/projects/laravel4-feed)
+# [laravel4-feed](http://roumen.it/projects/laravel4-feed)
 
 [![Latest Stable Version](https://poser.pugx.org/roumen/feed/version.png)](https://packagist.org/packages/roumen/feed) [![Total Downloads](https://poser.pugx.org/roumen/feed/d/total.png)](https://packagist.org/packages/roumen/feed)
 
