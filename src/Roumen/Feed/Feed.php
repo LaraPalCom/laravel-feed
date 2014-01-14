@@ -1,10 +1,10 @@
 <?php namespace Roumen\Feed;
 /**
- * Feed generator class for laravel4-feed package.
+ * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
  * @version 2.6.1
- * @link http://roumen.it/projects/laravel4-feed
+ * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
