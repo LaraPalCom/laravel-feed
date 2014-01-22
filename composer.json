@@ -1,6 +1,7 @@
 {
     "name": "roumen/feed",
     "description": "A simple feed generator for Laravel 4.",
+    "homepage": "http://roumen.it/projects/laravel-feed",
     "keywords": ["laravel", "feed"],
     "license": "MIT",
     "authors": [
@@ -8,7 +9,7 @@
             "name": "Roumen Damianoff",
             "email": "roumen@dawebs.com",
             "role": "Developer",
-            "homepage": "http://roumen.it/projects/laravel-feed"
+            "homepage": "http://roumen.it"
         }
     ],
     "require": {
