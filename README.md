@@ -52,5 +52,10 @@ Route::get('feed', function(){
     // show your feed (options: 'atom' (recommended) or 'rss')
     return $feed->render('atom');
 
+    // show your feed with cache for 60 minutes
+    // second param can be integer, carbon or datetime
+    // optional: you can set custom cache key with 3rd param as string
+    return $feed->render('atom', 60);
+
 });
 ```
