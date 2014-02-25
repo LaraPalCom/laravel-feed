@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.6.3
+ * @version 2.6.4
  * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -11,6 +11,7 @@
 use Config;
 use Response;
 use View;
+use Cache;
 
 class Feed
 {
@@ -63,10 +64,11 @@ class Feed
      * Returns aggregated feed with all items from $items array
      *
      * @param string $format (options: 'atom', 'rss')
+     * @param carbon|datetime|integer $cache (0 - turns off the cache)
      *
      * @return view
      */
-    public function render($format = 'atom')
+    public function render($format = 'atom', $cache = 0, $key = 'laravel-feed')
     {
         if (empty($this->lang)) $this->lang = Config::get('application.language');
         if (empty($this->link)) $this->link = Config::get('application.url');
@@ -83,7 +85,24 @@ class Feed
             'lang'=>$this->lang
         );
 
-        return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel) ), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
-    }
+        // cache check
+        if ($cache > 0)
+        {
+            if (Cache::has($key))
+            {
+                return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+            } else
+                {
+                    Cache::put($key, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel))->render(), $cache);
+
+                    return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+                }
+
+        } else
+            {
+                return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel)), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+            }
+
+     }
 
 }
