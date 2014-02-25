@@ -98,10 +98,13 @@ class Feed
                     return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
                 }
 
-        } else
+        } else if ($cache < 0)
             {
-                return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel)), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
-            }
+                return View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel))->render();
+            } else
+                {
+                    return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel)), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+                }
 
      }
 
