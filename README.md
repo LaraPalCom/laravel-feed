@@ -57,5 +57,8 @@ Route::get('feed', function(){
     // optional: you can set custom cache key with 3rd param as string
     return $feed->render('atom', 60);
 
+    // to return your feed as a string set second param to -1
+    $xml = $feed->render('atom', -1);
+
 });
 ```
