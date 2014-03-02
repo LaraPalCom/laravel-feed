@@ -56,7 +56,7 @@ class Feed
             'author' => $author,
             'link' => $link,
             'pubdate' => $pubdate,
-            'description' => strip_tags($description),
+            'description' => html_entity_decode(strip_tags($description)),
             'content' => $content
         );
     }
