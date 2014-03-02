@@ -45,8 +45,8 @@ Route::get('feed', function(){
 
     foreach ($posts as $post)
     {
-        // set item's title, author, url, pubdate and description
-        $feed->add($post->title, $post->author, URL::to($post->slug), $post->created, $post->description);
+        // set item's title, author, url, pubdate, description and content
+        $feed->add($post->title, $post->author, URL::to($post->slug), $post->created, $post->description, $post->content);
     }
 
     // show your feed (options: 'atom' (recommended) or 'rss')
