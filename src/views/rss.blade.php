@@ -1,5 +1,5 @@
 {{ '<?xml version="1.0" encoding="UTF-8" ?>'."\n" }}
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title><![CDATA[{{ $channel['title'] }}]]></title>
         <link>{{ $channel['link'] }}</link>
@@ -19,7 +19,10 @@
             <title><![CDATA[{{ $item['title'] }}]]></title>
             <link>{{ $item['link'] }}</link>
             <guid isPermaLink="true">{{ $item['link'] }}</guid>
-            <description><![CDATA[{{ $item['description'] }}]]></description>
+            <description>{{ $item['description'] }}</description>
+            @if (!empty($item['content']))
+            <content:encoded><![CDATA[{{ $item['content'] }}]]></content:encoded>
+            @endif
             <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">{{ $item['author'] }}</dc:creator>
             <pubDate>{{ date('D, d M Y H:i:s O', strtotime($item['pubdate'])) }}</pubDate>
         </item>
