@@ -93,10 +93,10 @@ class Feed
             $channel['title'] = html_entity_decode(strip_tags($channel['title']));
             $channel['description'] = html_entity_decode(strip_tags($channel['description']));
 
-            foreach ($this->items as $item)
+            foreach($this->items as $k => $v)
             {
-                $item['description'] = html_entity_decode(strip_tags($item['description']));
-                $item['title'] = html_entity_decode(strip_tags($item['title']));
+                $this->items[$k]['description'] = html_entity_decode(strip_tags($this->items[$k]['description']));
+                $this->items[$k]['title'] = html_entity_decode(strip_tags($this->items[$k]['title']));
             }
         }
 
