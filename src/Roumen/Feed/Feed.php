@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.6.6
+ * @version 2.6.7
  * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -56,7 +56,7 @@ class Feed
             'author' => $author,
             'link' => $link,
             'pubdate' => $pubdate,
-            'description' => html_entity_decode(strip_tags($description)),
+            'description' => $description,
             'content' => $content
         );
     }
@@ -75,7 +75,6 @@ class Feed
         if (empty($this->lang)) $this->lang = Config::get('application.language');
         if (empty($this->link)) $this->link = Config::get('application.url');
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
-        if ($format == 'rss') $this->ctype = 'application/rss+xml';
 
         $channel = array(
             'title'=>$this->title,
@@ -86,6 +85,20 @@ class Feed
             'pubdate'=>$this->pubdate,
             'lang'=>$this->lang
         );
+
+        if ($format == 'rss')
+        {
+            $this->ctype = 'application/rss+xml';
+
+            $channel['title'] = html_entity_decode(strip_tags($channel['title']));
+            $channel['description'] = html_entity_decode(strip_tags($channel['description']));
+
+            foreach ($this->items as $item)
+            {
+                $item['description'] = html_entity_decode(strip_tags($item['description']));
+                $item['title'] = html_entity_decode(strip_tags($item['title']));
+            }
+        }
 
         // cache check
         if ($cache > 0)
