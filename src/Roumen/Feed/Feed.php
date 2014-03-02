@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.6.5
+ * @version 2.6.6
  * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -45,17 +45,19 @@ class Feed
      * @param string $link
      * @param string $pubdate
      * @param string $description
+     * @param string $content
      *
      * @return void
      */
-    public function add($title, $author, $link, $pubdate, $description)
+    public function add($title, $author, $link, $pubdate, $description, $content)
     {
         $this->items[] = array(
             'title' => $title,
             'author' => $author,
             'link' => $link,
             'pubdate' => $pubdate,
-            'description' => $description
+            'description' => strip_tags($description),
+            'content' => $content
         );
     }
 
