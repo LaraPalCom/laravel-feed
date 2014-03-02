@@ -49,7 +49,7 @@ class Feed
      *
      * @return void
      */
-    public function add($title, $author, $link, $pubdate, $description, $content)
+    public function add($title, $author, $link, $pubdate, $description, $content='')
     {
         $this->items[] = array(
             'title' => $title,
