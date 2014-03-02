@@ -3,12 +3,12 @@
     <channel>
         <title><![CDATA[{{ $channel['title'] }}]]></title>
         <link>{{ $channel['link'] }}</link>
-        <description><![CDATA[{{ $channel['description'] }}]]></description>
+        <description>{{ $channel['description'] }}</description>
         <atom:link href="{{ Request::url() }}" rel="self"></atom:link>
         @if (!empty($channel['logo']))
         <image>
             <url>{{ $channel['logo'] }}</url>
-            <title><![CDATA[{{ $channel['title'] }}]]></title>
+            <title>{{ $channel['title'] }}</title>
             <link>{{ $channel['link'] }}</link>
         </image>
         @endif
@@ -16,7 +16,7 @@
         <lastBuildDate>{{ date('D, d M Y H:i:s O', strtotime($channel['pubdate'])) }}</lastBuildDate>
         @foreach($items as $item)
         <item>
-            <title><![CDATA[{{ $item['title'] }}]]></title>
+            <title>{{ $item['title'] }}</title>
             <link>{{ $item['link'] }}</link>
             <guid isPermaLink="true">{{ $item['link'] }}</guid>
             <description>{{ $item['description'] }}</description>
