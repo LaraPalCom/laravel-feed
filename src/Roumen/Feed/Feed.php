@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.6.7
+ * @version 2.6.8
  * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -121,6 +121,27 @@ class Feed
                     return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel)), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
                 }
 
+     }
+
+
+     /**
+      * Create link to feed
+      *
+      * @param $url
+      * @param $format (atom|rss)
+      *
+      * @return string
+      */
+     public function link($url, $format='atom')
+     {
+        $t = 'application/atom+xml';
+
+        if ($format != 'atom')
+        {
+            $t = 'application/rss+xml';
+        }
+
+        return '<link rel="alternate" type="'.$t.'" href="'.$url.'" />';
      }
 
 }
