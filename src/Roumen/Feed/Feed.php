@@ -144,4 +144,5 @@ class Feed
         return '<link rel="alternate" type="'.$t.'" href="'.$url.'" />';
      }
 
+
 }

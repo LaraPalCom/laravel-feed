@@ -45,6 +45,12 @@ class FeedTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('<p>TestContent</p>', $this->feed->items[0]['content']);
     }
 
+    public function testFeedLink()
+    {
+        $this->assertEquals('<link rel="alternate" type="application/atom+xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'atom'));
+        $this->assertEquals('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'rss'));
+    }
+
     public function testFeedRender()
     {
     	//
