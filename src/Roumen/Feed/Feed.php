@@ -26,6 +26,8 @@ class Feed
     public $lang;
     public $charset = 'utf-8';
     public $ctype = 'application/atom+xml';
+    public $caching = 0;
+    public $cacheKey = 'laravel-feed';
 
     /**
      * Returns new instance of Feed class
@@ -76,6 +78,9 @@ class Feed
         if (empty($this->link)) $this->link = Config::get('application.url');
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
+        $this->cacheKey = $key;
+        $this->caching = $cache;
+
         $channel = array(
             'title'=>$this->title,
             'description'=>$this->description,
@@ -125,10 +130,10 @@ class Feed
 
 
      /**
-      * Create link to feed
+      * Create link
       *
-      * @param $url
-      * @param $format (atom|rss)
+      * @param string $url
+      * @param string $format
       *
       * @return string
       */
@@ -143,6 +148,23 @@ class Feed
 
         return '<link rel="alternate" type="'.$t.'" href="'.$url.'" />';
      }
+
+
+    /**
+     * Check if feed is cached
+     *
+     * @return bool
+     */
+    public function isCached()
+    {
+
+        if (Cache::has($this->cacheKey))
+        {
+            return true;
+        }
+
+        return false;
+    }
 
 
 }
