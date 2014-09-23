@@ -1,5 +1,5 @@
 {{ '<'.'?'.'xml version="1.0" encoding="UTF-8" ?>'."\n" }}
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom"<?php foreach($namespaces as $n) echo " "+$n; ?>>
     <title type="html">{{ $channel['title'] }}</title>
     <subtitle type="html">{{ $channel['description'] }}</subtitle>
     <link href="{{ $channel['link'] }}"></link>
@@ -25,5 +25,4 @@
             <updated>{{ $item['pubdate'] }}</updated>
         </entry>
         @endforeach
-
 </feed>
