@@ -213,17 +213,33 @@ class Feed
      *
      * @return string
      */
-    private function formatDate($date)
+    private function formatDate($date, $format="atom")
     {
-        switch ($this->dateFormat)
+        if ($format == "atom")
         {
-            case "timestamp":
-                $date = date('c', $date);
-                break;
-            case "datetime":
-                $date = date('c', strtotime($date));
-                break;
+            switch ($this->dateFormat)
+            {
+                case "timestamp":
+                    $date = date('c', $date);
+                    break;
+                case "datetime":
+                    $date = date('c', strtotime($date));
+                    break;
+            }
         }
+        else
+        {
+            switch ($this->dateFormat)
+            {
+                case "timestamp":
+                    $date = date('D, d M Y H:i:s O', $date);
+                    break;
+                case "datetime":
+                    $date = date('D, d M Y H:i:s O', strtotime($date));
+                    break;
+            }
+        }
+
 
         return $date;
     }

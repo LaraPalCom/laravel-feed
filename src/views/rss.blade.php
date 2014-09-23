@@ -13,7 +13,7 @@
         </image>
         @endif
         <language>{{ $channel['lang'] }}</language>
-        <lastBuildDate>{{ date('D, d M Y H:i:s O', strtotime($channel['pubdate'])) }}</lastBuildDate>
+        <lastBuildDate>{{ $channel['pubdate'] }}</lastBuildDate>
         @foreach($items as $item)
         <item>
             <title>{{ $item['title'] }}</title>
@@ -24,7 +24,7 @@
             <content:encoded><![CDATA[{{ $item['content'] }}]]></content:encoded>
             @endif
             <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">{{ $item['author'] }}</dc:creator>
-            <pubDate>{{ date('D, d M Y H:i:s O', strtotime($item['pubdate'])) }}</pubDate>
+            <pubDate>{{ $item['pubdate'] }}</pubDate>
         </item>
         @endforeach
     </channel>
