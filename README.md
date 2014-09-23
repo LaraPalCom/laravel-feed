@@ -40,8 +40,11 @@ Route::get('feed', function(){
     $feed->description = 'Your description';
     $feed->logo = 'http://yoursite.tld/logo.jpg';
     $feed->link = URL::to('feed');
+    $feed->setDateFormat('datetime'); // 'datetime' or 'timestamp'
     $feed->pubdate = $posts[0]->created;
     $feed->lang = 'en';
+    $feed->setShortening(true); // true or false
+    $feed->setTextLimit(100); // maximum length of description text
 
     foreach ($posts as $post)
     {
