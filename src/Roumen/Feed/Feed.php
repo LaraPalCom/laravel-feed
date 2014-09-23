@@ -151,17 +151,17 @@ class Feed
                 return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
             } else
                 {
-                    Cache::put($key, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces))->render(), $cache);
+                    Cache::put($key, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render(), $cache);
 
                     return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
                 }
 
         } else if ($cache < 0)
             {
-                return View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces))->render();
+                return View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render();
             } else
                 {
-                    return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces)), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+                    return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces())), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
                 }
 
      }
