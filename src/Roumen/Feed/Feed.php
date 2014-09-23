@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.6.10
+ * @version 2.6.11
  * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -31,6 +31,8 @@ class Feed
     private $shortening = false;
     private $shorteningLimit = 150;
     private $dateFormat = 'datetime';
+    private $namespaces = array();
+
 
     /**
      * Returns new instance of Feed class
@@ -41,6 +43,7 @@ class Feed
     {
         return new Feed();
     }
+
 
     /**
      * Add new item to $items array
@@ -76,6 +79,27 @@ class Feed
 
 
     /**
+     * Add new item to $items array
+     *
+     * @param array $a
+     *
+     * @return void
+     */
+    public function addArray(array $a)
+    {
+
+        if ($this->shortening)
+        {
+            $a['description'] = mb_substr($a['description'], 0, $this->shorteningLimit, 'UTF-8');
+        }
+
+        $a['pubdate'] = $this->formatDate($a['pubdate']);
+
+        $this->items[] = $a;
+    }
+
+
+    /**
      * Returns aggregated feed with all items from $items array
      *
      * @param string $format (options: 'atom', 'rss')
@@ -89,7 +113,7 @@ class Feed
         if (empty($this->link)) $this->link = Config::get('application.url');
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
-        $pubdate = $this->formatDate($this->pubdate);
+        $pubdate = $this->formatDate($this->pubdate, $format);
 
         $this->cacheKey = $key;
         $this->caching = $cache;
@@ -115,6 +139,7 @@ class Feed
             {
                 $this->items[$k]['description'] = html_entity_decode(strip_tags($this->items[$k]['description']));
                 $this->items[$k]['title'] = html_entity_decode(strip_tags($this->items[$k]['title']));
+                $this->items[$k]['pubdate'] = $this->formatDate($pubdate, "rss");
             }
         }
 
@@ -126,17 +151,17 @@ class Feed
                 return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
             } else
                 {
-                    Cache::put($key, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel))->render(), $cache);
+                    Cache::put($key, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, $namespaces => $this->namespaces))->render(), $cache);
 
                     return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
                 }
 
         } else if ($cache < 0)
             {
-                return View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel))->render();
+                return View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, $namespaces => $this->namespaces))->render();
             } else
                 {
-                    return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel)), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+                    return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, $namespaces => $this->namespaces)), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
                 }
 
      }
@@ -248,6 +273,32 @@ class Feed
 
 
         return $date;
+    }
+
+
+    /**
+     * Add namespace
+     *
+     * @param string $n
+     *
+     * @return void
+     */
+    public function addNamespace($n)
+    {
+        $this->namespaces[] = $n;
+    }
+
+
+    /**
+     * Get all namespaces
+     *
+     * @param string $n
+     *
+     * @return void
+     */
+    public function getNamespaces()
+    {
+        return $this->namespaces;
     }
 
 
