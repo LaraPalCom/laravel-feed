@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.6.9
+ * @version 2.6.10
  * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -30,6 +30,7 @@ class Feed
     public $cacheKey = 'laravel-feed';
     private $shortening = false;
     private $shorteningLimit = 150;
+    private $dateFormat = 'datetime';
 
     /**
      * Returns new instance of Feed class
@@ -61,6 +62,8 @@ class Feed
             $content = mb_substr($content, 0, $this->shorteningLimit, 'UTF-8');
         }
 
+        $pubdate = formatDate($pubdate);
+
         $this->items[] = array(
             'title' => $title,
             'author' => $author,
@@ -85,6 +88,8 @@ class Feed
         if (empty($this->lang)) $this->lang = Config::get('application.language');
         if (empty($this->link)) $this->link = Config::get('application.url');
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
+
+        $pubdate = formatDate($pubdate);
 
         $this->cacheKey = $key;
         $this->caching = $cache;
@@ -178,9 +183,9 @@ class Feed
     /**
      * Set maximum characters lenght for text shortening
      *
-     * @param integer $l integer
+     * @param integer $l
      *
-     * @return  void
+     * @return void
      */
     public function setTextLimit($l=150)
     {
@@ -191,13 +196,36 @@ class Feed
     /**
      * Turn on/off text shortening for item content
      *
-     * @param boolean $b true or false
+     * @param boolean $b
      *
-     * @return  void
+     * @return void
      */
     public function setShortening($b=false)
     {
         $this->shortening = $b;
+    }
+
+
+    /**
+     * Format datetime or timestamp date in ISO 8601 format
+     *
+     * @param string/integer $date
+     *
+     * @return string
+     */
+    private function formatDate($date)
+    {
+        switch ($this->dateFormat)
+        {
+            case "timestamp":
+                $date = date('c', $date);
+                break;
+            case "datetime":
+                $date = date('c', strtotime($date));
+                break;
+        }
+
+        return $date;
     }
 
 
