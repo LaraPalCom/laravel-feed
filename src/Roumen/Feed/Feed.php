@@ -207,7 +207,7 @@ class Feed
 
 
     /**
-     * Format datetime or timestamp date in ISO 8601 format
+     * Format datetime string, timestamp integer or carbon object in valid feed format
      *
      * @param string/integer $date
      *
@@ -219,6 +219,9 @@ class Feed
         {
             switch ($this->dateFormat)
             {
+                case "carbon":
+                    $date = date('c', strtotime($date->toDateTimeString()));
+                    break;
                 case "timestamp":
                     $date = date('c', $date);
                     break;
@@ -231,6 +234,9 @@ class Feed
         {
             switch ($this->dateFormat)
             {
+                case "carbon":
+                    $date = date('D, d M Y H:i:s O', strtotime($date->toDateTimeString()));
+                    break;
                 case "timestamp":
                     $date = date('D, d M Y H:i:s O', $date);
                     break;
