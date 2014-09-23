@@ -59,10 +59,10 @@ class Feed
 
         if ($this->shortening)
         {
-            $content = mb_substr($content, 0, $this->shorteningLimit, 'UTF-8');
+            $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8');
         }
 
-        $pubdate = formatDate($pubdate);
+        $pubdate = $this->formatDate($pubdate);
 
         $this->items[] = array(
             'title' => $title,
@@ -89,7 +89,7 @@ class Feed
         if (empty($this->link)) $this->link = Config::get('application.url');
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
-        $pubdate = formatDate($pubdate);
+        $pubdate = $this->formatDate($this->pubdate);
 
         $this->cacheKey = $key;
         $this->caching = $cache;
