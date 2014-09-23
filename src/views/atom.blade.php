@@ -12,7 +12,7 @@
     @if (!empty($channel['icon']))
     <icon>{{ $channel['icon'] }}</icon>
     @endif
-        <updated>{{ date('c', strtotime($channel['pubdate'])) }}</updated>
+        <updated>{{ $channel['pubdate'] }}</updated>
         @foreach($items as $item)
         <entry>
             <author>
@@ -22,7 +22,7 @@
             <link rel="alternate" type="text/html" href="{{ $item['link'] }}"></link>
             <id>{{ $item['link'] }}</id>
             <summary type="html"><![CDATA[{{ $item['description'] }}]]></summary>
-            <updated>{{ date('c', strtotime($item['pubdate'])) }}</updated>
+            <updated>{{ $item['pubdate'] }}</updated>
         </entry>
         @endforeach
 
