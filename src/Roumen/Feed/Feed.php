@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.6.8
+ * @version 2.6.9
  * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -28,6 +28,8 @@ class Feed
     public $ctype = 'application/atom+xml';
     public $caching = 0;
     public $cacheKey = 'laravel-feed';
+    private $shortening = false;
+    private $shorteningLimit = 150;
 
     /**
      * Returns new instance of Feed class
@@ -53,6 +55,12 @@ class Feed
      */
     public function add($title, $author, $link, $pubdate, $description, $content='')
     {
+
+        if ($this->shortening)
+        {
+            $content = mb_substr($content, 0, $this->shorteningLimit, 'UTF-8');
+        }
+
         $this->items[] = array(
             'title' => $title,
             'author' => $author,
@@ -164,6 +172,32 @@ class Feed
         }
 
         return false;
+    }
+
+
+    /**
+     * Set maximum characters lenght for text shortening
+     *
+     * @param integer $l integer
+     *
+     * @return  void
+     */
+    public function setTextLimit($l=150)
+    {
+        $this->shorteningLimit = $l;
+    }
+
+
+    /**
+     * Turn on/off text shortening for item content
+     *
+     * @param boolean $b true or false
+     *
+     * @return  void
+     */
+    public function setShortening($b=false)
+    {
+        $this->shortening = $b;
     }
 
 
