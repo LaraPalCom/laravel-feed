@@ -65,7 +65,7 @@ class Feed
             $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8');
         }
 
-        $pubdate = $this->formatDate($pubdate);
+        $pubdate = $this->setDateFormat($pubdate);
 
         $this->items[] = array(
             'title' => $title,
@@ -93,7 +93,7 @@ class Feed
             $a['description'] = mb_substr($a['description'], 0, $this->shorteningLimit, 'UTF-8');
         }
 
-        $a['pubdate'] = $this->formatDate($a['pubdate']);
+        $a['pubdate'] = $this->setDateFormat($a['pubdate']);
 
         $this->items[] = $a;
     }
@@ -113,7 +113,7 @@ class Feed
         if (empty($this->link)) $this->link = Config::get('application.url');
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
-        $pubdate = $this->formatDate($this->pubdate, $format);
+        $pubdate = $this->setDateFormat($this->pubdate, $format);
 
         $this->cacheKey = $key;
         $this->caching = $cache;
@@ -139,7 +139,7 @@ class Feed
             {
                 $this->items[$k]['description'] = html_entity_decode(strip_tags($this->items[$k]['description']));
                 $this->items[$k]['title'] = html_entity_decode(strip_tags($this->items[$k]['title']));
-                $this->items[$k]['pubdate'] = $this->formatDate($pubdate, "rss");
+                $this->items[$k]['pubdate'] = $this->setDateFormat($pubdate, "rss");
             }
         }
 
@@ -238,7 +238,7 @@ class Feed
      *
      * @return string
      */
-    private function formatDate($date, $format="atom")
+    public function setDateFormat($date, $format="atom")
     {
         if ($format == "atom")
         {
