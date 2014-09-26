@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.6.11
+ * @version 2.7.1
  * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -109,11 +109,19 @@ class Feed
      */
     public function render($format = 'atom', $cache = 0, $key = 'laravel-feed')
     {
+        if ($format == 'rss') $this->ctype = 'application/rss+xml';
+
+        // if cache is on and there is cached feed => return it
+        if ($cache > 0 && Cache::has($key))
+        {
+            return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+        }
+
         if (empty($this->lang)) $this->lang = Config::get('application.language');
         if (empty($this->link)) $this->link = Config::get('application.url');
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
-        $pubdate = $this->formatDate($this->pubdate, $format);
+        $this->pubdate = $this->formatDate($this->pubdate, $format);
 
         $this->cacheKey = $key;
         $this->caching = $cache;
@@ -130,8 +138,6 @@ class Feed
 
         if ($format == 'rss')
         {
-            $this->ctype = 'application/rss+xml';
-
             $channel['title'] = html_entity_decode(strip_tags($channel['title']));
             $channel['description'] = html_entity_decode(strip_tags($channel['description']));
 
@@ -143,26 +149,23 @@ class Feed
             }
         }
 
-        // cache check
+        // if cache is on put this feed in cache and return it
         if ($cache > 0)
         {
-            if (Cache::has($key))
-            {
-                return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
-            } else
-                {
-                    Cache::put($key, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render(), $cache);
+            Cache::put($key, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render(), $cache);
 
-                    return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
-                }
-
-        } else if ($cache < 0)
-            {
-                return View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render();
-            } else
-                {
-                    return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces())), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
-                }
+            return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+        }
+        else if ($cache == 0)
+        {
+            // if 0 make response
+            return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces())), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+        }
+        else if ($cache < 0)
+        {
+            // if cache is negative value return cachable object // TODO
+            return View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render();
+        }
 
      }
 
@@ -302,6 +305,13 @@ class Feed
     }
 
 
+    /**
+     * Setter for dateFormat
+     *
+     * @param string $format
+     *
+     * @return void
+     */
     public function setDateFormat($format="datetime")
     {
         $this->dateFormat = $format;
