@@ -25,43 +25,8 @@ And add an alias to app.php:
 'Feed' => 'Roumen\Feed\Facades\Feed',
 ```
 
-## Example
+## Examples
 
-```php
-Route::get('feed', function(){
+[How to generate basic feed (with optional caching)](https://github.com/RoumenDamianoff/laravel-feed/wiki/basic-feed)
 
-    // creating rss feed with our most recent 20 posts
-    $posts = DB::table('posts')->orderBy('created', 'desc')->take(20)->get();
-
-    $feed = Feed::make();
-
-    // set your feed's title, description, link, pubdate and language
-    $feed->title = 'Your title';
-    $feed->description = 'Your description';
-    $feed->logo = 'http://yoursite.tld/logo.jpg';
-    $feed->link = URL::to('feed');
-    $feed->setDateFormat('datetime'); // 'datetime', 'timestamp' or 'carbon'
-    $feed->pubdate = $posts[0]->created;
-    $feed->lang = 'en';
-    $feed->setShortening(true); // true or false
-    $feed->setTextLimit(100); // maximum length of description text
-
-    foreach ($posts as $post)
-    {
-        // set item's title, author, url, pubdate, description and content
-        $feed->add($post->title, $post->author, URL::to($post->slug), $post->created, $post->description, $post->content);
-    }
-
-    // show your feed (options: 'atom' (recommended) or 'rss')
-    return $feed->render('atom');
-
-    // show your feed with cache for 60 minutes
-    // second param can be integer, carbon or datetime
-    // optional: you can set custom cache key with 3rd param as string
-    return $feed->render('atom', 60);
-
-    // to return your feed as a string set second param to -1
-    $xml = $feed->render('atom', -1);
-
-});
-```
+and more in the [Wiki](https://github.com/RoumenDamianoff/laravel-feed/wiki)
