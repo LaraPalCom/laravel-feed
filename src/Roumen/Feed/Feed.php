@@ -26,8 +26,8 @@ class Feed
     public $lang;
     public $charset = 'utf-8';
     public $ctype = 'application/atom+xml';
-    public $caching = 0;
-    public $cacheKey = 'laravel-feed';
+    private $caching = 0;
+    private $cacheKey = 'laravel-feed';
     private $shortening = false;
     private $shorteningLimit = 150;
     private $dateFormat = 'datetime';
@@ -107,14 +107,17 @@ class Feed
      *
      * @return view
      */
-    public function render($format = 'atom', $cache = 0, $key = 'laravel-feed')
+    public function render($format = 'atom', $cache = null, $key = null)
     {
+        if ($cache != null) $this->caching = $cache;
+        if ($key != null) $this->cacheKey = $key;
+
         if ($format == 'rss') $this->ctype = 'application/rss+xml';
 
         // if cache is on and there is cached feed => return it
-        if ($cache > 0 && Cache::has($key))
+        if ($this->caching > 0 && Cache::has($this->cacheKey))
         {
-            return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(Cache::get($this->cacheKey), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
         }
 
         if (empty($this->lang)) $this->lang = Config::get('application.language');
@@ -122,9 +125,6 @@ class Feed
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
         $this->pubdate = $this->formatDate($this->pubdate, $format);
-
-        $this->cacheKey = $key;
-        $this->caching = $cache;
 
         $channel = array(
             'title'=>$this->title,
@@ -150,20 +150,20 @@ class Feed
         }
 
         // if cache is on put this feed in cache and return it
-        if ($cache > 0)
+        if ($this->caching > 0)
         {
-            Cache::put($key, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render(), $cache);
+            Cache::put($this->cacheKey, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render(), $this->caching);
 
-            return Response::make(Cache::get($key), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(Cache::get($this->cacheKey), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
         }
-        else if ($cache == 0)
+        else if ($this->caching == 0)
         {
             // if cache is 0 delete the key (if exists) and return response
             $this->clearCache();
 
             return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces())), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
         }
-        else if ($cache < 0)
+        else if ($this->caching < 0)
         {
             // if cache is negative value delete the key (if exists) and return cachable object
             $this->clearCache();
@@ -220,6 +220,20 @@ class Feed
     public function clearCache()
     {
         if ($this->isCached()) Cache::forget($this->cacheKey);
+    }
+
+
+    /**
+     * Set cache duration and key
+     *
+     * @return void
+     */
+    public function setCache($duration=60, $key="laravel-feed")
+    {
+        $this->cacheKey = $key;
+        $this->caching = $duration;
+
+        if ($duration < 1) $this->clearCache();
     }
 
 
