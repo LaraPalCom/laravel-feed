@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.7.1
+ * @version 2.7.2
  * @link http://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -158,12 +158,16 @@ class Feed
         }
         else if ($cache == 0)
         {
-            // if 0 make response
+            // if cache is 0 delete the key (if exists) and return response
+            $this->clearCache();
+
             return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces())), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
         }
         else if ($cache < 0)
         {
-            // if cache is negative value return cachable object // TODO
+            // if cache is negative value delete the key (if exists) and return cachable object
+            $this->clearCache();
+
             return View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render();
         }
 
@@ -205,6 +209,17 @@ class Feed
         }
 
         return false;
+    }
+
+
+    /**
+     * Clear the cache
+     *
+     * @return void
+     */
+    public function clearCache()
+    {
+        if ($this->isCached()) Cache::forget($this->cacheKey);
     }
 
 
