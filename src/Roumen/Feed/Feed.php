@@ -145,7 +145,7 @@ class Feed
             {
                 $this->items[$k]['description'] = html_entity_decode(strip_tags($this->items[$k]['description']));
                 $this->items[$k]['title'] = html_entity_decode(strip_tags($this->items[$k]['title']));
-                $this->items[$k]['pubdate'] = $this->formatDate($pubdate, "rss");
+                $this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], "rss");
             }
         }
 
