@@ -7,10 +7,16 @@ A simple feed generator for Laravel 4.
 
 ## Installation
 
-Add the following to your `composer.json` file :
+Run the following command and provide the latest stable version (e.g v2.7.4) :
+
+```bash
+composer require roumen/feed
+```
+
+or add the following to your `composer.json` file :
 
 ```json
-"roumen/feed": "dev-master"
+"roumen/feed": "~2.7"
 ```
 
 Then register this service provider with Laravel :
