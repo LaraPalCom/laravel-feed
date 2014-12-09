@@ -8,10 +8,10 @@
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Config;
-use Response;
-use View;
-use Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 
 class Feed
 {
@@ -32,6 +32,7 @@ class Feed
     private $shorteningLimit = 150;
     private $dateFormat = 'datetime';
     private $namespaces = array();
+    private $customView = null;
 
 
     /**
@@ -152,6 +153,12 @@ class Feed
             }
         }
 
+        $viewData = array(
+            'items'         => $this->items, 
+            'channel'       => $channel, 
+            'namespaces'    => $this->getNamespaces()
+        );
+
         // if cache is on put this feed in cache and return it
         if ($this->caching > 0)
         {
@@ -164,14 +171,14 @@ class Feed
             // if cache is 0 delete the key (if exists) and return response
             $this->clearCache();
 
-            return Response::make(View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces())), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(View::make($this->getView($format), $viewData), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
         }
         else if ($this->caching < 0)
         {
             // if cache is negative value delete the key (if exists) and return cachable object
             $this->clearCache();
 
-            return View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render();
+            return View::make($this->getView($format), $viewData)->render();
         }
 
      }
@@ -237,6 +244,40 @@ class Feed
         $this->caching = $duration;
 
         if ($duration < 1) $this->clearCache();
+    }
+
+
+    /**
+     * Get view name
+     * Defaults to the package views unless a custom view is set
+     *
+     * @param string $format
+     *
+     * @return void
+     */
+    public function getView($format)
+    {
+        // if a custom view is set, we don't have to account for the format and assume
+        // that the developer knows what he's doing
+        if ($this->customView !== null && View::exists($this->customView)) 
+            return $this->customView;
+
+        $packagePrefix = 'feed::';
+        // for package's default views, we send the view name with appropriate format
+        return $packagePrefix.$format;
+    }
+
+
+    /**
+     * Set Custom view if you don't like the ones that come built in with the package
+     *
+     * @param string $name
+     *
+     * @return void
+     */
+    public function setView($name=null)
+    {
+        $this->customView = $name;
     }
 
 
