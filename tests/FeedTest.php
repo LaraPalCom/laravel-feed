@@ -1,6 +1,6 @@
 <?php
 
-class FeedTest extends PHPUnit_Framework_TestCase
+class FeedTest extends Orchestra\Testbench\TestCase
 {
     protected $feed;
 
@@ -49,6 +49,13 @@ class FeedTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('<link rel="alternate" type="application/atom+xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'atom'));
         $this->assertEquals('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'rss'));
+    }
+
+    public function testFeedCustomView()
+    {
+        $this->feed->setView('view.name');
+
+        $this->assertEquals('feed::atom', $this->feed->getView('atom'));
     }
 
     public function testFeedRender()
