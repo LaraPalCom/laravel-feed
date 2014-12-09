@@ -3,8 +3,8 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.7.4
- * @link http://roumen.it/projects/laravel-feed
+ * @version 2.8.1
+ * @link https://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
@@ -154,8 +154,8 @@ class Feed
         }
 
         $viewData = array(
-            'items'         => $this->items, 
-            'channel'       => $channel, 
+            'items'         => $this->items,
+            'channel'       => $channel,
             'namespaces'    => $this->getNamespaces()
         );
 
@@ -259,7 +259,7 @@ class Feed
     {
         // if a custom view is set, we don't have to account for the format and assume
         // that the developer knows what he's doing
-        if ($this->customView !== null && View::exists($this->customView)) 
+        if ($this->customView !== null && View::exists($this->customView))
             return $this->customView;
 
         $packagePrefix = 'feed::';
