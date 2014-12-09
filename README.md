@@ -36,3 +36,13 @@ And add an alias to app.php:
 [How to generate basic feed (with optional caching)](https://github.com/RoumenDamianoff/laravel-feed/wiki/basic-feed)
 
 and more in the [Wiki](https://github.com/RoumenDamianoff/laravel-feed/wiki)
+
+### Custom View
+
+If you're not happy with the default views that come with the package or need to add new tags, you can render your own views but be sure that you use the correct xml and correct format(atom/rss) etc.
+
+Call the `setCustomView($viewName)` method on the feed object **BEFORE** you call the `render()` method. The `setCustomView($viewName)` method takes one parameter and it's the name of the view. However, if the view does not exist, it will automagically default to the package view.
+
+```php
+$feed->setCustomView('pages.rss');
+```
