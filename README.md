@@ -34,6 +34,7 @@ And add an alias to app.php:
 ## Examples
 
 [How to generate basic feed (with optional caching)](https://github.com/RoumenDamianoff/laravel-feed/wiki/basic-feed)
+
 [How to use custom view for your feed](https://github.com/RoumenDamianoff/laravel-feed/wiki/How-to-use-custom-view)
 
 and more in the [Wiki](https://github.com/RoumenDamianoff/laravel-feed/wiki)
