@@ -162,7 +162,7 @@ class Feed
         // if cache is on put this feed in cache and return it
         if ($this->caching > 0)
         {
-            Cache::put($this->cacheKey, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render(), $this->caching);
+            Cache::put($this->cacheKey, View::make($this->getView($format), $viewData)->render(), $this->caching);
 
             return Response::make(Cache::get($this->cacheKey), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
         }
