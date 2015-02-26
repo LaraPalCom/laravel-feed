@@ -18,7 +18,7 @@ class FeedServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->package('roumen/feed');
+        $this->loadViewsFrom(__DIR__ . '/../../views', 'feed');
     }
 
     /**
@@ -28,8 +28,6 @@ class FeedServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        //$this->package('roumen/feed');
-
         $this->app['feed'] = $this->app->share(function($app)
         {
             return new Feed();
@@ -43,7 +41,7 @@ class FeedServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array();
+        return ['feed'];
     }
 
 }
