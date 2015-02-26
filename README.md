@@ -2,12 +2,17 @@
 
 [![Latest Stable Version](https://poser.pugx.org/roumen/feed/version.png)](https://packagist.org/packages/roumen/feed) [![Total Downloads](https://poser.pugx.org/roumen/feed/d/total.png)](https://packagist.org/packages/roumen/feed) [![Build Status](https://travis-ci.org/RoumenDamianoff/laravel-feed.png?branch=master)](https://travis-ci.org/RoumenDamianoff/laravel-feed) [![License](https://poser.pugx.org/roumen/feed/license.png)](https://packagist.org/packages/roumen/feed)
 
-A simple feed generator for Laravel.
+A simple feed generator for Laravel 5.
 
+## Notes
+
+Latest supported version for Laravel 4 is ~2.8 (e.g v2.8.1)
+
+Branch dev-master is for development and is unstable
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.8.1) :
+Run the following command and provide the latest stable version (e.g v2.9.1) :
 
 ```bash
 composer require roumen/feed
@@ -16,7 +21,7 @@ composer require roumen/feed
 or add the following to your `composer.json` file :
 
 ```json
-"roumen/feed": "~2.8"
+"roumen/feed": "~2.9"
 ```
 
 Then register this service provider with Laravel :
