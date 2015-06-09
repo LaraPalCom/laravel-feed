@@ -2,7 +2,7 @@
     "name": "roumen/feed",
     "description": "A simple feed generator for Laravel.",
     "homepage": "https://roumen.it/projects/laravel-feed",
-    "keywords": ["laravel", "feed"],
+    "keywords": ["laravel", "feed", "rss", "atom"],
     "license": "MIT",
     "authors": [
         {

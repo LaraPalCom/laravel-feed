@@ -6,7 +6,7 @@ A simple feed generator for Laravel 5.
 
 ## Notes
 
-Latest supported version for Laravel 4 is ~2.8 (e.g v2.8.1)
+Latest supported version for Laravel 4 is 2.8.* (e.g v2.8.1)
 
 Branch dev-master is for development and is unstable
 
