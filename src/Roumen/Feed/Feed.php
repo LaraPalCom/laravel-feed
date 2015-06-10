@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.9.1
+ * @version 2.9.2
  * @link https://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -108,8 +108,11 @@ class Feed
      *
      * @return view
      */
-    public function render($format = 'atom', $cache = null, $key = null)
+    public function render($format = null, $cache = null, $key = null)
     {
+
+        if ($format == null && $this->customView == null) $format = "atom";
+        if ($this->customView != null) $format = $this->customView;
         if ($cache != null) $this->caching = $cache;
         if ($key != null) $this->cacheKey = $key;
 
