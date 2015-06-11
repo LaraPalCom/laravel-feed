@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.8.1
+ * @version 2.8.2
  * @link https://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -103,13 +103,15 @@ class Feed
     /**
      * Returns aggregated feed with all items from $items array
      *
-     * @param string $format (options: 'atom', 'rss')
+     * @param string $format (options: 'atom', 'rss', null)
      * @param carbon|datetime|integer $cache (0 - turns off the cache)
      *
      * @return view
      */
-    public function render($format = 'atom', $cache = null, $key = null)
+    public function render($format = null, $cache = null, $key = null)
     {
+        if ($format == null && $this->customView == null) $format = "atom";
+        if ($this->customView != null) $format = $this->customView;
         if ($cache != null) $this->caching = $cache;
         if ($key != null) $this->cacheKey = $key;
 
@@ -162,7 +164,7 @@ class Feed
         // if cache is on put this feed in cache and return it
         if ($this->caching > 0)
         {
-            Cache::put($this->cacheKey, View::make('feed::'.$format, array('items' => $this->items, 'channel' => $channel, 'namespaces' => $this->getNamespaces()))->render(), $this->caching);
+            Cache::put($this->cacheKey, View::make($this->getView($format), $viewData)->render(), $this->caching);
 
             return Response::make(Cache::get($this->cacheKey), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
         }

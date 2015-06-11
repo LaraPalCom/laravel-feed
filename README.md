@@ -7,7 +7,7 @@ A simple feed generator for Laravel.
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.8.1) :
+Run the following command and provide the latest stable version (e.g v2.8.2) :
 
 ```bash
 composer require roumen/feed
@@ -16,7 +16,7 @@ composer require roumen/feed
 or add the following to your `composer.json` file :
 
 ```json
-"roumen/feed": "~2.8"
+"roumen/feed": "2.8.*"
 ```
 
 Then register this service provider with Laravel :
