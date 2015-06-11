@@ -6,13 +6,13 @@ A simple feed generator for Laravel 5.
 
 ## Notes
 
-Latest supported version for Laravel 4 is 2.8.* (e.g v2.8.1)
+Latest supported version for Laravel 4 is 2.8.* (e.g v2.8.2)
 
 Branch dev-master is for development and is unstable
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.9.1) :
+Run the following command and provide the latest stable version (e.g v2.9.2) :
 
 ```bash
 composer require roumen/feed
