@@ -2,7 +2,7 @@
     "name": "roumen/feed",
     "description": "A simple feed generator for Laravel.",
     "homepage": "https://roumen.it/projects/laravel-feed",
-    "keywords": ["laravel", "feed", "rss", "atom"],
+    "keywords": ["laravel", "feed", "generator", "rss", "atom"],
     "license": "MIT",
     "authors": [
         {
@@ -13,8 +13,8 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/support": "~4|~5"
+        "php": ">=5.5.9",
+        "illuminate/support": "~5"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
@@ -23,11 +23,6 @@
     "autoload": {
         "psr-0": {
             "Roumen\\Feed": "src/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.9-dev"
         }
     },
     "minimum-stability": "stable"
