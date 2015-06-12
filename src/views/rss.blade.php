@@ -16,7 +16,7 @@
         <lastBuildDate>{{ $channel['pubdate'] }}</lastBuildDate>
         @foreach($items as $item)
         <item>
-            <title>{{ $item['title'] }}</title>
+            <title>{!! $item['title'] !!}</title>
             <link>{{ $item['link'] }}</link>
             <guid isPermaLink="true">{{ $item['link'] }}</guid>
             <description>{!! $item['description'] !!}</description>
