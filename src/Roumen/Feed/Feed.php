@@ -112,7 +112,7 @@ class Feed
     {
 
         if ($format == null && $this->customView == null) $format = "atom";
-        if ($this->customView != null) $format = $this->customView;
+        if ($this->customView == null) $this->customView = $format;
         if ($cache != null) $this->caching = $cache;
         if ($key != null) $this->cacheKey = $key;
 
@@ -165,7 +165,7 @@ class Feed
         // if cache is on put this feed in cache and return it
         if ($this->caching > 0)
         {
-            Cache::put($this->cacheKey, View::make($this->getView($format), $viewData)->render(), $this->caching);
+            Cache::put($this->cacheKey, View::make($this->getView($this->customView), $viewData)->render(), $this->caching);
 
             return Response::make(Cache::get($this->cacheKey), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
         }
@@ -174,14 +174,14 @@ class Feed
             // if cache is 0 delete the key (if exists) and return response
             $this->clearCache();
 
-            return Response::make(View::make($this->getView($format), $viewData), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(View::make($this->getView($this->customView), $viewData), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
         }
         else if ($this->caching < 0)
         {
             // if cache is negative value delete the key (if exists) and return cachable object
             $this->clearCache();
 
-            return View::make($this->getView($format), $viewData)->render();
+            return View::make($this->getView($this->customView), $viewData)->render();
         }
 
      }
