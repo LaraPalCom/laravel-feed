@@ -26,13 +26,13 @@ class Feed
     public $lang;
     public $charset = 'utf-8';
     public $ctype = 'application/atom+xml';
-    private $caching = 0;
-    private $cacheKey = 'laravel-feed';
-    private $shortening = false;
-    private $shorteningLimit = 150;
-    private $dateFormat = 'datetime';
-    private $namespaces = array();
-    private $customView = null;
+    protected $caching = 0;
+    protected $cacheKey = 'laravel-feed';
+    protected $shortening = false;
+    protected $shorteningLimit = 150;
+    protected $dateFormat = 'datetime';
+    protected $namespaces = array();
+    protected $customView = null;
 
 
     /**
@@ -317,7 +317,7 @@ class Feed
      *
      * @return string
      */
-    private function formatDate($date, $format="atom")
+    protected function formatDate($date, $format="atom")
     {
         if ($format == "atom")
         {
