@@ -1,15 +1,15 @@
-{!! '<'.'?'.'xml version="1.0" encoding="UTF-8" ?>'."\n" !!}
+{!! '<'.'?'.'xml version="1.0" encoding="UTF-8" ?>' !!}
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"<?php foreach($namespaces as $n) echo " ".$n; ?>>
     <channel>
         <title><![CDATA[{{ $channel['title'] }}]]></title>
-        <link>{{ $channel['link'] }}</link>
+        <link>{{ Request::url() }}</link>
         <description>{{ $channel['description'] }}</description>
-        <atom:link href="{{ Request::url() }}" rel="self"></atom:link>
+        <atom:link href="{{ $channel['link'] }}" rel="self"></atom:link>
         @if (!empty($channel['logo']))
         <image>
             <url>{{ $channel['logo'] }}</url>
             <title>{{ $channel['title'] }}</title>
-            <link>{{ $channel['link'] }}</link>
+            <link>{{ Request::url() }}</link>
         </image>
         @endif
         <language>{{ $channel['lang'] }}</language>
