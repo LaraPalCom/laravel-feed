@@ -2,7 +2,9 @@
 
 class FeedTest extends Orchestra\Testbench\TestCase
 {
+
     protected $feed;
+
 
     public function setUp()
     {
@@ -10,6 +12,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
 
         $this->feed = new Roumen\Feed\Feed;
     }
+
 
 	public function testFeedAttributes()
     {
@@ -30,6 +33,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals('en', $this->feed->lang);
     }
 
+
     public function testFeedAdd()
     {
     	$this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>');
@@ -45,11 +49,17 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals('<p>TestContent</p>', $this->feed->items[0]['content']);
     }
 
+
     public function testFeedLink()
     {
+        //$this->feed->ctype = null;
         $this->assertEquals('<link rel="alternate" type="application/atom+xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'atom'));
         $this->assertEquals('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'rss'));
+
+        $this->feed->ctype = 'text/xml';
+        $this->assertEquals('<link rel="alternate" type="text/xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'rss'));
     }
+
 
     public function testFeedCustomView()
     {
@@ -58,9 +68,11 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals('feed::atom', $this->feed->getView('atom'));
     }
 
+
     public function testFeedRender()
     {
     	//
     }
+
 
 }
