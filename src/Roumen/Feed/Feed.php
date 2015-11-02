@@ -55,10 +55,11 @@ class Feed
      * @param string $pubdate
      * @param string $description
      * @param string $content
+     * @param array $enclosure (optional)
      *
      * @return void
      */
-    public function add($title, $author, $link, $pubdate, $description, $content='')
+    public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [])
     {
 
         if ($this->shortening)
@@ -74,7 +75,8 @@ class Feed
             'link' => $link,
             'pubdate' => $pubdate,
             'description' => $description,
-            'content' => $content
+            'content' => $content,
+            'enclosure' => $enclosure
         );
     }
 

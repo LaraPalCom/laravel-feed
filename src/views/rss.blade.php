@@ -19,12 +19,19 @@
             <title>{!! $item['title'] !!}</title>
             <link>{{ $item['link'] }}</link>
             <guid isPermaLink="true">{{ $item['link'] }}</guid>
-            <description>{!! $item['description'] !!}</description>
+            <description><![CDATA[{!! $item['description'] !!}]]></description>
             @if (!empty($item['content']))
             <content:encoded><![CDATA[{!! $item['content'] !!}]]></content:encoded>
             @endif
             <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">{{ $item['author'] }}</dc:creator>
             <pubDate>{{ $item['pubdate'] }}</pubDate>
+            @if (!empty($item['enclosure']))
+            <enclosure
+            @foreach ($item['enclosure'] as $k => $v)
+            {!! $k.'="'.$v.'" ' !!}
+            @endforeach
+            />
+            @endif
             @if (!empty($item['media:content']))
             <media:content
             @foreach ($item['media:content'] as $k => $v)
