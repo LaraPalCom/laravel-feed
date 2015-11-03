@@ -6,13 +6,13 @@ A simple feed generator for Laravel 5.
 
 ## Notes
 
-Latest supported version for Laravel 4 is 2.8.* (e.g v2.8.2)
+Latest supported version for Laravel 4 is 2.8.* (e.g v2.8.5)
 
 Branch dev-master is for development and is unstable
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.9.2) :
+Run the following command and provide the latest stable version (e.g v2.9.7) :
 
 ```bash
 composer require roumen/feed
@@ -40,6 +40,10 @@ And add an alias to app.php:
 
 [How to generate basic feed (with optional caching)](https://github.com/RoumenDamianoff/laravel-feed/wiki/basic-feed)
 
+[How to add images to your feed](https://github.com/RoumenDamianoff/laravel-feed/wiki/How-to-add-images-to-your-feed)
+
 [How to use custom view for your feed](https://github.com/RoumenDamianoff/laravel-feed/wiki/How-to-use-custom-view)
+
+[How to use custom content-type for your feed](https://github.com/RoumenDamianoff/laravel-feed/wiki/How-to-use-custom-content-type)
 
 and more in the [Wiki](https://github.com/RoumenDamianoff/laravel-feed/wiki)
