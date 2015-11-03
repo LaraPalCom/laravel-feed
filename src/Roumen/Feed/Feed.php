@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.8.2
+ * @version 2.8.5
  * @link https://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -146,12 +146,9 @@ class Feed
 
             foreach($this->items as $k => $v)
             {
-                $this->items[$k]['description'] = html_entity_decode(strip_tags($this->items[$k]['description']));
                 // escaping & in description, based on http://stackoverflow.com/questions/1328538/how-do-i-escape-ampersands-in-xml
-                $this->items[$k]['description'] = str_replace('&', '&amp;amp;', $this->items[$k]['description']);
-
+                $this->items[$k]['description'] = str_replace('&', '&amp;amp;', html_entity_decode(strip_tags($this->items[$k]['description'])));
                 $this->items[$k]['title'] = html_entity_decode(strip_tags($this->items[$k]['title']));
-                $this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], "rss");
             }
         }
 
