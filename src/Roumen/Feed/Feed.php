@@ -25,7 +25,7 @@ class Feed
     public $pubdate;
     public $lang;
     public $charset = 'utf-8';
-    public $ctype = 'application/atom+xml';
+    public $ctype = null;
     protected $caching = 0;
     protected $cacheKey = 'laravel-feed';
     protected $shortening = false;
@@ -107,6 +107,7 @@ class Feed
      *
      * @param string $format (options: 'atom', 'rss', null)
      * @param carbon|datetime|integer $cache (0 - turns off the cache)
+     * @param string $key
      *
      * @return view
      */
@@ -117,7 +118,21 @@ class Feed
         if ($cache != null) $this->caching = $cache;
         if ($key != null) $this->cacheKey = $key;
 
-        if ($format == 'rss') $this->ctype = 'application/rss+xml';
+        if ($this->ctype == null)
+        {
+            switch ($format)
+            {
+                case "rss":
+                    $this->ctype = 'application/rss+xml';
+                    break;
+                case "atom":
+                    $this->ctype = 'application/atom+xml';
+                    break;
+                default:
+                    $this->ctype = 'application/atom+xml';
+                    break;
+            }
+        }
 
         // if cache is on and there is cached feed => return it
         if ($this->caching > 0 && Cache::has($this->cacheKey))
@@ -195,14 +210,27 @@ class Feed
       */
      public function link($url, $format='atom')
      {
-        $t = 'application/atom+xml';
+            if ($this->ctype == null)
+            {
+                switch ($format)
+                {
+                    case "rss":
+                        $type = 'application/rss+xml';
+                        break;
+                    case "atom":
+                        $type = 'application/atom+xml';
+                        break;
+                    default:
+                        $type = 'application/atom+xml';
+                        break;
+                }
+            }
+            else
+            {
+                $type = $this->ctype;
+            }
 
-        if ($format != 'atom')
-        {
-            $t = 'application/rss+xml';
-        }
-
-        return '<link rel="alternate" type="'.$t.'" href="'.$url.'" />';
+            return '<link rel="alternate" type="'.$type.'" href="'.$url.'" />';
      }
 
 
