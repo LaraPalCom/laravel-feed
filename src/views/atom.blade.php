@@ -6,14 +6,14 @@
     <id>{{ $channel['link'] }}</id>
     <link rel="alternate" type="text/html" href="{{ Request::url() }}" ></link>
     <link rel="self" type="application/atom+xml" href="{{ $channel['link'] }}" ></link>
-    @if (!empty($channel['logo']))
+@if (!empty($channel['logo']))
     <logo>{{ $channel['logo'] }}</logo>
-    @endif
-    @if (!empty($channel['icon']))
+@endif
+@if (!empty($channel['icon']))
     <icon>{{ $channel['icon'] }}</icon>
-    @endif
+@endif
         <updated>{{ $channel['pubdate'] }}</updated>
-        @foreach($items as $item)
+@foreach($items as $item)
         <entry>
             <author>
                 <name><![CDATA[{!! $item['author'] !!}]]></name>
@@ -25,5 +25,5 @@
             <content type="html"><![CDATA[{!! $item['content'] !!}]]></content>
             <updated>{{ $item['pubdate'] }}</updated>
         </entry>
-        @endforeach
+@endforeach
 </feed>
