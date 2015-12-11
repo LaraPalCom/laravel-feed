@@ -123,7 +123,7 @@ class Feed
         // if cache is on and there is cached feed => return it
         if ($this->caching > 0 && Cache::has($this->cacheKey))
         {
-            return Response::make(Cache::get($this->cacheKey), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(Cache::get($this->cacheKey), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
         }
 
         if (empty($this->lang)) $this->lang = Config::get('application.language');
@@ -171,14 +171,14 @@ class Feed
         {
             Cache::put($this->cacheKey, View::make($this->getView($this->customView), $viewData)->render(), $this->caching);
 
-            return Response::make(Cache::get($this->cacheKey), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(Cache::get($this->cacheKey), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
         }
         else if ($this->caching == 0)
         {
             // if cache is 0 delete the key (if exists) and return response
             $this->clearCache();
 
-            return Response::make(View::make($this->getView($this->customView), $viewData), 200, array('Content-type' => $this->ctype.'; charset='.$this->charset));
+            return Response::make(View::make($this->getView($this->customView), $viewData), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
         }
         else if ($this->caching < 0)
         {
