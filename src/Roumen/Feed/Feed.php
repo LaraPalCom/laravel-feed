@@ -204,18 +204,7 @@ class Feed
 
         if ($this->ctype == null)
         {
-            switch ($format)
-            {
-                case "rss":
-                    $type = 'application/rss+xml';
-                    break;
-                case "atom":
-                    $type = 'application/atom+xml';
-                    break;
-                default:
-                    $type = 'application/atom+xml';
-                    break;
-            }
+            ($format == 'rss') ? $type = 'application/rss+xml' : $type = 'application/atom+xml';
         }
         else
         {
