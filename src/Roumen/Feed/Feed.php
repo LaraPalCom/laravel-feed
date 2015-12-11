@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.8.5
+ * @version 2.8.6
  * @link https://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -67,8 +67,6 @@ class Feed
             $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8');
         }
 
-        $pubdate = $this->formatDate($pubdate);
-
         $this->items[] = array(
             'title' => $title,
             'author' => $author,
@@ -96,8 +94,6 @@ class Feed
             $a['description'] = mb_substr($a['description'], 0, $this->shorteningLimit, 'UTF-8');
         }
 
-        $a['pubdate'] = $this->formatDate($a['pubdate']);
-
         $this->items[] = $a;
     }
 
@@ -120,18 +116,7 @@ class Feed
 
         if ($this->ctype == null)
         {
-            switch ($format)
-            {
-                case "rss":
-                    $this->ctype = 'application/rss+xml';
-                    break;
-                case "atom":
-                    $this->ctype = 'application/atom+xml';
-                    break;
-                default:
-                    $this->ctype = 'application/atom+xml';
-                    break;
-            }
+            ($format == 'rss') ? $this->ctype = 'application/rss+xml' : $this->ctype = 'application/atom+xml';
         }
 
         // if cache is on and there is cached feed => return it
@@ -145,6 +130,11 @@ class Feed
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
         $this->pubdate = $this->formatDate($this->pubdate, $format);
+
+        foreach($this->items as $k => $v)
+        {
+            $this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], $format);
+        }
 
         $channel = array(
             'title'=>$this->title,
@@ -343,19 +333,19 @@ class Feed
      *
      * @return string
      */
-    protected function formatDate($date, $format="atom")
+    protected function formatDate($date, $format='atom')
     {
-        if ($format == "atom")
+        if ($format == 'atom')
         {
             switch ($this->dateFormat)
             {
-                case "carbon":
+                case 'carbon':
                     $date = date('c', strtotime($date->toDateTimeString()));
                     break;
-                case "timestamp":
+                case 'timestamp':
                     $date = date('c', $date);
                     break;
-                case "datetime":
+                case 'datetime':
                     $date = date('c', strtotime($date));
                     break;
             }
@@ -364,18 +354,17 @@ class Feed
         {
             switch ($this->dateFormat)
             {
-                case "carbon":
+                case 'carbon':
                     $date = date('D, d M Y H:i:s O', strtotime($date->toDateTimeString()));
                     break;
-                case "timestamp":
+                case 'timestamp':
                     $date = date('D, d M Y H:i:s O', $date);
                     break;
-                case "datetime":
+                case 'datetime':
                     $date = date('D, d M Y H:i:s O', strtotime($date));
                     break;
             }
         }
-
 
         return $date;
     }
@@ -414,7 +403,7 @@ class Feed
      *
      * @return void
      */
-    public function setDateFormat($format="datetime")
+    public function setDateFormat($format='datetime')
     {
         $this->dateFormat = $format;
     }
