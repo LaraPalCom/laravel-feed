@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.9.7
+ * @version 2.9.8
  * @link https://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Cache;
 class Feed
 {
 
-    public $items = array();
+    public $items = [];
     public $title = 'My feed title';
     public $description = 'My feed description';
     public $link;
@@ -31,7 +31,7 @@ class Feed
     protected $shortening = false;
     protected $shorteningLimit = 150;
     protected $dateFormat = 'datetime';
-    protected $namespaces = array();
+    protected $namespaces = [];
     protected $customView = null;
 
 
@@ -67,8 +67,6 @@ class Feed
             $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8');
         }
 
-        $pubdate = $this->formatDate($pubdate);
-
         $this->items[] = array(
             'title' => $title,
             'author' => $author,
@@ -96,8 +94,6 @@ class Feed
             $a['description'] = mb_substr($a['description'], 0, $this->shorteningLimit, 'UTF-8');
         }
 
-        $a['pubdate'] = $this->formatDate($a['pubdate']);
-
         $this->items[] = $a;
     }
 
@@ -121,18 +117,7 @@ class Feed
 
         if ($this->ctype == null)
         {
-            switch ($format)
-            {
-                case "rss":
-                    $this->ctype = 'application/rss+xml';
-                    break;
-                case "atom":
-                    $this->ctype = 'application/atom+xml';
-                    break;
-                default:
-                    $this->ctype = 'application/atom+xml';
-                    break;
-            }
+            ($format == 'rss') ? $this->ctype = 'application/rss+xml' : $this->ctype = 'application/atom+xml';
         }
 
         // if cache is on and there is cached feed => return it
@@ -147,7 +132,12 @@ class Feed
 
         $this->pubdate = $this->formatDate($this->pubdate, $format);
 
-        $channel = array(
+        foreach($this->items as $k => $v)
+        {
+            $this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], $format);
+        }
+
+        $channel = [
             'title'=>$this->title,
             'description'=>$this->description,
             'logo' => $this->logo,
@@ -155,7 +145,7 @@ class Feed
             'link'=>$this->link,
             'pubdate'=>$this->pubdate,
             'lang'=>$this->lang
-        );
+        ];
 
         if ($format == 'rss')
         {
@@ -170,11 +160,11 @@ class Feed
             }
         }
 
-        $viewData = array(
+        $viewData = [
             'items'         => $this->items,
             'channel'       => $channel,
             'namespaces'    => $this->getNamespaces()
-        );
+        ];
 
         // if cache is on put this feed in cache and return it
         if ($this->caching > 0)
@@ -345,7 +335,7 @@ class Feed
      *
      * @return string
      */
-    protected function formatDate($date, $format="atom")
+    protected function formatDate($date, $format='atom')
     {
         if ($format == "atom")
         {

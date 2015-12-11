@@ -44,7 +44,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals('TestTitle', $this->feed->items[0]['title']);
         $this->assertEquals('TestAuthor', $this->feed->items[0]['author']);
         $this->assertEquals('TestUrl', $this->feed->items[0]['link']);
-        $this->assertEquals(date('c',strtotime("2014-02-29 00:00:00")), $this->feed->items[0]['pubdate']);
+        $this->assertEquals('2014-02-29 00:00:00', $this->feed->items[0]['pubdate']);
         $this->assertEquals('<p>TestResume</p>', $this->feed->items[0]['description']);
         $this->assertEquals('<p>TestContent</p>', $this->feed->items[0]['content']);
     }
