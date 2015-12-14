@@ -1,7 +1,7 @@
 {!! '<'.'?'.'xml version="1.0" encoding="UTF-8" ?>' !!}
 <feed xmlns="http://www.w3.org/2005/Atom"<?php foreach($namespaces as $n) echo " ".$n; ?>>
-    <title type="html">{!! $channel['title'] !!}</title>
-    <subtitle type="html">{!! $channel['description'] !!}</subtitle>
+    <title type="text">{!! $channel['title'] !!}</title>
+    <subtitle type="html"><![CDATA[{!! $channel['description'] !!}]]></subtitle>
     <link href="{{ Request::url() }}"></link>
     <id>{{ $channel['link'] }}</id>
     <link rel="alternate" type="text/html" href="{{ Request::url() }}" ></link>
@@ -16,9 +16,9 @@
 @foreach($items as $item)
         <entry>
             <author>
-                <name><![CDATA[{!! $item['author'] !!}]]></name>
+                <name>{{ $item['author'] }}</name>
             </author>
-            <title type="html"><![CDATA[{!! $item['title'] !!}]]></title>
+            <title type="text">{!! $item['title'] !!}></title>
             <link rel="alternate" type="text/html" href="{{ $item['link'] }}"></link>
             <id>{{ $item['link'] }}</id>
             <summary type="html"><![CDATA[{!! $item['description'] !!}]]></summary>
