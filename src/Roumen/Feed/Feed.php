@@ -130,35 +130,21 @@ class Feed
         if (empty($this->link)) $this->link = Config::get('application.url');
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
-        $this->pubdate = $this->formatDate($this->pubdate, $format);
-
         foreach($this->items as $k => $v)
         {
+            $this->items[$k]['title'] = html_entity_decode(strip_tags($this->items[$k]['title']));
             $this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], $format);
         }
 
         $channel = [
-            'title'=>$this->title,
-            'description'=>$this->description,
-            'logo' => $this->logo,
-            'icon' => $this->icon,
-            'link'=>$this->link,
-            'pubdate'=>$this->pubdate,
-            'lang'=>$this->lang
+            'title'         =>  html_entity_decode(strip_tags($channel['title'])),
+            'description'   =>  $this->description,
+            'logo'          =>  $this->logo,
+            'icon'          =>  $this->icon,
+            'link'          =>  $this->link,
+            'pubdate'       =>  $this->formatDate($this->pubdate, $format),
+            'lang'          =>  $this->lang
         ];
-
-        if ($format == 'rss')
-        {
-            $channel['title'] = html_entity_decode(strip_tags($channel['title']));
-            $channel['description'] = html_entity_decode(strip_tags($channel['description']));
-
-            foreach($this->items as $k => $v)
-            {
-                // escaping & in description, based on http://stackoverflow.com/questions/1328538/how-do-i-escape-ampersands-in-xml
-                $this->items[$k]['description'] = str_replace('&', '&amp;amp;', html_entity_decode(strip_tags($this->items[$k]['description'])));
-                $this->items[$k]['title'] = html_entity_decode(strip_tags($this->items[$k]['title']));
-            }
-        }
 
         $viewData = [
             'items'         => $this->items,
