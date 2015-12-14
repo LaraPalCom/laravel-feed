@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.9.8
+ * @version 2.9.9
  * @link https://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -137,7 +137,7 @@ class Feed
         }
 
         $channel = [
-            'title'         =>  html_entity_decode(strip_tags($channel['title'])),
+            'title'         =>  html_entity_decode(strip_tags($this->title)),
             'description'   =>  $this->description,
             'logo'          =>  $this->logo,
             'icon'          =>  $this->icon,
