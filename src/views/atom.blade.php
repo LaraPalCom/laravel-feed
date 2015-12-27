@@ -18,7 +18,7 @@
             <author>
                 <name>{{ $item['author'] }}</name>
             </author>
-            <title type="text">{!! $item['title'] !!}></title>
+            <title type="text">{!! $item['title'] !!}</title>
             <link rel="alternate" type="text/html" href="{{ $item['link'] }}"></link>
             <id>{{ $item['link'] }}</id>
             <summary type="html"><![CDATA[{!! $item['description'] !!}]]></summary>
