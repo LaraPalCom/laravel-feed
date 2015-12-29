@@ -3,7 +3,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@dawebs.com>
- * @version 2.8.6
+ * @version 2.8.7
  * @link https://roumen.it/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
