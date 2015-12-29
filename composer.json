@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "~4|~5"
+        "illuminate/support": "~4|~5",
+        "paragonie/random_compat": "~1"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
@@ -27,7 +28,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.8-dev"
+            "dev-laravel4": "2.8-dev"
         }
     },
     "minimum-stability": "stable"
