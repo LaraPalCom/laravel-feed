@@ -2,14 +2,15 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class FeedServiceProvider extends ServiceProvider {
+class FeedServiceProvider extends ServiceProvider
+{
 
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
-    protected $defer = false;
+    protected $defer = true;
 
     /**
      * Bootstrap the application events.
@@ -19,6 +20,10 @@ class FeedServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->loadViewsFrom(__DIR__ . '/../../views', 'feed');
+
+        $this->publishes([
+            __DIR__ . '/../../views' => base_path('resources/views/vendor/feed')
+        ], 'views');
     }
 
     /**
@@ -28,10 +33,12 @@ class FeedServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app['feed'] = $this->app->share(function($app)
+        $this->app->bind('feed', function()
         {
             return new Feed();
         });
+
+        $this->app->alias('feed', 'Roumen\Feed\Feed');
     }
 
     /**
