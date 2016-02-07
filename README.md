@@ -28,6 +28,12 @@ Then register this service provider with Laravel :
 'Roumen\Feed\FeedServiceProvider',
 ```
 
+and add class alias :
+
+```php
+'Feed' => 'Roumen\Feed\Feed',
+```
+
 Publish package views (OPTIONAL) :
 
 ```bash
@@ -37,6 +43,8 @@ php artisan vendor:publish --provider="Roumen\Feed\FeedServiceProvider"
 ## Examples
 
 [How to generate basic feed (with optional caching)](https://github.com/RoumenDamianoff/laravel-feed/wiki/basic-feed)
+
+[How to generate multiple feeds](https://github.com/RoumenDamianoff/laravel-feed/wiki/multiple-feeds)
 
 [How to add images to your feed](https://github.com/RoumenDamianoff/laravel-feed/wiki/How-to-add-images-to-your-feed)
 
