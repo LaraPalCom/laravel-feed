@@ -101,16 +101,6 @@ class Feed
 	 */
 	private $customView = null;
 
-    /**
-     * Returns new instance of Feed class
-     *
-     * @return Feed
-     */
-    public static function make()
-    {
-        return new Feed();
-    }
-
 	/**
      * Add new item to $items array
      *
