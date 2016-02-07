@@ -6,13 +6,11 @@ A simple feed generator for Laravel 5.
 
 ## Notes
 
-Latest supported version for Laravel 4 is 2.8.* (e.g v2.8.5)
-
-Branch dev-master is for development and is unstable
+Branch dev-master is for development and is UNSTABLE
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.9.7) :
+Run the following command and provide the latest stable version (e.g v3.1.1) :
 
 ```bash
 composer require roumen/feed
@@ -21,7 +19,7 @@ composer require roumen/feed
 or add the following to your `composer.json` file :
 
 ```json
-"roumen/feed": "~2.9"
+"roumen/feed": "~3.1"
 ```
 
 Then register this service provider with Laravel :
@@ -30,10 +28,10 @@ Then register this service provider with Laravel :
 'Roumen\Feed\FeedServiceProvider',
 ```
 
-And add an alias to app.php:
+Publish package views (OPTIONAL) :
 
-```php
-'Feed' => 'Roumen\Feed\Facades\Feed',
+```bash
+php artisan vendor:publish --provider="Roumen\Feed\FeedServiceProvider"
 ```
 
 ## Examples
