@@ -11,7 +11,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->feed = new Roumen\Feed\Feed;
     }
 
-	public function testFeedAttributes()
+    public function testFeedAttributes()
     {
         $this->feed->title = 'TestTitle';
         $this->feed->description = 'TestDescription';
@@ -32,7 +32,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
 
     public function testFeedAdd()
     {
-    	$this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>');
+        $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>');
         $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
 
         $items = $this->feed->getItems();
@@ -121,7 +121,6 @@ class FeedTest extends Orchestra\Testbench\TestCase
 
         // with title and lang
         $this->assertEquals('<link rel="alternate" hreflang="en" type="application/atom+xml" href="http://domain.tld/feed" title="Feed: Atom">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'atom', 'Feed: Atom', 'en'));
-
     }
 
     public function testFeedCustomView()

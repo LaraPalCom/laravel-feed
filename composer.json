@@ -14,17 +14,15 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "~5",
-        "paragonie/random_compat": "~1"
+        "illuminate/support": "^5.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
-        "orchestra/testbench": "2.2.*"
+        "phpunit/phpunit": "^4.8",
+        "orchestra/testbench": "^3.0"
     },
     "autoload": {
         "psr-0": {
             "Roumen\\Feed": "src/"
         }
-    },
-    "minimum-stability": "stable"
+    }
 }
