@@ -2,9 +2,7 @@
 
 class FeedTest extends Orchestra\Testbench\TestCase
 {
-
     protected $feed;
-
 
     public function setUp()
     {
@@ -12,7 +10,6 @@ class FeedTest extends Orchestra\Testbench\TestCase
 
         $this->feed = new Roumen\Feed\Feed;
     }
-
 
 	public function testFeedAttributes()
     {
@@ -33,46 +30,108 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals('en', $this->feed->lang);
     }
 
-
     public function testFeedAdd()
     {
     	$this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>');
         $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
 
-        $this->assertCount(2, $this->feed->items);
+        $items = $this->feed->getItems();
 
-        $this->assertEquals('TestTitle', $this->feed->items[0]['title']);
-        $this->assertEquals('TestAuthor', $this->feed->items[0]['author']);
-        $this->assertEquals('TestUrl', $this->feed->items[0]['link']);
-        $this->assertEquals('2014-02-29 00:00:00', $this->feed->items[0]['pubdate']);
-        $this->assertEquals('<p>TestResume</p>', $this->feed->items[0]['description']);
-        $this->assertEquals('<p>TestContent</p>', $this->feed->items[0]['content']);
+        $this->assertCount(2, $items);
+
+        $this->assertEquals('TestTitle', $items[0]['title']);
+        $this->assertEquals('TestAuthor', $items[0]['author']);
+        $this->assertEquals('TestUrl', $items[0]['link']);
+        $this->assertEquals('2014-02-29 00:00:00', $items[0]['pubdate']);
+        $this->assertEquals('<p>TestResume</p>', $items[0]['description']);
+        $this->assertEquals('<p>TestContent</p>', $items[0]['content']);
     }
 
+    public function testFeedAddItem()
+    {
+        $this->feed->addItem([
+            'title' => 'TestTitle',
+            'author' => 'TestAuthor',
+            'link' => 'TestUrl',
+            'pubdate' => '2014-02-29 00:00:00',
+            'description' => '<p>TestResume</p>',
+            'content' => '<p>TestContent</p>'
+        ]);
+
+       $this->feed->addItem([
+            'title' => 'TestTitle2',
+            'author' => 'TestAuthor2',
+            'link' => 'TestUrl2',
+            'pubdate' => '2014-02-29 00:00:00',
+            'description' => '<p>TestResume2</p>'
+        ]);
+
+       // add multidimensional array
+       $this->feed->addItem([
+            [
+                'title' => 'TestTitle3',
+                'author' => 'TestAuthor3',
+                'link' => 'TestUrl3',
+                'pubdate' => '2014-02-29 00:00:00',
+                'description' => '<p>TestResume3</p>'
+            ],
+            [
+                'title' => 'TestTitle4',
+                'author' => 'TestAuthor4',
+                'link' => 'TestUrl4',
+                'pubdate' => '2014-02-29 00:00:00',
+                'description' => '<p>TestResume4</p>'
+            ],
+            [
+                'title' => 'TestTitle5',
+                'author' => 'TestAuthor5',
+                'link' => 'TestUrl5',
+                'pubdate' => '2014-02-29 00:00:00',
+                'description' => '<p>TestResume5</p>'
+            ]
+        ]);
+
+        // get items
+        $items = $this->feed->getItems();
+
+        // count items
+        $this->assertCount(5, $items);
+
+        // check items
+        $this->assertEquals('TestTitle', $items[0]['title']);
+        $this->assertEquals('TestAuthor', $items[0]['author']);
+        $this->assertEquals('TestUrl', $items[0]['link']);
+        $this->assertEquals('2014-02-29 00:00:00', $items[0]['pubdate']);
+        $this->assertEquals('<p>TestResume</p>', $items[0]['description']);
+        $this->assertEquals('<p>TestContent</p>', $items[0]['content']);
+        $this->assertEquals('TestTitle5', $items[4]['title']);
+    }
 
     public function testFeedLink()
     {
-        //$this->feed->ctype = null;
-        $this->assertEquals('<link rel="alternate" type="application/atom+xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'atom'));
-        $this->assertEquals('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'rss'));
+        // default formats
+        $this->assertEquals('<link rel="alternate" type="application/atom+xml" href="http://domain.tld/feed">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'atom'));
+        $this->assertEquals('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'rss'));
 
-        $this->feed->ctype = 'text/xml';
-        $this->assertEquals('<link rel="alternate" type="text/xml" href="http://domain.tld/feed" />', $this->feed->link('http://domain.tld/feed', 'rss'));
+        // with custom type
+        $this->assertEquals('<link rel="alternate" type="text/xml" href="http://domain.tld/feed">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'text/xml'));
+
+        // with title
+        $this->assertEquals('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed" title="Feed: RSS">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'rss', 'Feed: RSS'));
+
+        // with title and lang
+        $this->assertEquals('<link rel="alternate" hreflang="en" type="application/atom+xml" href="http://domain.tld/feed" title="Feed: Atom">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'atom', 'Feed: Atom', 'en'));
+
     }
-
 
     public function testFeedCustomView()
     {
-        $this->feed->setView('view.name');
+        // custom view (don't exists)
+        $this->feed->setView('vendor.feed.test');
+        $this->assertEquals('feed::vendor.feed.test', $this->feed->getView('vendor.feed.test'));
 
+        // default
         $this->assertEquals('feed::atom', $this->feed->getView('atom'));
     }
-
-
-    public function testFeedRender()
-    {
-    	//
-    }
-
 
 }
