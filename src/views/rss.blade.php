@@ -1,16 +1,37 @@
 {!! '<'.'?'.'xml version="1.0" encoding="UTF-8" ?>' !!}
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:media="http://search.yahoo.com/mrss/"<?php foreach($namespaces as $n) echo " ".$n; ?>>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:media="http://search.yahoo.com/mrss/"<?php foreach($namespaces as $n) echo " ".$n; ?>>
     <channel>
         <title>{!! $channel['title'] !!}</title>
         <link>{{ Request::url() }}</link>
         <description><![CDATA[{!! $channel['description'] !!}]]></description>
         <atom:link href="{{ $channel['link'] }}" rel="self"></atom:link>
+
+@if (!empty($channel['color']))
+        <webfeeds:accentColor>{{ $channel['color'] }}</webfeeds:accentColor>
+@endif
+
+@if (!empty($channel['cover']))
+        <webfeeds:cover image="{{ $channel['cover'] }}">
+@endif
+
+@if (!empty($channel['icon']))
+        <webfeeds:icon>{{ $channel['icon'] }}</webfeeds:icon>
+@endif
+
 @if (!empty($channel['logo']))
+        <webfeeds:logo>{{ $channel['logo'] }}</webfeeds:logo>
         <image>
             <url>{{ $channel['logo'] }}</url>
             <title>{{ $channel['title'] }}</title>
             <link>{{ Request::url() }}</link>
         </image>
+@endif
+@if (!empty($channel['related']))
+        <webfeeds:related layout="card" target="browser">
+@endif
+
+@if (!empty($channel['ga']))
+        <webfeeds:analytics id="{{ $channel['ga'] }}" engine="GoogleAnalytics">
 @endif
         <language>{{ $channel['lang'] }}</language>
         <lastBuildDate>{{ $channel['pubdate'] }}</lastBuildDate>
