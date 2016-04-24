@@ -49,6 +49,26 @@ class Feed
 	/**
 	 * @var string
 	 */
+	public $cover;
+
+	/**
+	 * @var string
+	 */
+	public $color;
+
+	/**
+	 * @var string
+	 */
+	public $ga;
+
+	/**
+	 * @var boolean
+	 */
+	public $related = false;
+
+	/**
+	 * @var string
+	 */
 	public $pubdate;
 
 	/**
@@ -205,6 +225,10 @@ class Feed
 			'description'   =>  $this->description,
 			'logo'          =>  $this->logo,
 			'icon'          =>  $this->icon,
+			'color'         =>  $this->color,
+			'cover'         =>  $this->cover,
+			'ga'          	=>  $this->ga,
+			'related'       =>  $this->related,
 			'link'          =>  $this->link,
 			'pubdate'       =>  $this->formatDate($this->pubdate, $format),
 			'lang'          =>  $this->lang
