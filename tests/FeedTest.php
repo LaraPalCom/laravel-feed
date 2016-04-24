@@ -20,6 +20,10 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->feed->icon = "http://roumen.it/favicon.png";
         $this->feed->pubdate = '2014-02-29 00:00:00';
         $this->feed->lang = 'en';
+        $this->feed->color = '00FF00';
+        $this->feed->cover = 'http://domain.tld/images/cover.png';
+        $this->feed->ga = 'UA-1525185-18';
+        $this->feed->related = false;
 
         $this->assertEquals('TestTitle', $this->feed->title);
         $this->assertEquals('TestDescription', $this->feed->description);
@@ -28,6 +32,10 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals("http://roumen.it/favicon.png", $this->feed->icon);
         $this->assertEquals('2014-02-29 00:00:00', $this->feed->pubdate);
         $this->assertEquals('en', $this->feed->lang);
+        $this->assertEquals('00FF00', $this->feed->color);
+        $this->assertEquals('http://domain.tld/images/cover.png', $this->feed->cover);
+        $this->assertEquals('UA-1525185-18', $this->feed->ga);
+        $this->assertEquals(false, $this->feed->related);
     }
 
     public function testFeedAdd()
