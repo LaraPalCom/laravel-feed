@@ -38,6 +38,9 @@
 @foreach($items as $item)
         <item>
             <title>{!! $item['title'] !!}</title>
+            @if (!empty($item['category']))
+            <category>{{ $item['category'] }}</category>
+            @endif
             <link>{{ $item['link'] }}</link>
             <guid isPermaLink="true">{{ $item['link'] }}</guid>
             <description><![CDATA[{!! $item['description'] !!}]]></description>

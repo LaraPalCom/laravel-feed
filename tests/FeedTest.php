@@ -40,7 +40,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
 
     public function testFeedAdd()
     {
-        $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>');
+        $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>', ['url' => 'http://foobar.dev/someThing.jpg','type' => 'image/jpeg'], 'testCategory');
         $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
 
         $items = $this->feed->getItems();
@@ -53,6 +53,8 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals('2014-02-29 00:00:00', $items[0]['pubdate']);
         $this->assertEquals('<p>TestResume</p>', $items[0]['description']);
         $this->assertEquals('<p>TestContent</p>', $items[0]['content']);
+        $this->assertEquals('http://foobar.dev/someThing.jpg', $items[0]['enclosure']['url']);
+        $this->assertEquals('testCategory', $items[0]['category']);
     }
 
     public function testFeedAddItem()
