@@ -20,6 +20,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->feed->icon = "http://roumen.it/favicon.png";
         $this->feed->pubdate = '2014-02-29 00:00:00';
         $this->feed->lang = 'en';
+        $this->feed->copyright = 'All rights reserved by Foobar Corporation';
         $this->feed->color = '00FF00';
         $this->feed->cover = 'http://domain.tld/images/cover.png';
         $this->feed->ga = 'UA-1525185-18';
@@ -32,6 +33,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals("http://roumen.it/favicon.png", $this->feed->icon);
         $this->assertEquals('2014-02-29 00:00:00', $this->feed->pubdate);
         $this->assertEquals('en', $this->feed->lang);
+        $this->assertEquals('All rights reserved by Foobar Corporation', $this->feed->copyright);
         $this->assertEquals('00FF00', $this->feed->color);
         $this->assertEquals('http://domain.tld/images/cover.png', $this->feed->cover);
         $this->assertEquals('UA-1525185-18', $this->feed->ga);

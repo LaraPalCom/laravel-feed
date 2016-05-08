@@ -69,6 +69,11 @@ class Feed
     /**
      * @var string
      */
+    public $copyright = '';
+
+    /**
+     * @var string
+     */
     public $pubdate;
 
     /**
@@ -233,7 +238,8 @@ class Feed
             'related'       =>  $this->related,
             'link'          =>  $this->link,
             'pubdate'       =>  $this->formatDate($this->pubdate, $format),
-            'lang'          =>  $this->lang
+            'lang'          =>  $this->lang,
+            'copyright'     =>  $this->copyright
         ];
 
         $viewData = [

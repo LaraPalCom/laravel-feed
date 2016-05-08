@@ -5,37 +5,35 @@
         <link>{{ Request::url() }}</link>
         <description><![CDATA[{!! $channel['description'] !!}]]></description>
         <atom:link href="{{ $channel['link'] }}" rel="self"></atom:link>
-
-@if (!empty($channel['color']))
+        @if (!empty($channel['copyright']))
+        <copyright>{{ $channel['copyright'] }}</copyright>
+        @endif
+        @if (!empty($channel['color']))
         <webfeeds:accentColor>{{ $channel['color'] }}</webfeeds:accentColor>
-@endif
-
-@if (!empty($channel['cover']))
+        @endif
+        @if (!empty($channel['cover']))
         <webfeeds:cover image="{{ $channel['cover'] }}">
-@endif
-
-@if (!empty($channel['icon']))
+        @endif
+        @if (!empty($channel['icon']))
         <webfeeds:icon>{{ $channel['icon'] }}</webfeeds:icon>
-@endif
-
-@if (!empty($channel['logo']))
+        @endif
+        @if (!empty($channel['logo']))
         <webfeeds:logo>{{ $channel['logo'] }}</webfeeds:logo>
         <image>
             <url>{{ $channel['logo'] }}</url>
             <title>{{ $channel['title'] }}</title>
             <link>{{ Request::url() }}</link>
         </image>
-@endif
-@if (!empty($channel['related']))
+        @endif
+        @if (!empty($channel['related']))
         <webfeeds:related layout="card" target="browser">
-@endif
-
-@if (!empty($channel['ga']))
+        @endif
+        @if (!empty($channel['ga']))
         <webfeeds:analytics id="{{ $channel['ga'] }}" engine="GoogleAnalytics">
-@endif
+        @endif
         <language>{{ $channel['lang'] }}</language>
         <lastBuildDate>{{ $channel['pubdate'] }}</lastBuildDate>
-@foreach($items as $item)
+        @foreach($items as $item)
         <item>
             <title>{!! $item['title'] !!}</title>
             @if (!empty($item['category']))
@@ -44,48 +42,48 @@
             <link>{{ $item['link'] }}</link>
             <guid isPermaLink="true">{{ $item['link'] }}</guid>
             <description><![CDATA[{!! $item['description'] !!}]]></description>
-@if (!empty($item['content']))
+            @if (!empty($item['content']))
             <content:encoded><![CDATA[{!! $item['content'] !!}]]></content:encoded>
-@endif
+            @endif
             <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">{{ $item['author'] }}</dc:creator>
             <pubDate>{{ $item['pubdate'] }}</pubDate>
-@if (!empty($item['enclosure']))
+            @if (!empty($item['enclosure']))
             <enclosure
-@foreach ($item['enclosure'] as $k => $v)
+            @foreach ($item['enclosure'] as $k => $v)
             {!! $k.'="'.$v.'" ' !!}
-@endforeach
+            @endforeach
             />
-@endif
-@if (!empty($item['media:content']))
+            @endif
+            @if (!empty($item['media:content']))
             <media:content
-@foreach ($item['media:content'] as $k => $v)
+            @foreach ($item['media:content'] as $k => $v)
             {!! $k.'="'.$v.'" ' !!}
-@endforeach
+            @endforeach
             />
-@endif
-@if (!empty($item['media:thumbnail']))
+            @endif
+            @if (!empty($item['media:thumbnail']))
             <media:thumbnail
-@foreach ($item['media:thumbnail'] as $k => $v)
+            @foreach ($item['media:thumbnail'] as $k => $v)
             {!! $k.'="'.$v.'" ' !!}
-@endforeach
+            @endforeach
             />
-@endif
-@if (!empty($item['media:title']))
+            @endif
+            @if (!empty($item['media:title']))
             <media:title type="plain">{{ $item['media:title'] }}</media:title>
-@endif
-@if (!empty($item['media:description']))
+            @endif
+            @if (!empty($item['media:description']))
             <media:description type="plain">{{ $item['media:description'] }}</media:description>
-@endif
-@if (!empty($item['media:keywords']))
+            @endif
+            @if (!empty($item['media:keywords']))
             <media:keywords>{{ $item['media:title'] }}</media:keywords>
-@endif
-@if (!empty($item['media:rating']))
+            @endif
+            @if (!empty($item['media:rating']))
             <media:rating>{{ $item['media:rating'] }}</media:rating>
-@endif
-@if (!empty($item['creativeCommons:license']))
+            @endif
+            @if (!empty($item['creativeCommons:license']))
             <creativeCommons:license>{{ $item['creativeCommons:license'] }}</creativeCommons:license>
-@endif
+            @endif
         </item>
-@endforeach
+        @endforeach
     </channel>
 </rss>
