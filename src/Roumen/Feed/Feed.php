@@ -131,10 +131,11 @@ class Feed
      * @param string $description
      * @param string $content
      * @param array $enclosure (optional)
+     * @param string $category (optional)
      *
      * @return void
      */
-    public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [])
+    public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='')
     {
         // shortening the description
         if ($this->shortening)
@@ -150,7 +151,8 @@ class Feed
             'pubdate' => $pubdate,
             'description' => $description,
             'content' => $content,
-            'enclosure' => $enclosure
+            'enclosure' => $enclosure,
+            'category' => $category
         ]);
     }
 
