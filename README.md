@@ -10,7 +10,7 @@ Branch dev-master is for development and is UNSTABLE
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.10.1) :
+Run the following command and provide the latest stable version (e.g v2.10.2) :
 
 ```bash
 composer require roumen/feed
@@ -25,13 +25,13 @@ or add the following to your `composer.json` file :
 Then register this service provider with Laravel :
 
 ```php
-'Roumen\Feed\FeedServiceProvider',
+Roumen\Feed\FeedServiceProvider::class,
 ```
 
 and add class alias :
 
 ```php
-'Feed' => 'Roumen\Feed\Feed',
+'Feed' => Roumen\Feed\Feed::class,
 ```
 
 Publish package views (OPTIONAL) :
