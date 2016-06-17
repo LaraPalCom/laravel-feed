@@ -223,12 +223,12 @@ class Feed
 
         foreach($this->items as $k => $v)
         {
-            $this->items[$k]['title'] = htmlentities(strip_tags($this->items[$k]['title']));
+            $this->items[$k]['title'] = htmlspecialchars(strip_tags($this->items[$k]['title']), ENT_COMPAT, 'UTF-8');
             $this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], $format);
         }
 
         $channel = [
-            'title'         =>  htmlentities(strip_tags($this->title)),
+            'title'         =>  htmlspecialchars(strip_tags($this->title), ENT_COMPAT, 'UTF-8'),
             'description'   =>  $this->description,
             'logo'          =>  $this->logo,
             'icon'          =>  $this->icon,
