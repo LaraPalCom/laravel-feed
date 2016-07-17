@@ -10,7 +10,7 @@ Branch dev-master is for development and is UNSTABLE
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.10.2) :
+Run the following command and provide the latest stable version (e.g v2.10.4) :
 
 ```bash
 composer require roumen/feed
