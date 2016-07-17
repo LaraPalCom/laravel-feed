@@ -35,7 +35,7 @@
         <lastBuildDate>{{ $channel['pubdate'] }}</lastBuildDate>
         @foreach($items as $item)
         <item>
-            <title>{!! $item['title'] !!}</title>
+            <title><![CDATA[{!! $item['title'] !!}]]></title>
             @if (!empty($item['category']))
             <category>{{ $item['category'] }}</category>
             @endif
