@@ -404,7 +404,7 @@ class Feed
                     $date = date('c', strtotime($date->toDateTimeString()));
                     break;
                 case "timestamp":
-                    $date = date('c', $date);
+                    $date = date('c', strtotime('@'.$date));
                     break;
                 case "datetime":
                     $date = date('c', strtotime($date));
@@ -419,7 +419,7 @@ class Feed
                     $date = date('D, d M Y H:i:s O', strtotime($date->toDateTimeString()));
                     break;
                 case "timestamp":
-                    $date = date('D, d M Y H:i:s O', $date);
+                    $date = date('D, d M Y H:i:s O', strtotime('@'.$date));
                     break;
                 case "datetime":
                     $date = date('D, d M Y H:i:s O', strtotime($date));
