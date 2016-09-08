@@ -4,7 +4,7 @@
         <title>{!! $channel['title'] !!}</title>
         <link>{{ Request::url() }}</link>
         <description><![CDATA[{!! $channel['description'] !!}]]></description>
-        <atom:link href="{{ $channel['link'] }}" rel="self"></atom:link>
+        <atom:link href="{{ $channel['link'] }}" rel="{{ $channel['ref'] }}"></atom:link>
         @if (!empty($channel['copyright']))
         <copyright>{{ $channel['copyright'] }}</copyright>
         @endif

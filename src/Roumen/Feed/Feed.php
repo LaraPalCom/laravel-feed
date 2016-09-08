@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Cache;
 
 class Feed
 {
+    const DEFAULT_REF = 'self';
+
     /**
      * @var array
      */
@@ -35,6 +37,11 @@ class Feed
      * @var string
      */
     public $link;
+
+    /**
+     * @var string
+     */
+    public $ref;
 
     /**
      * @var string
@@ -219,6 +226,7 @@ class Feed
 
         if (empty($this->lang)) $this->lang = Config::get('application.language');
         if (empty($this->link)) $this->link = Config::get('application.url');
+        if (empty($this->ref)) $this->ref = self::DEFAULT_REF;
         if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
         foreach($this->items as $k => $v)
@@ -237,6 +245,7 @@ class Feed
             'ga'            =>  $this->ga,
             'related'       =>  $this->related,
             'link'          =>  $this->link,
+            'ref'           =>  $this->ref,
             'pubdate'       =>  $this->formatDate($this->pubdate, $format),
             'lang'          =>  $this->lang,
             'copyright'     =>  $this->copyright
