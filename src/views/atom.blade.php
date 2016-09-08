@@ -5,7 +5,7 @@
     <link href="{{ Request::url() }}"></link>
     <id>{{ $channel['link'] }}</id>
     <link rel="alternate" type="text/html" href="{{ Request::url() }}" ></link>
-    <link rel="self" type="application/atom+xml" href="{{ $channel['link'] }}" ></link>
+    <link rel="{{ $channel['ref'] }}" type="application/atom+xml" href="{{ $channel['link'] }}" ></link>
 @if (!empty($channel['logo']))
     <logo>{{ $channel['logo'] }}</logo>
 @endif
