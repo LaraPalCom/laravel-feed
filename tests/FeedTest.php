@@ -16,6 +16,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->feed->title = 'TestTitle';
         $this->feed->description = 'TestDescription';
         $this->feed->link = 'http://roumen.it/';
+        $this->feed->ref = 'hub';
         $this->feed->logo = "http://roumen.it/favicon.png";
         $this->feed->icon = "http://roumen.it/favicon.png";
         $this->feed->pubdate = '2014-02-29 00:00:00';
@@ -29,6 +30,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals('TestTitle', $this->feed->title);
         $this->assertEquals('TestDescription', $this->feed->description);
         $this->assertEquals('http://roumen.it/', $this->feed->link);
+        $this->assertEquals('hub', $this->feed->ref);
         $this->assertEquals("http://roumen.it/favicon.png", $this->feed->logo);
         $this->assertEquals("http://roumen.it/favicon.png", $this->feed->icon);
         $this->assertEquals('2014-02-29 00:00:00', $this->feed->pubdate);
