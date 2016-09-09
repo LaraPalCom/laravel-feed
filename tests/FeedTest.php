@@ -15,6 +15,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
     {
         $this->feed->title = 'TestTitle';
         $this->feed->description = 'TestDescription';
+        $this->feed->domain = 'http://roumen.it/';
         $this->feed->link = 'http://roumen.it/';
         $this->feed->ref = 'hub';
         $this->feed->logo = "http://roumen.it/favicon.png";
@@ -29,6 +30,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
 
         $this->assertEquals('TestTitle', $this->feed->title);
         $this->assertEquals('TestDescription', $this->feed->description);
+        $this->assertEquals('http://roumen.it/', $this->feed->domain);
         $this->assertEquals('http://roumen.it/', $this->feed->link);
         $this->assertEquals('hub', $this->feed->ref);
         $this->assertEquals("http://roumen.it/favicon.png", $this->feed->logo);
@@ -151,4 +153,29 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $this->assertEquals('feed::atom', $this->feed->getView('atom'));
     }
 
+    public function testGetRssLinkByDefault()
+    {
+        $requestUrl = 'http://real.domain.need.to.be.hidden/test.xml';
+        $this->call('get', $requestUrl);
+
+        $reflectionMethod = new ReflectionMethod(Roumen\Feed\Feed::class, 'getRssLink');
+        $reflectionMethod->setAccessible(true);
+        $result = $reflectionMethod->invokeArgs($this->feed, []);
+
+        $this->assertEquals($requestUrl, $result);
+    }
+
+    public function testGetRssLinkWithDomainSetting()
+    {
+        $requestUrl = 'http://real.domain.need.to.be.hidden/test.xml';
+        $this->call('get', $requestUrl);
+
+        $this->feed->domain = 'http://rss.service.com/';
+
+        $reflectionMethod = new ReflectionMethod(Roumen\Feed\Feed::class, 'getRssLink');
+        $reflectionMethod->setAccessible(true);
+        $result = $reflectionMethod->invokeArgs($this->feed, []);
+
+        $this->assertEquals('http://rss.service.com/test.xml', $result);
+    }
 }

@@ -2,9 +2,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom"<?php foreach($namespaces as $n) echo " ".$n; ?>>
     <title type="text">{!! $channel['title'] !!}</title>
     <subtitle type="html"><![CDATA[{!! $channel['description'] !!}]]></subtitle>
-    <link href="{{ Request::url() }}"></link>
+    <link href="{{ $channel['rssLink'] }}"></link>
     <id>{{ $channel['link'] }}</id>
-    <link rel="alternate" type="text/html" href="{{ Request::url() }}" ></link>
+    <link rel="alternate" type="text/html" href="{{ $channel['rssLink'] }}" ></link>
     <link rel="{{ $channel['ref'] }}" type="application/atom+xml" href="{{ $channel['link'] }}" ></link>
 @if (!empty($channel['logo']))
     <logo>{{ $channel['logo'] }}</logo>

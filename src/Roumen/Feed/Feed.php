@@ -10,6 +10,7 @@
  */
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
@@ -32,6 +33,11 @@ class Feed
      * @var string
      */
     public $description = 'My feed description';
+
+    /**
+     * @var string
+     */
+    public $domain;
 
     /**
      * @var string
@@ -244,6 +250,7 @@ class Feed
             'cover'         =>  $this->cover,
             'ga'            =>  $this->ga,
             'related'       =>  $this->related,
+            'rssLink'       =>  $this->getRssLink(),
             'link'          =>  $this->link,
             'ref'           =>  $this->ref,
             'pubdate'       =>  $this->formatDate($this->pubdate, $format),
@@ -495,4 +502,19 @@ class Feed
         $this->items[] = $item;
     }
 
+    /**
+     * Generate rss link
+     *
+     * @author Cara Wang <caraw@cnyes.com>
+     * @since  2016/09/09
+     */
+    private function getRssLink()
+    {
+        $rssLink = Request::url();
+        if (!empty($this->domain)) {
+            $rssLink = sprintf('%s/%s', rtrim($this->domain, '/'), ltrim(Request::path(), '/'));
+        }
+
+        return $rssLink;
+    }
 }
