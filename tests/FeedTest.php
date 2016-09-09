@@ -176,6 +176,6 @@ class FeedTest extends Orchestra\Testbench\TestCase
         $reflectionMethod->setAccessible(true);
         $result = $reflectionMethod->invokeArgs($this->feed, []);
 
-        $this->assertEquals('http://rss.roumen.it/test.xml', $result);
+        $this->assertEquals('http://rss.service.com/test.xml', $result);
     }
 }
