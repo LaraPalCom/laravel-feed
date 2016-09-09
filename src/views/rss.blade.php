@@ -22,7 +22,7 @@
         <image>
             <url>{{ $channel['logo'] }}</url>
             <title>{{ $channel['title'] }}</title>
-            <link>{{ Request::url() }}</link>
+            <link>{{ $channel['rssLink'] }}</link>
         </image>
         @endif
         @if (!empty($channel['related']))
