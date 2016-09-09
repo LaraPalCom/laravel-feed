@@ -156,7 +156,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
     public function testGetRssLinkByDefault()
     {
         $requestUrl = 'http://real.domain.need.to.be.hidden/test.xml';
-        $this->get($requestUrl);
+        $this->call('get', $requestUrl);
 
         $reflectionMethod = new ReflectionMethod(Roumen\Feed\Feed::class, 'getRssLink');
         $reflectionMethod->setAccessible(true);
@@ -168,7 +168,7 @@ class FeedTest extends Orchestra\Testbench\TestCase
     public function testGetRssLinkWithDomainSetting()
     {
         $requestUrl = 'http://real.domain.need.to.be.hidden/test.xml';
-        $this->get($requestUrl);
+        $this->call('get', $requestUrl);
 
         $this->feed->domain = 'http://rss.service.com/';
 
