@@ -155,9 +155,15 @@ class Feed
      */
     public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='')
     {
+        // append continue reading to description
+        $append = '';
         // shortening the description
         if ($this->shortening)
         {
+            if(strlen($description) > $this->shorteningLimit){
+                //adds the continue reading link for shortened description
+                $append = '...<p><a href="' . $link . '" target="_top" >Continue Reading</a></p>';
+            }
             $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8');
         }
 
