@@ -164,7 +164,7 @@ class Feed
                 //adds the continue reading link for shortened description
                 $append = '...<p><a href="' . $link . '" target="_top" >Continue Reading</a></p>';
             }
-            $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8');
+            $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8') . $append;
         }
 
         // add to items
