@@ -155,10 +155,16 @@ class Feed
      */
     public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='')
     {
+        // append ... to description
+        $append = '';
         // shortening the description
         if ($this->shortening)
         {
-            $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8');
+            if(strlen($description) > $this->shorteningLimit){
+                //adds ... for shortened description
+                $append = '...';
+            }
+            $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8') . $append;
         }
 
         // add to items
