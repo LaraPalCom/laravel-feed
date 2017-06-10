@@ -4,7 +4,7 @@
         <title>{!! $channel['title'] !!}</title>
         <link>{{ $channel['rssLink'] }}</link>
         <description><![CDATA[{!! $channel['description'] !!}]]></description>
-        <atom:link href="{{ $channel['link'] }}" rel="{{ $channel['ref'] }}"></atom:link>
+        <atom:link href="{{ $channel['link'] }}" rel="{{ $channel['ref'] }}" type="application/rss+xml" />
         @if (!empty($channel['copyright']))
         <copyright>{{ $channel['copyright'] }}</copyright>
         @endif
@@ -12,7 +12,7 @@
         <webfeeds:accentColor>{{ $channel['color'] }}</webfeeds:accentColor>
         @endif
         @if (!empty($channel['cover']))
-        <webfeeds:cover image="{{ $channel['cover'] }}">
+        <webfeeds:cover image="{{ $channel['cover'] }}" />
         @endif
         @if (!empty($channel['icon']))
         <webfeeds:icon>{{ $channel['icon'] }}</webfeeds:icon>
@@ -26,10 +26,10 @@
         </image>
         @endif
         @if (!empty($channel['related']))
-        <webfeeds:related layout="card" target="browser">
+        <webfeeds:related layout="card" target="browser" />
         @endif
         @if (!empty($channel['ga']))
-        <webfeeds:analytics id="{{ $channel['ga'] }}" engine="GoogleAnalytics">
+        <webfeeds:analytics id="{{ $channel['ga'] }}" engine="GoogleAnalytics" />
         @endif
         <language>{{ $channel['lang'] }}</language>
         <lastBuildDate>{{ $channel['pubdate'] }}</lastBuildDate>
