@@ -24,5 +24,13 @@
         "psr-0": {
             "Roumen\\Feed": "src/"
         }
-    }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Roumen\\Feed\\FeedServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
 }
