@@ -1,36 +1,36 @@
 {
-    "name": "roumen/feed",
-    "description": "A simple feed generator for Laravel.",
-    "homepage": "https://roumen.it/projects/laravel-feed",
-    "keywords": ["laravel", "feed", "generator", "rss", "atom"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Roumen Damianoff",
-            "email": "roumen@crimsson.com",
-            "role": "Developer",
-            "homepage": "https://roumen.it"
-        }
-    ],
-    "require": {
-        "php": ">=5.5.9",
-        "illuminate/support": "^5.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^4.8",
-        "orchestra/testbench": "^3.0"
-    },
-    "autoload": {
-        "psr-0": {
-            "Roumen\\Feed": "src/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Roumen\\Feed\\FeedServiceProvider"
-            ]
-        }
-    },
-    "minimum-stability": "stable"
+	"name": "roumen/feed",
+	"description": "A simple feed generator for Laravel.",
+	"homepage": "https://damianoff.com/en/projects/laravel-feed",
+	"keywords": ["laravel", "feed", "generator", "rss", "atom"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Roumen Damianoff",
+			"email": "roumen@crimsson.com",
+			"role": "Developer",
+			"homepage": "https://damianoff.com"
+		}
+	],
+	"require": {
+		"php": ">=5.5.9",
+		"illuminate/support": "^5.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^4.8",
+		"orchestra/testbench": "^3.0"
+	},
+	"autoload": {
+		"psr-0": {
+			"Roumen\\Feed": "src/"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Roumen\\Feed\\FeedServiceProvider"
+			]
+		}
+	},
+	"minimum-stability": "stable"
 }
