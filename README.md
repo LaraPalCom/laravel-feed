@@ -1,6 +1,6 @@
-# [laravel-feed](https://roumen.it/projects/laravel-feed)
+# [laravel-feed](https://damianoff.com/en/projects/laravel-feed)
 
-[![Latest Stable Version](https://poser.pugx.org/roumen/feed/version.png)](https://packagist.org/packages/roumen/feed) [![Total Downloads](https://poser.pugx.org/roumen/feed/d/total.png)](https://packagist.org/packages/roumen/feed) [![Build Status](https://travis-ci.org/RoumenDamianoff/laravel-feed.png?branch=master)](https://travis-ci.org/RoumenDamianoff/laravel-feed) [![License](https://poser.pugx.org/roumen/feed/license.png)](https://packagist.org/packages/roumen/feed)
+[![Latest Stable Version](https://poser.pugx.org/roumen/feed/version.png)](https://packagist.org/packages/roumen/feed) [![Total Downloads](https://poser.pugx.org/roumen/feed/d/total.png)](https://packagist.org/packages/roumen/feed) [![Build Status](https://travis-ci.org/Laravelium/laravel-feed.png?branch=master)](https://travis-ci.org/Laravelium/laravel-feed) [![License](https://poser.pugx.org/roumen/feed/license.png)](https://packagist.org/packages/roumen/feed)
 
 A simple feed generator for Laravel 5.
 
@@ -10,7 +10,7 @@ Branch dev-master is for development and is UNSTABLE
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.10.5) :
+Run the following command and provide the latest stable version (e.g v2.11.2) :
 
 ```bash
 composer require roumen/feed
@@ -19,7 +19,7 @@ composer require roumen/feed
 or add the following to your `composer.json` file :
 
 ```json
-"roumen/feed": "~2.10"
+"roumen/feed": "~2.11.2"
 ```
 
 Then register this service provider with Laravel :
@@ -42,14 +42,14 @@ php artisan vendor:publish --provider="Roumen\Feed\FeedServiceProvider"
 
 ## Examples
 
-[How to generate basic feed (with optional caching)](https://github.com/RoumenDamianoff/laravel-feed/wiki/basic-feed)
+[How to generate basic feed (with optional caching)](https://github.com/Laravelium/laravel-feed/wiki/basic-feed)
 
-[How to generate multiple feeds](https://github.com/RoumenDamianoff/laravel-feed/wiki/multiple-feeds)
+[How to generate multiple feeds](https://github.com/Laravelium/laravel-feed/wiki/multiple-feeds)
 
-[How to add images to your feed](https://github.com/RoumenDamianoff/laravel-feed/wiki/How-to-add-images-to-your-feed)
+[How to add images to your feed](https://github.com/Laravelium/laravel-feed/wiki/How-to-add-images-to-your-feed)
 
-[How to use custom view for your feed](https://github.com/RoumenDamianoff/laravel-feed/wiki/How-to-use-custom-view)
+[How to use custom view for your feed](https://github.com/Laravelium/laravel-feed/wiki/How-to-use-custom-view)
 
-[How to use custom content-type for your feed](https://github.com/RoumenDamianoff/laravel-feed/wiki/How-to-use-custom-content-type)
+[How to use custom content-type for your feed](https://github.com/Laravelium/laravel-feed/wiki/How-to-use-custom-content-type)
 
-and more in the [Wiki](https://github.com/RoumenDamianoff/laravel-feed/wiki)
+and more in the [Wiki](https://github.com/Laravelium/laravel-feed/wiki)
