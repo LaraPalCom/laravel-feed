@@ -4,8 +4,8 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@crimsson.com>
- * @version 2.11.1
- * @link https://roumen.it/projects/laravel-feed
+ * @version 2.11.2
+ * @link https://damianoff.com/en/projects/laravel-feed
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
@@ -517,7 +517,9 @@ class Feed
 	private function getRssLink()
 	{
 		$rssLink = Request::url();
-		if (!empty($this->domain)) {
+
+		if ( !empty($this->domain) ) 
+		{
 			$rssLink = sprintf('%s/%s', rtrim($this->domain, '/'), ltrim(Request::path(), '/'));
 		}
 
