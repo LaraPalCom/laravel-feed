@@ -32,6 +32,11 @@ class Feed
 	/**
 	 * @var string
 	 */
+	public $subtitle = 'My feed subtitle';
+
+	/**
+	 * @var string
+	 */
 	public $description = 'My feed description';
 
 	/**
@@ -150,10 +155,11 @@ class Feed
 	 * @param string $content
 	 * @param array $enclosure (optional)
 	 * @param string $category (optional)
+	 * @param string $subtitle (optional)
 	 *
 	 * @return void
 	 */
-	public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='')
+	public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='', $subtitle='')
 	{
 		// append ... to description
 		$append = '';
@@ -176,7 +182,8 @@ class Feed
 			'description' => $description,
 			'content' => $content,
 			'enclosure' => $enclosure,
-			'category' => $category
+			'category' => $category,
+			'subtitle' => $subtitle,
 		]);
 	}
 
@@ -244,11 +251,13 @@ class Feed
 		foreach($this->items as $k => $v)
 		{
 			$this->items[$k]['title'] = htmlspecialchars(strip_tags($this->items[$k]['title']), ENT_COMPAT, 'UTF-8');
+			$this->items[$k]['subtitle'] = htmlspecialchars(strip_tags($this->items[$k]['subtitle']), ENT_COMPAT, 'UTF-8');
 			$this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], $format);
 		}
 
 		$channel = [
 			'title'         =>  htmlspecialchars(strip_tags($this->title), ENT_COMPAT, 'UTF-8'),
+			'subtitle'      =>  htmlspecialchars(strip_tags($this->subtitle), ENT_COMPAT, 'UTF-8'),
 			'description'   =>  $this->description,
 			'logo'          =>  $this->logo,
 			'icon'          =>  $this->icon,
