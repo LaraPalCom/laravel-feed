@@ -14,6 +14,7 @@ class FeedTest extends PHPUnit_Framework_TestCase
 	public function testFeedAttributes()
 	{
 		$this->feed->title = 'TestTitle';
+		$this->feed->subtitle = 'TestSubtitle';
 		$this->feed->description = 'TestDescription';
 		$this->feed->domain = 'https://damianoff.com/';
 		$this->feed->link = 'https://damianoff.com/';
@@ -29,6 +30,7 @@ class FeedTest extends PHPUnit_Framework_TestCase
 		$this->feed->related = false;
 
 		$this->assertEquals('TestTitle', $this->feed->title);
+		$this->assertEquals('TestSubtitle', $this->feed->subtitle);
 		$this->assertEquals('TestDescription', $this->feed->description);
 		$this->assertEquals('https://damianoff.com/', $this->feed->domain);
 		$this->assertEquals('https://damianoff.com/', $this->feed->link);
@@ -46,7 +48,7 @@ class FeedTest extends PHPUnit_Framework_TestCase
 
 	public function testFeedAdd()
 	{
-		$this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>', ['url' => 'http://foobar.dev/someThing.jpg','type' => 'image/jpeg'], 'testCategory');
+		$this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>', ['url' => 'http://foobar.dev/someThing.jpg','type' => 'image/jpeg'], 'testCategory', 'testSubtitle');
 		$this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
 
 		$items = $this->feed->getItems();
@@ -61,6 +63,7 @@ class FeedTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('<p>TestContent</p>', $items[0]['content']);
 		$this->assertEquals('http://foobar.dev/someThing.jpg', $items[0]['enclosure']['url']);
 		$this->assertEquals('testCategory', $items[0]['category']);
+		$this->assertEquals('testSubtitle', $items[0]['subtitle']);
 	}
 
 	public function testFeedAddItem()
