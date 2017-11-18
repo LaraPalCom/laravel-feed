@@ -144,6 +144,12 @@ class Feed
 	 */
 	private $customView = null;
 
+    /**
+     * Item duration (optional)
+     * @var string
+     */
+	public $duration;
+
 	/**
 	 * Add new item to $items array
 	 *
@@ -156,10 +162,11 @@ class Feed
 	 * @param array $enclosure (optional)
 	 * @param string $category (optional)
 	 * @param string $subtitle (optional)
+     * @param string $duration (optional)
 	 *
 	 * @return void
 	 */
-	public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='', $subtitle='')
+	public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='', $subtitle='', $duration ='')
 	{
 		// append ... to description
 		$append = '';
@@ -184,6 +191,7 @@ class Feed
 			'enclosure' => $enclosure,
 			'category' => $category,
 			'subtitle' => $subtitle,
+            'duration' => $duration
 		]);
 	}
 
