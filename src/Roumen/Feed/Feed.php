@@ -145,10 +145,22 @@ class Feed
 	private $customView = null;
 
     /**
-     * Item duration (optional)
+     * Item duration (00:00:00) (optional)
      * @var string
      */
 	public $duration;
+
+    /**
+     * Item cover (optional)
+     * @var string
+     */
+    public $itemcover;
+
+    /**
+     * Item summary (not truncated max 4000 chars) (optional)
+     * @var string
+     */
+    public $summary;
 
 	/**
 	 * Add new item to $items array
@@ -162,11 +174,13 @@ class Feed
 	 * @param array $enclosure (optional)
 	 * @param string $category (optional)
 	 * @param string $subtitle (optional)
-     * @param string $duration (optional)
+   * @param string $duration (optional)
+   * @param string $summary (optional)
+   * @param string $itemcover (optional)
 	 *
 	 * @return void
 	 */
-	public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='', $subtitle='', $duration ='')
+	public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='', $subtitle='', $duration ='', $summary ='', $itemcover ='')
 	{
 		// append ... to description
 		$append = '';
@@ -191,7 +205,9 @@ class Feed
 			'enclosure' => $enclosure,
 			'category' => $category,
 			'subtitle' => $subtitle,
-            'duration' => $duration
+      'duration' => $duration,
+      'summary' => $summary,
+      'itemcover' => $itemcover
 		]);
 	}
 
