@@ -29,6 +29,7 @@ class FeedTest extends PHPUnit_Framework_TestCase
 		$this->feed->ga = 'UA-1525185-18';
 		$this->feed->related = false;
 		$this->feed->duration = '00:00:00';
+		$this->feed->summary;
 
 		$this->assertEquals('TestTitle', $this->feed->title);
 		$this->assertEquals('TestSubtitle', $this->feed->subtitle);
@@ -78,7 +79,8 @@ class FeedTest extends PHPUnit_Framework_TestCase
 			'content' => '<p>TestContent</p>',
 			'category' => 'testCategory',
 			'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
-            'duration'  => '00:00:00'
+            'duration'  => '00:00:00',
+            'summary'   => 'Test Item Summary'
 		]);
 
 		 $this->feed->addItem([
@@ -131,6 +133,7 @@ class FeedTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('testCategory', $items[0]['category']);
 		$this->assertEquals('TestTitle5', $items[4]['title']);
         $this->assertEquals('00:00:00', $items[0]['duration']);
+        $this->assertEquals('Test Item Summary');
 	}
 
 	public function testFeedLink()
