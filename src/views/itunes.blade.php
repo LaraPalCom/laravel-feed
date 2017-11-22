@@ -3,24 +3,24 @@
     
 <channel>
     <title>{{ $channel['title'] }}</title>
-    <atom:link href="https://www.sonica.es/feed/" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://domain.tld/yourfeed" rel="self" type="application/rss+xml"/>
     <link>{{ $channel['rssLink'] }}</link>
     <description>{{ $channel['description'] }}</description>
     <lastBuildDate>{{ $channel['pubdate'] }}</lastBuildDate>
     <language>{{ $channel['lang'] }}</language>
     <sy:updatePeriod>hourly</sy:updatePeriod>
     <sy:updateFrequency>1</sy:updateFrequency>
-    <itunes:summary>Sonica Podcast - Every month new electronic set from Sonica</itunes:summary>
-    <itunes:author>Sonica.es</itunes:author>
+    <itunes:summary>Summary</itunes:summary>
+    <itunes:author>Author</itunes:author>
     <itunes:explicit>clean</itunes:explicit>
     <itunes:image
             href="{{ $channel['logo'] }}" />
     <itunes:owner>
-        <itunes:name>Sonica.es</itunes:name>
-        <itunes:email>daniel@sonica.es</itunes:email>
+        <itunes:name>Owner</itunes:name>
+        <itunes:email>email@domain.tld</itunes:email>
     </itunes:owner>
-    <managingEditor>daniel@sonica.es (Sonica.es)</managingEditor>
-    <copyright>Sonica.es</copyright>
+    <managingEditor>email@domain.tld (domain.tld)</managingEditor>
+    <copyright>Copyright Info</copyright>
     <itunes:subtitle>{{ $channel['subtitle'] }}</itunes:subtitle>
     <image>
         <title>{{ $channel['title'] }}</title>
@@ -39,7 +39,7 @@
             <title>{!! $item['title'] !!}</title>
             <link>{{ $item['link'] }}</link>
             <pubDate>{{ $item['pubdate'] }}</pubDate>
-            <dc:creator>Sonica Collective</dc:creator>
+            <dc:creator>Creator</dc:creator>
             <category>Music</category>
             <description>{!! strip_tags($item['description']) !!}</description>
             <itunes:image href="{{ trim($item['itemcover']) }}"/>
@@ -52,7 +52,7 @@
             @endif
             <content:encoded><![CDATA[{!! strip_tags(html_entity_decode($item['content'])) !!}]]></content:encoded>
             <itunes:summary>{!! strip_tags(html_entity_decode($item['content'])) !!}</itunes:summary>
-            <itunes:author>Sonica.es</itunes:author>
+            <itunes:author>Author</itunes:author>
             <itunes:duration>{{ $item['duration'] }}</itunes:duration>
             <itunes:explicit>clean</itunes:explicit>
             <guid>{{ $item['enclosure']['url'] }}</guid>

@@ -151,6 +151,12 @@ class Feed
 	public $duration;
 
     /**
+     * Item cover (optional)
+     * @var string
+     */
+    public $itemcover;
+
+    /**
      * Item summary (not truncated max 4000 chars) (optional)
      * @var string
      */
@@ -170,10 +176,11 @@ class Feed
 	 * @param string $subtitle (optional)
      * @param string $duration (optional)
      * @param string $summary (optional)
+     * @param string $itemcover (optional)
 	 *
 	 * @return void
 	 */
-	public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='', $subtitle='', $duration ='', $summary = '')
+	public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='', $subtitle='', $duration ='', $summary ='', $itemcover ='')
 	{
 		// append ... to description
 		$append = '';
@@ -199,7 +206,8 @@ class Feed
 			'category' => $category,
 			'subtitle' => $subtitle,
             'duration' => $duration,
-            'summary' => $summary
+            'summary' => $summary,
+            'itemcover' => $itemcover
 		]);
 	}
 
