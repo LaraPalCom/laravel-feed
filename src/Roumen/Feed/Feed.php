@@ -174,9 +174,9 @@ class Feed
 	 * @param array $enclosure (optional)
 	 * @param string $category (optional)
 	 * @param string $subtitle (optional)
-     * @param string $duration (optional)
-     * @param string $summary (optional)
-     * @param string $itemcover (optional)
+   * @param string $duration (optional)
+   * @param string $summary (optional)
+   * @param string $itemcover (optional)
 	 *
 	 * @return void
 	 */
@@ -205,9 +205,9 @@ class Feed
 			'enclosure' => $enclosure,
 			'category' => $category,
 			'subtitle' => $subtitle,
-            'duration' => $duration,
-            'summary' => $summary,
-            'itemcover' => $itemcover
+      'duration' => $duration,
+      'summary' => $summary,
+      'itemcover' => $itemcover
 		]);
 	}
 

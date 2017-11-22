@@ -81,9 +81,9 @@ class FeedTest extends PHPUnit_Framework_TestCase
 			'content' => '<p>TestContent</p>',
 			'category' => 'testCategory',
 			'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
-            'duration'  => '00:00:00',
-            'summary'   => 'Test Item Summary',
-            'itemcover' => 'https://damianoff.com/cover.jpg'
+      'duration'  => '00:00:00',
+      'summary'   => 'Test Item Summary',
+      'itemcover' => 'https://damianoff.com/cover.jpg'
 		]);
 
 		 $this->feed->addItem([
@@ -135,9 +135,9 @@ class FeedTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('http://foobar.dev/someThing.jpg', $items[0]['enclosure']['url']);
 		$this->assertEquals('testCategory', $items[0]['category']);
 		$this->assertEquals('TestTitle5', $items[4]['title']);
-        $this->assertEquals('00:00:00', $items[0]['duration']);
-        $this->assertEquals('https://damianoff.com/cover.jpg', $items[0]['itemcover']);
-        $this->assertEquals('Test Item Summary', $items[0]['summary']);
+    $this->assertEquals('00:00:00', $items[0]['duration']);
+    $this->assertEquals('https://damianoff.com/cover.jpg', $items[0]['itemcover']);
+    $this->assertEquals('Test Item Summary', $items[0]['summary']);
 	}
 
 	public function testFeedLink()
