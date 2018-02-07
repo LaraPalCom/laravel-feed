@@ -31,7 +31,7 @@ or add the following to your `composer.json` file :
 
 #### For Laravel 5.4 and lower
 ```json
-"roumen/feed": "2.6.*"
+"roumen/feed": "2.10.*"
 ```
 
 If you are using laravel 5.5 or higher you can skip the service provider registration!
