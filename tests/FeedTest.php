@@ -1,6 +1,6 @@
 <?php
 
-class FeedTest extends PHPUnit_Framework_TestCase
+class FeedTest extends PHPUnit\Framework\TestCase
 {
 	protected $feed;
 
