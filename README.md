@@ -1,4 +1,4 @@
-# [laravel-feed](https://damianoff.com/en/projects/laravel-feed)
+# [laravel-feed](https://laravelium.com)
 
 [![Latest Stable Version](https://poser.pugx.org/roumen/feed/version.png)](https://packagist.org/packages/roumen/feed) [![Total Downloads](https://poser.pugx.org/roumen/feed/d/total.png)](https://packagist.org/packages/roumen/feed) [![Build Status](https://travis-ci.org/Laravelium/laravel-feed.png?branch=master)](https://travis-ci.org/Laravelium/laravel-feed) [![License](https://poser.pugx.org/roumen/feed/license.png)](https://packagist.org/packages/roumen/feed)
 
@@ -10,7 +10,7 @@ Branch dev-master is for development and is UNSTABLE
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.11.2) :
+Run the following command and provide the latest stable version (e.g v2.12.1) :
 
 ```bash
 composer require roumen/feed
@@ -18,11 +18,25 @@ composer require roumen/feed
 
 or add the following to your `composer.json` file :
 
+#### For Laravel 5.6
 ```json
-"roumen/feed": "~2.11.2"
+"roumen/feed": "2.12.*"
 ```
 
-Then register this service provider with Laravel :
+#### For Laravel 5.5
+```json
+"roumen/feed": "2.11.*"
+```
+
+
+#### For Laravel 5.4 and lower
+```json
+"roumen/feed": "2.6.*"
+```
+
+If you are using laravel 5.5 or higher you can skip the service provider registration!
+
+#### for Laravel 5.4 and lower register this service provider with Laravel :
 
 ```php
 Roumen\Feed\FeedServiceProvider::class,
