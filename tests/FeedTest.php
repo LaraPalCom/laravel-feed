@@ -1,162 +1,159 @@
 <?php
 
-class FeedTest extends PHPUnit\Framework\TestCase
+namespace Tests;
+
+use Roumen\Feed\Feed;
+use PHPUnit\Framework\TestCase;
+
+class FeedTest extends TestCase
 {
-	protected $feed;
+    /**
+     * @var Feed
+     */
+    protected $feed;
 
-	public function setUp()
-	{
-		parent::setUp();
+    protected function setUp()
+    {
+        parent::setUp();
 
-		$this->feed = new Roumen\Feed\Feed;
-	}
+        $this->feed = new Feed();
+    }
 
-	public function testFeedAttributes()
-	{
-		$this->feed->title = 'TestTitle';
-		$this->feed->subtitle = 'TestSubtitle';
-		$this->feed->description = 'TestDescription';
-		$this->feed->domain = 'https://damianoff.com/';
-		$this->feed->link = 'https://damianoff.com/';
-		$this->feed->ref = 'hub';
-		$this->feed->logo = "https://damianoff.com/favicon.png";
-		$this->feed->icon = "https://damianoff.com/favicon.png";
-		$this->feed->pubdate = '2014-02-29 00:00:00';
-		$this->feed->lang = 'en';
-		$this->feed->copyright = 'All rights reserved by Foobar Corporation';
-		$this->feed->color = '00FF00';
-		$this->feed->cover = 'http://domain.tld/images/cover.png';
-		$this->feed->ga = 'UA-1525185-18';
-		$this->feed->related = false;
-		$this->feed->duration = '00:00:00';
+    public function testFeedAttributes()
+    {
+        $this->feed->title = 'TestTitle';
+        $this->feed->subtitle = 'TestSubtitle';
+        $this->feed->description = 'TestDescription';
+        $this->feed->domain = 'https://damianoff.com/';
+        $this->feed->link = 'https://damianoff.com/';
+        $this->feed->ref = 'hub';
+        $this->feed->logo = "https://damianoff.com/favicon.png";
+        $this->feed->icon = "https://damianoff.com/favicon.png";
+        $this->feed->pubdate = '2014-02-29 00:00:00';
+        $this->feed->lang = 'en';
+        $this->feed->copyright = 'All rights reserved by Foobar Corporation';
+        $this->feed->color = '00FF00';
+        $this->feed->cover = 'http://domain.tld/images/cover.png';
+        $this->feed->ga = 'UA-1525185-18';
+        $this->feed->related = false;
+        $this->feed->duration = '00:00:00';
 
-		$this->assertEquals('TestTitle', $this->feed->title);
-		$this->assertEquals('TestSubtitle', $this->feed->subtitle);
-		$this->assertEquals('TestDescription', $this->feed->description);
-		$this->assertEquals('https://damianoff.com/', $this->feed->domain);
-		$this->assertEquals('https://damianoff.com/', $this->feed->link);
-		$this->assertEquals('hub', $this->feed->ref);
-		$this->assertEquals("https://damianoff.com/favicon.png", $this->feed->logo);
-		$this->assertEquals("https://damianoff.com/favicon.png", $this->feed->icon);
-		$this->assertEquals('2014-02-29 00:00:00', $this->feed->pubdate);
-		$this->assertEquals('en', $this->feed->lang);
-		$this->assertEquals('All rights reserved by Foobar Corporation', $this->feed->copyright);
-		$this->assertEquals('00FF00', $this->feed->color);
-		$this->assertEquals('http://domain.tld/images/cover.png', $this->feed->cover);
-		$this->assertEquals('UA-1525185-18', $this->feed->ga);
-		$this->assertEquals(false, $this->feed->related);
-	}
+        $this->assertSame('TestTitle', $this->feed->title);
+        $this->assertSame('TestSubtitle', $this->feed->subtitle);
+        $this->assertSame('TestDescription', $this->feed->description);
+        $this->assertSame('https://damianoff.com/', $this->feed->domain);
+        $this->assertSame('https://damianoff.com/', $this->feed->link);
+        $this->assertSame('hub', $this->feed->ref);
+        $this->assertSame("https://damianoff.com/favicon.png", $this->feed->logo);
+        $this->assertSame("https://damianoff.com/favicon.png", $this->feed->icon);
+        $this->assertSame('2014-02-29 00:00:00', $this->feed->pubdate);
+        $this->assertSame('en', $this->feed->lang);
+        $this->assertSame('All rights reserved by Foobar Corporation', $this->feed->copyright);
+        $this->assertSame('00FF00', $this->feed->color);
+        $this->assertSame('http://domain.tld/images/cover.png', $this->feed->cover);
+        $this->assertSame('UA-1525185-18', $this->feed->ga);
+        $this->assertSame(false, $this->feed->related);
+    }
 
-	public function testFeedAdd()
-	{
-		$this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>', ['url' => 'http://foobar.dev/someThing.jpg','type' => 'image/jpeg'], 'testCategory', 'testSubtitle');
-		$this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
+    public function testFeedAdd()
+    {
+        $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>', ['url' => 'http://foobar.dev/someThing.jpg','type' => 'image/jpeg'], 'testCategory', 'testSubtitle');
+        $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
 
-		$items = $this->feed->getItems();
+        $items = $this->feed->getItems();
 
-		$this->assertCount(2, $items);
+        $this->assertCount(2, $items);
 
-		$this->assertEquals('TestTitle', $items[0]['title']);
-		$this->assertEquals('TestAuthor', $items[0]['author']);
-		$this->assertEquals('TestUrl', $items[0]['link']);
-		$this->assertEquals('2014-02-29 00:00:00', $items[0]['pubdate']);
-		$this->assertEquals('<p>TestResume</p>', $items[0]['description']);
-		$this->assertEquals('<p>TestContent</p>', $items[0]['content']);
-		$this->assertEquals('http://foobar.dev/someThing.jpg', $items[0]['enclosure']['url']);
-		$this->assertEquals('testCategory', $items[0]['category']);
-		$this->assertEquals('testSubtitle', $items[0]['subtitle']);
-	}
+        $this->assertSame('TestTitle', $items[0]['title']);
+        $this->assertSame('TestAuthor', $items[0]['author']);
+        $this->assertSame('TestUrl', $items[0]['link']);
+        $this->assertSame('2014-02-29 00:00:00', $items[0]['pubdate']);
+        $this->assertSame('<p>TestResume</p>', $items[0]['description']);
+        $this->assertSame('<p>TestContent</p>', $items[0]['content']);
+        $this->assertSame('http://foobar.dev/someThing.jpg', $items[0]['enclosure']['url']);
+        $this->assertSame('testCategory', $items[0]['category']);
+        $this->assertSame('testSubtitle', $items[0]['subtitle']);
+    }
 
-	public function testFeedAddItem()
-	{
-		$this->feed->addItem([
-			'title' => 'TestTitle',
-			'author' => 'TestAuthor',
-			'link' => 'TestUrl',
-			'pubdate' => '2014-02-29 00:00:00',
-			'description' => '<p>TestResume</p>',
-			'content' => '<p>TestContent</p>',
-			'category' => 'testCategory',
-			'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
+    public function testFeedAddItem()
+    {
+        $this->feed->addItem([
+            'title' => 'TestTitle',
+            'author' => 'TestAuthor',
+            'link' => 'TestUrl',
+            'pubdate' => '2014-02-29 00:00:00',
+            'description' => '<p>TestResume</p>',
+            'content' => '<p>TestContent</p>',
+            'category' => 'testCategory',
+            'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
             'duration'  => '00:00:00'
-		]);
+        ]);
 
-		 $this->feed->addItem([
-			'title' => 'TestTitle2',
-			'author' => 'TestAuthor2',
-			'link' => 'TestUrl2',
-			'pubdate' => '2014-02-29 00:00:00',
-			'description' => '<p>TestResume2</p>'
-		]);
+        $this->feed->addItem([
+            'title' => 'TestTitle2',
+            'author' => 'TestAuthor2',
+            'link' => 'TestUrl2',
+            'pubdate' => '2014-02-29 00:00:00',
+            'description' => '<p>TestResume2</p>'
+        ]);
 
-		 // add multidimensional array
-		 $this->feed->addItem([
-			[
-				'title' => 'TestTitle3',
-				'author' => 'TestAuthor3',
-				'link' => 'TestUrl3',
-				'pubdate' => '2014-02-29 00:00:00',
-				'description' => '<p>TestResume3</p>'
-			],
-			[
-				'title' => 'TestTitle4',
-				'author' => 'TestAuthor4',
-				'link' => 'TestUrl4',
-				'pubdate' => '2014-02-29 00:00:00',
-				'description' => '<p>TestResume4</p>'
-			],
-			[
-				'title' => 'TestTitle5',
-				'author' => 'TestAuthor5',
-				'link' => 'TestUrl5',
-				'pubdate' => '2014-02-29 00:00:00',
-				'description' => '<p>TestResume5</p>'
-			]
-		]);
+        // add multidimensional array
+        $this->feed->addItem([
+            [
+                'title' => 'TestTitle3',
+                'author' => 'TestAuthor3',
+                'link' => 'TestUrl3',
+                'pubdate' => '2014-02-29 00:00:00',
+                'description' => '<p>TestResume3</p>'
+            ],
+            [
+                'title' => 'TestTitle4',
+                'author' => 'TestAuthor4',
+                'link' => 'TestUrl4',
+                'pubdate' => '2014-02-29 00:00:00',
+                'description' => '<p>TestResume4</p>'
+            ],
+            [
+                'title' => 'TestTitle5',
+                'author' => 'TestAuthor5',
+                'link' => 'TestUrl5',
+                'pubdate' => '2014-02-29 00:00:00',
+                'description' => '<p>TestResume5</p>'
+            ]
+        ]);
 
-		// get items
-		$items = $this->feed->getItems();
+        // get items
+        $items = $this->feed->getItems();
 
-		// count items
-		$this->assertCount(5, $items);
+        // count items
+        $this->assertCount(5, $items);
 
-		// check items
-		$this->assertEquals('TestTitle', $items[0]['title']);
-		$this->assertEquals('TestAuthor', $items[0]['author']);
-		$this->assertEquals('TestUrl', $items[0]['link']);
-		$this->assertEquals('2014-02-29 00:00:00', $items[0]['pubdate']);
-		$this->assertEquals('<p>TestResume</p>', $items[0]['description']);
-		$this->assertEquals('<p>TestContent</p>', $items[0]['content']);
-		$this->assertEquals('http://foobar.dev/someThing.jpg', $items[0]['enclosure']['url']);
-		$this->assertEquals('testCategory', $items[0]['category']);
-		$this->assertEquals('TestTitle5', $items[4]['title']);
-        $this->assertEquals('00:00:00', $items[0]['duration']);
-	}
+        // check items
+        $this->assertSame('TestTitle', $items[0]['title']);
+        $this->assertSame('TestAuthor', $items[0]['author']);
+        $this->assertSame('TestUrl', $items[0]['link']);
+        $this->assertSame('2014-02-29 00:00:00', $items[0]['pubdate']);
+        $this->assertSame('<p>TestResume</p>', $items[0]['description']);
+        $this->assertSame('<p>TestContent</p>', $items[0]['content']);
+        $this->assertSame('http://foobar.dev/someThing.jpg', $items[0]['enclosure']['url']);
+        $this->assertSame('testCategory', $items[0]['category']);
+        $this->assertSame('TestTitle5', $items[4]['title']);
+        $this->assertSame('00:00:00', $items[0]['duration']);
+    }
 
-	public function testFeedLink()
-	{
-		// default formats
-		$this->assertEquals('<link rel="alternate" type="application/atom+xml" href="http://domain.tld/feed">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'atom'));
-		$this->assertEquals('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'rss'));
+    public function testFeedLink()
+    {
+        // default formats
+        $this->assertSame('<link rel="alternate" type="application/atom+xml" href="http://domain.tld/feed">', Feed::link('http://domain.tld/feed', 'atom'));
+        $this->assertSame('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed">', Feed::link('http://domain.tld/feed', 'rss'));
 
-		// with custom type
-		$this->assertEquals('<link rel="alternate" type="text/xml" href="http://domain.tld/feed">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'text/xml'));
+        // with custom type
+        $this->assertSame('<link rel="alternate" type="text/xml" href="http://domain.tld/feed">', Feed::link('http://domain.tld/feed', 'text/xml'));
 
-		// with title
-		$this->assertEquals('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed" title="Feed: RSS">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'rss', 'Feed: RSS'));
+        // with title
+        $this->assertSame('<link rel="alternate" type="application/rss+xml" href="http://domain.tld/feed" title="Feed: RSS">', Feed::link('http://domain.tld/feed', 'rss', 'Feed: RSS'));
 
-		// with title and lang
-		$this->assertEquals('<link rel="alternate" hreflang="en" type="application/atom+xml" href="http://domain.tld/feed" title="Feed: Atom">', Roumen\Feed\Feed::link('http://domain.tld/feed', 'atom', 'Feed: Atom', 'en'));
-	}
-
-	public function testFeedCustomView()
-	{
-		// custom view (don't exists)
-		//$this->feed->setView('vendor.feed.test');
-		//$this->assertEquals('feed::vendor.feed.test', $this->feed->getView('vendor.feed.test'));
-
-		// default
-		//$this->assertEquals('feed::atom', $this->feed->getView('atom'));
-	}
-
+        // with title and lang
+        $this->assertSame('<link rel="alternate" hreflang="en" type="application/atom+xml" href="http://domain.tld/feed" title="Feed: Atom">', Feed::link('http://domain.tld/feed', 'atom', 'Feed: Atom', 'en'));
+    }
 }

@@ -6,3 +6,5 @@ composer.lock
 .DS_Store
 Thumbs.db
 *.sh
+.php_cs.cache
+.idea/
