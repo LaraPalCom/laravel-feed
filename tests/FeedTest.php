@@ -191,12 +191,15 @@ class FeedTest extends TestCase
 
     public function testFeedCustomView()
     {
-        // custom view (don't exists)
-        $this->feed->setView('vendor.feed.test');
-        $this->assertEquals('feed::vendor.feed.test', $this->feed->getView('vendor.feed.test'));
+        $this->feed->setView('vendor.feed.test0');
+        $this->assertEquals('feed::test1', $this->feed->getView('test1'));
+
+        $this->feed->setView('views.feeds.test2');
+        $this->assertEquals('views.feeds.test2', $this->feed->getView());
 
         // default
-        $this->assertEquals('feed::atom', $this->feed->getView('atom'));
+        $this->feed->setView(null);
+        $this->assertEquals('feed::atom', $this->feed->getView());
     }
 
     public function testFeedRender()
@@ -210,6 +213,11 @@ class FeedTest extends TestCase
         $response = $this->feed->render('rss', 60, 'testFeed');
         $this->assertEquals(200, $response->status());
         $this->assertEquals('application/rss+xml; charset=utf-8', $response->headers->get('Content-Type'));
+
+        $response = $this->feed->render('atom', 60, 'testFeed');
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals('application/rss+xml; charset=utf-8', $response->headers->get('Content-Type'));
+
     }
 
     public function testIsCached()
@@ -281,9 +289,27 @@ class FeedTest extends TestCase
     {
         $this->assertEquals(150, $this->feed->getTextLimit());
 
-        $this->feed->setTextLimit(120);
+        $this->feed->setTextLimit(10);
 
-        $this->assertEquals(120, $this->feed->getTextLimit());
+        $this->assertEquals(10, $this->feed->getTextLimit());
+
+        $this->feed->setShortening(true);
+
+        $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
+
+        $this->feed->addItem([
+            'title' => 'TestTitle', 
+            'author' => 'TestAuthor', 
+            'link' => 'TestUrl', 
+            'pubdate' => '2014-02-29 00:00:00', 
+            'description' => '<p>Test2Resume</p>'
+        ]);
+
+        $items = $this->feed->getItems();
+
+        $this->assertEquals('<p>TestRes...', $items[0]['description']);
+        $this->assertEquals('<p>Test2Re...', $items[1]['description']);
+
     }
 
 }
