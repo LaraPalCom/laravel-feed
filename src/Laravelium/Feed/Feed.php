@@ -1,23 +1,58 @@
-<?php namespace Roumen\Feed;
+<?php namespace Laravelium\Feed;
 
 /**
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@damianoff.com>
- * @version 2.12.1
+ * @version 3.0
  * @link https://laravelium.com
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Cache\Repository as CacheRepository;
+use Illuminate\Config\Repository as ConfigRepository;
+use Illuminate\Filesystem\Filesystem as Filesystem;
+use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactory;
+use Illuminate\View\Factory as ViewFactory;
 
 class Feed
 {
 	const DEFAULT_REF = 'self';
+
+	/**
+	 * CacheRepository instance
+	 *
+	 * @var CacheRepository $cache
+	 */
+	public $cache = null;
+
+	/**
+	 * ConfigRepository instance
+	 *
+	 * @var ConfigRepository $configRepository
+	 */
+	 protected $configRepository = null;
+
+	 /**
+	 * Filesystem instance
+	 *
+	 * @var Filesystem $file
+	 */
+	 protected $file = null;
+
+	 /**
+	 * ResponseFactory instance
+	 *
+	 * @var ResponseFactory $response
+	 */
+	 protected $response = null;
+
+	 /**
+	 * ViewFactory instance
+	 *
+	 * @var ViewFactory $view
+	 */
+	 protected $view = null;
 
 	/**
 	 * @var array
@@ -151,6 +186,22 @@ class Feed
 	public $duration;
 
 	/**
+	 * Using constructor we populate our model from configuration file
+	 * and loading dependencies
+	 *
+	 * @param array $config
+	 */
+	public function __construct(array $config, CacheRepository $cache, ConfigRepository $configRepository, Filesystem $file, ResponseFactory $response, ViewFactory $view)
+	{
+		$this->cache = $cache;
+		$this->configRepository = $configRepository;
+		$this->file = $file;
+		$this->response = $response;
+		$this->view = $view;
+
+	}
+
+	/**
 	 * Add new item to $items array
 	 *
 	 * @param string $title
@@ -191,7 +242,7 @@ class Feed
 			'enclosure' => $enclosure,
 			'category' => $category,
 			'subtitle' => $subtitle,
-            'duration' => $duration
+      'duration' => $duration
 		]);
 	}
 
@@ -246,13 +297,13 @@ class Feed
 		}
 
 		// if cache is on and there is cached feed => return it
-		if ($this->caching > 0 && Cache::has($this->cacheKey))
+		if ($this->caching > 0 && $this->cache->has($this->cacheKey))
 		{
-			return Response::make(Cache::get($this->cacheKey), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
+			return $this->response->make($this->cache->get($this->cacheKey), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
 		}
 
-		if (empty($this->lang)) $this->lang = Config::get('application.language');
-		if (empty($this->link)) $this->link = Config::get('application.url');
+		if (empty($this->lang)) $this->lang = $this->configRepository->get('application.language');
+		if (empty($this->link)) $this->link = $this->configRepository->get('application.url');
 		if (empty($this->ref)) $this->ref = self::DEFAULT_REF;
 		if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
 
@@ -290,23 +341,23 @@ class Feed
 		// if cache is on put this feed in cache and return it
 		if ($this->caching > 0)
 		{
-			Cache::put($this->cacheKey, View::make($this->getView($this->customView), $viewData)->render(), $this->caching);
+			$this->cache->put($this->cacheKey, $this->view->make($this->getView($this->customView), $viewData)->render(), $this->caching);
 
-			return Response::make(Cache::get($this->cacheKey), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
+			return $this->response->make($this->cache->get($this->cacheKey), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
 		}
 		else if ($this->caching == 0)
 		{
 			// if cache is 0 delete the key (if exists) and return response
 			$this->clearCache();
 
-			return Response::make(View::make($this->getView($this->customView), $viewData), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
+			return $this->response->make($this->view->make($this->getView($this->customView), $viewData), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
 		}
 		else if ($this->caching < 0)
 		{
 			// if cache is negative value delete the key (if exists) and return cachable object
 			$this->clearCache();
 
-			return View::make($this->getView($this->customView), $viewData)->render();
+			return $this->view->make($this->getView($this->customView), $viewData)->render();
 		}
 
 	 }
@@ -340,7 +391,7 @@ class Feed
 	public function isCached()
 	{
 
-		if (Cache::has($this->cacheKey))
+		if ($this->cache->has($this->cacheKey))
 		{
 			return true;
 		}
@@ -355,7 +406,7 @@ class Feed
 	 */
 	public function clearCache()
 	{
-		if ($this->isCached()) Cache::forget($this->cacheKey);
+		if ($this->isCached()) $this->cache->forget($this->cacheKey);
 	}
 
 	/**
@@ -378,10 +429,10 @@ class Feed
 	 *
 	 * @return void
 	 */
-	public function getView($format)
+	public function getView($format='atom')
 	{
 		// if a custom view is set
-		if ($this->customView !== null && View::exists($this->customView))
+		if ($this->customView !== null && $this->view->exists($this->customView))
 		{
 			return $this->customView;
 		}
@@ -414,6 +465,12 @@ class Feed
 		$this->shorteningLimit = $l;
 	}
 
+	// TODO : documentation
+	public function getTextLimit()
+	{
+		return $this->shorteningLimit;
+	}
+
 	/**
 	 * Turn on/off text shortening for item content
 	 *
@@ -426,6 +483,12 @@ class Feed
 		$this->shortening = $b;
 	}
 
+	// TODO : documentation
+	public function getShortening()
+	{
+		return $this->shortening;
+	}
+
 	/**
 	 * Format datetime string, timestamp integer or carbon object in valid feed format
 	 *
@@ -433,7 +496,7 @@ class Feed
 	 *
 	 * @return string
 	 */
-	private function formatDate($date, $format='atom')
+	public function formatDate($date, $format='atom')
 	{
 		if ($format == "atom")
 		{
@@ -506,6 +569,18 @@ class Feed
 	}
 
 	/**
+	 * Getter for dateFormat
+	 *
+	 * @param string $format
+	 *
+	 * @return void
+	 */
+	public function getDateFormat()
+	{
+		return $this->dateFormat;
+	}
+
+	/**
 	 * Returns $items array
 	 *
 	 * @return array
@@ -531,15 +606,36 @@ class Feed
 	 * @author Cara Wang <caraw@cnyes.com>
 	 * @since  2016/09/09
 	 */
-	private function getRssLink()
+	public function getRssLink()
 	{
-		$rssLink = Request::url();
+		$rssLink = request()->url();
 
 		if ( !empty($this->domain) ) 
 		{
-			$rssLink = sprintf('%s/%s', rtrim($this->domain, '/'), ltrim(Request::path(), '/'));
+			$rssLink = sprintf('%s/%s', rtrim($this->domain, '/'), ltrim(request()->path(), '/'));
 		}
 
 		return $rssLink;
 	}
+
+	/**
+	 * Returns $CacheKey value
+	 *
+	 * @return string
+	 */
+	public function getCacheKey()
+	{
+		return $this->cacheKey;
+	}
+
+	/**
+	 * Returns $caching value
+	 *
+	 * @return string
+	 */
+	public function getCacheDuration()
+	{
+		return $this->caching;
+	}
+
 }
