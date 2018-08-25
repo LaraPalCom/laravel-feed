@@ -1,6 +1,7 @@
-<?php namespace Roumen\Feed;
+<?php namespace Laravelium\Feed;
 
 use Illuminate\Support\ServiceProvider;
+use Laravelium\Feed\Feed;
 
 class FeedServiceProvider extends ServiceProvider
 {
@@ -10,7 +11,7 @@ class FeedServiceProvider extends ServiceProvider
 	 *
 	 * @var bool
 	 */
-	protected $defer = false;
+	protected $defer = true;
 
 	/**
 	 * Bootstrap the application events.
@@ -24,6 +25,15 @@ class FeedServiceProvider extends ServiceProvider
 		$this->publishes([
 			__DIR__ . '/../../views' => base_path('resources/views/vendor/feed')
 		], 'views');
+
+		$config_file = __DIR__ . '/../../config/config.php';
+
+		$this->mergeConfigFrom($config_file, 'feed');
+
+		$this->publishes([
+			$config_file => config_path('feed.php')
+		], 'config');
+
 	}
 
 	/**
@@ -33,12 +43,21 @@ class FeedServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		$this->app->bind('feed', function()
+		$this->app->bind('feed', function($app)
 		{
-			return new Feed();
+			$config = config('feed');
+
+			return new Feed(
+				$config,
+				$app['Illuminate\Cache\Repository'],
+				$app['config'],
+				$app['files'],
+				$app['Illuminate\Contracts\Routing\ResponseFactory'],
+				$app['view']
+			);
 		});
 
-		$this->app->alias('feed', 'Roumen\Feed\Feed');
+		$this->app->alias('feed', Feed::class);
 	}
 
 	/**
@@ -48,7 +67,7 @@ class FeedServiceProvider extends ServiceProvider
 	 */
 	public function provides()
 	{
-		return ['feed'];
+		return [Feed::class];
 	}
 
 }
