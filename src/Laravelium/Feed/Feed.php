@@ -233,7 +233,7 @@ class Feed
 
 		// add to items
 		$this->setItem([
-			'title' => $title,
+			'title' => htmlspecialchars(strip_tags($title), ENT_COMPAT, 'UTF-8'),
 			'author' => $author,
 			'link' => $link,
 			'pubdate' => $pubdate,
@@ -241,8 +241,8 @@ class Feed
 			'content' => $content,
 			'enclosure' => $enclosure,
 			'category' => $category,
-			'subtitle' => $subtitle,
-      'duration' => $duration
+			'subtitle' => htmlspecialchars(strip_tags($subtitle), ENT_COMPAT, 'UTF-8'),
+      		'duration' => $duration
 		]);
 	}
 
@@ -268,7 +268,12 @@ class Feed
 
 		if ($this->shortening)
 		{
-			$item['description'] = mb_substr($item['description'], 0, $this->shorteningLimit, 'UTF-8');
+			if(strlen($item['description']) > $this->shorteningLimit){
+				//adds '...'' for shortened description
+				$append = '...';
+			}
+
+			$item['description'] = mb_substr($item['description'], 0, $this->shorteningLimit, 'UTF-8') . $append;
 		}
 
 		$this->setItem($item);
@@ -285,7 +290,6 @@ class Feed
 	 */
 	public function render($format = null, $cache = null, $key = null)
 	{
-
 		if ($format == null && $this->customView == null) $format = "atom";
 		if ($this->customView == null) $this->customView = $format;
 		if ($cache != null) $this->caching = $cache;
@@ -306,13 +310,6 @@ class Feed
 		if (empty($this->link)) $this->link = $this->configRepository->get('application.url');
 		if (empty($this->ref)) $this->ref = self::DEFAULT_REF;
 		if (empty($this->pubdate)) $this->pubdate = date('D, d M Y H:i:s O');
-
-		foreach($this->items as $k => $v)
-		{
-			$this->items[$k]['title'] = htmlspecialchars(strip_tags($this->items[$k]['title']), ENT_COMPAT, 'UTF-8');
-			$this->items[$k]['subtitle'] = htmlspecialchars(strip_tags($this->items[$k]['subtitle']), ENT_COMPAT, 'UTF-8');
-			$this->items[$k]['pubdate'] = $this->formatDate($this->items[$k]['pubdate'], $format);
-		}
 
 		$channel = [
 			'title'         =>  htmlspecialchars(strip_tags($this->title), ENT_COMPAT, 'UTF-8'),
@@ -345,19 +342,12 @@ class Feed
 
 			return $this->response->make($this->cache->get($this->cacheKey), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
 		}
-		else if ($this->caching == 0)
+		else
 		{
 			// if cache is 0 delete the key (if exists) and return response
 			$this->clearCache();
 
 			return $this->response->make($this->view->make($this->getView($this->customView), $viewData), 200, array('Content-Type' => $this->ctype.'; charset='.$this->charset));
-		}
-		else if ($this->caching < 0)
-		{
-			// if cache is negative value delete the key (if exists) and return cachable object
-			$this->clearCache();
-
-			return $this->view->make($this->getView($this->customView), $viewData)->render();
 		}
 
 	 }
@@ -425,20 +415,26 @@ class Feed
 	/**
 	 * Get view name
 	 *
-	 * @param string $format
+	 * @param string $view
 	 *
 	 * @return void
 	 */
-	public function getView($format='atom')
+	public function getView($view=null)
 	{
 		// if a custom view is set
-		if ($this->customView !== null && $this->view->exists($this->customView))
+		if (null != $view)
+		{
+			return 'feed::'.$view;
+		}
+		else if (null != $this->customView)
 		{
 			return $this->customView;
 		}
+		else
+		{
+			return 'feed::atom';
+		}
 
-		// else return default view
-		return 'feed::'.$format;
 	}
 
 	/**
