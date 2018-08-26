@@ -11,11 +11,11 @@ class FeedTest extends TestCase
     protected $sp;
 
     protected function getPackageProviders($app)
-  {
-    return [FeedServiceProvider::class];
-  }
+    {
+        return [FeedServiceProvider::class];
+    }
 
-  protected function getPackageAliases($app)
+    protected function getPackageAliases($app)
     {
     return ['Feed' => Feed::class];
     }
@@ -47,7 +47,7 @@ class FeedTest extends TestCase
 
         // test FeedServiceProvider (fixes coverage of the class!)
         $this->sp = new FeedServiceProvider($this->feed);
-        $this->assertEquals([Feed::class], $this->sp->provides());
+        $this->assertEquals(['feed', Feed::class], $this->sp->provides());
     }
 
     public function testFeedAttributes()
