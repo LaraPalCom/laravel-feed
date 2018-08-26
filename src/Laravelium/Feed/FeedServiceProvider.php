@@ -67,7 +67,7 @@ class FeedServiceProvider extends ServiceProvider
 	 */
 	public function provides()
 	{
-		return [Feed::class];
+		return ['feed', Feed::class];
 	}
 
 }
