@@ -17,7 +17,7 @@ class FeedTest extends TestCase
 
     protected function getPackageAliases($app)
     {
-    return ['Feed' => Feed::class];
+        return ['Feed' => Feed::class];
     }
 
     public function setUp()
@@ -121,7 +121,7 @@ class FeedTest extends TestCase
             'duration'  => '00:00:00'
         ]);
 
-         $this->feed->addItem([
+        $this->feed->addItem([
             'title' => 'TestTitle2',
             'author' => 'TestAuthor2',
             'link' => 'TestUrl2',
@@ -129,8 +129,8 @@ class FeedTest extends TestCase
             'description' => '<p>TestResume2</p>'
         ]);
 
-         // add multidimensional array
-         $this->feed->addItem([
+        // add multidimensional array
+        $this->feed->addItem([
             [
                 'title' => 'TestTitle3',
                 'author' => 'TestAuthor3',
@@ -217,7 +217,6 @@ class FeedTest extends TestCase
         $response = $this->feed->render('atom', 60, 'testFeed');
         $this->assertEquals(200, $response->status());
         $this->assertEquals('application/rss+xml; charset=utf-8', $response->headers->get('Content-Type'));
-
     }
 
     public function testIsCached()
@@ -298,10 +297,10 @@ class FeedTest extends TestCase
         $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
 
         $this->feed->addItem([
-            'title' => 'TestTitle', 
-            'author' => 'TestAuthor', 
-            'link' => 'TestUrl', 
-            'pubdate' => '2014-02-29 00:00:00', 
+            'title' => 'TestTitle',
+            'author' => 'TestAuthor',
+            'link' => 'TestUrl',
+            'pubdate' => '2014-02-29 00:00:00',
             'description' => '<p>Test2Resume</p>'
         ]);
 
@@ -309,7 +308,5 @@ class FeedTest extends TestCase
 
         $this->assertEquals('<p>TestRes...', $items[0]['description']);
         $this->assertEquals('<p>Test2Re...', $items[1]['description']);
-
     }
-
 }
