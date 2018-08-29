@@ -285,26 +285,29 @@ class Feed
      */
     public function render($format = null, $cache = null, $key = null)
     {
-        if ($format == null && $this->customView == null) {
+        if (null == $format) {
             $format = "atom";
         }
-        if ($this->customView == null) {
-            $this->customView = $format;
-        }
-        if ($cache != null) {
+
+        if (null != $cache) {
             $this->caching = $cache;
         }
-        if ($key != null) {
+
+        if (null != $key) {
             $this->cacheKey = $key;
         }
 
-        if ($this->ctype == null) {
-            ($format == 'rss') ? $this->ctype = 'application/rss+xml' : $this->ctype = 'application/atom+xml';
+        if (null != $this->customView) {
+            $view = $this->customView;
+        } else {
+            $view = 'feed::'.$format;
         }
+
+        $this->ctype = ($format == 'atom') ? 'application/atom+xml' : 'application/rss+xml';
 
         // if cache is on and there is cached feed => return it
         if ($this->caching > 0 && $this->cache->has($this->cacheKey)) {
-            return $this->response->make($this->cache->get($this->cacheKey), 200, ['Content-Type' => $this->ctype.'; charset='.$this->charset]);
+            return $this->response->make($this->cache->get($this->cacheKey), 200, ['Content-Type' => $this->cache->get($this->cacheKey."_ctype").'; charset='.$this->charset]);
         }
 
         if (empty($this->lang)) {
@@ -346,14 +349,18 @@ class Feed
 
         // if cache is on put this feed in cache and return it
         if ($this->caching > 0) {
-            $this->cache->put($this->cacheKey, $this->view->make($this->getView($this->customView), $viewData)->render(), $this->caching);
 
-            return $this->response->make($this->cache->get($this->cacheKey), 200, ['Content-Type' => $this->ctype.'; charset='.$this->charset]);
+            // cache the view
+            $this->cache->put($this->cacheKey, $this->view->make($view, $viewData)->render(), $this->caching);
+            // cache the ctype
+            $this->cache->put($this->cacheKey."_ctype", $this->ctype, $this->caching);
+
+            return $this->response->make($this->cache->get($this->cacheKey), 200, ['Content-Type' => $this->cache->get($this->cacheKey."_ctype").'; charset='.$this->charset]);
         } else {
             // if cache is 0 delete the key (if exists) and return response
             $this->clearCache();
 
-            return $this->response->make($this->view->make($this->getView($this->customView), $viewData), 200, ['Content-Type' => $this->ctype.'; charset='.$this->charset]);
+            return $this->response->make($this->view->make($view, $viewData), 200, ['Content-Type' => $this->ctype.'; charset='.$this->charset]);
         }
     }
 
@@ -427,34 +434,25 @@ class Feed
     }
 
     /**
-     * Get view name
+     * Get Custom View
+     *
+     * @return void
+     */
+    public function getCustomView()
+    {
+        return $this->customView;
+    }
+
+    /**
+     * Set Custom View
      *
      * @param string $view
      *
      * @return void
      */
-    public function getView($view=null)
+    public function setCustomView($view=null)
     {
-        // if a custom view is set
-        if (null != $view) {
-            return 'feed::'.$view;
-        } elseif (null != $this->customView) {
-            return $this->customView;
-        } else {
-            return 'feed::atom';
-        }
-    }
-
-    /**
-     * Set Custom view
-     *
-     * @param string $name
-     *
-     * @return void
-     */
-    public function setView($name=null)
-    {
-        $this->customView = $name;
+        $this->customView = $view;
     }
 
     /**

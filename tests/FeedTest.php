@@ -191,29 +191,24 @@ class FeedTest extends TestCase
 
     public function testFeedCustomView()
     {
-        $this->feed->setView('vendor.feed.test0');
-        $this->assertEquals('feed::test1', $this->feed->getView('test1'));
+        $this->feed->setCustomView('vendor.feed.test0');
+        $this->assertEquals('vendor.feed.test0', $this->feed->getCustomView());
 
-        $this->feed->setView('views.feeds.test2');
-        $this->assertEquals('views.feeds.test2', $this->feed->getView());
-
-        // default
-        $this->feed->setView(null);
-        $this->assertEquals('feed::atom', $this->feed->getView());
+        $this->feed->setCustomView(null);
+        $this->assertEquals(null, $this->feed->getCustomView());
     }
 
     public function testFeedRender()
     {
-        $response = $this->feed->render('atom');
+        $response = $this->feed->render();
         $this->assertEquals(200, $response->status());
         $this->assertEquals('application/atom+xml; charset=utf-8', $response->headers->get('Content-Type'));
-
-        $this->feed->ctype = null; // reset value
 
         $response = $this->feed->render('rss', 60, 'testFeed');
         $this->assertEquals(200, $response->status());
         $this->assertEquals('application/rss+xml; charset=utf-8', $response->headers->get('Content-Type'));
 
+        $this->feed->setCustomView('vendor.feed.test2');
         $response = $this->feed->render('atom', 60, 'testFeed');
         $this->assertEquals(200, $response->status());
         $this->assertEquals('application/rss+xml; charset=utf-8', $response->headers->get('Content-Type'));
@@ -231,6 +226,10 @@ class FeedTest extends TestCase
         $this->feed->cache->put($this->feed->getCacheKey(), $this->feed->getItems(), $this->feed->getCacheDuration());
 
         $this->assertEquals(true, $this->feed->IsCached());
+
+        $this->feed->setCache(0, 'TestKey');
+
+        $this->assertEquals(false, $this->feed->IsCached());
     }
 
     public function testGetRssLink()
