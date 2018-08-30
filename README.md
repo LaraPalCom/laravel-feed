@@ -1,6 +1,4 @@
-# [laravel-feed](https://laravelium.com)
-
-[![Latest Stable Version](https://poser.pugx.org/laravelium/feed/version.png)](https://packagist.org/packages/laravelium/feed) [![Total Downloads](https://poser.pugx.org/roumen/feed/d/total.png)](https://packagist.org/packages/laravelium/feed) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/Laravelium/Feed/blob/master/LICENSE) [![Contributing](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://gitlab.com/Laravelium/Feed/blob/master/CONTRIBUTING.md)
+# [Laravelium Feed](https://laravelium.com)
 
 A simple feed generator for Laravel 5.
 
@@ -22,15 +20,27 @@ or add the following to your `composer.json` file :
 ```json
 "laravelium/feed": "3.0.*"
 ```
+or (development branch)
+```json
+"laravelium/feed": "3.0.x-dev"
+```
 
 #### For Laravel 5.6
 ```json
 "laravelium/feed": "2.12.*"
 ```
+or (development branch)
+```json
+"laravelium/feed": "2.12.x-dev"
+```
 
 #### For Laravel 5.5
 ```json
 "laravelium/feed": "2.11.*"
+```
+or (development branch)
+```json
+"laravelium/feed": "2.11.x-dev"
 ```
 
 Publish package views (OPTIONAL) :
