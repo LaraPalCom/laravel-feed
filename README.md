@@ -4,7 +4,7 @@ A simple feed generator for Laravel 5.
 
 ## Notes
 
-Branch dev-master is for development and is UNSTABLE
+Branch ``dev-master`` is for development and is UNSTABLE!
 
 ## Installation
 
