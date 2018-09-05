@@ -1,6 +1,6 @@
 {
 	"name": "laravelium/feed",
-	"description": "Laravelium Feed generator for Laravel.",
+	"description": "Laravelium Feed package for Laravel.",
 	"homepage": "https://laravelium.com",
 	"keywords": ["laravelium", "laravel", "feed", "generator", "rss", "atom"],
 	"license": "MIT",
