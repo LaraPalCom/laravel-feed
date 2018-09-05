@@ -1,6 +1,6 @@
 {
 	"name": "laravelium/feed",
-	"description": "Laravelium Feed package for Laravel.",
+	"description": "Laravelium Feed generator for Laravel.",
 	"homepage": "https://laravelium.com",
 	"keywords": ["laravelium", "laravel", "feed", "generator", "rss", "atom"],
 	"license": "MIT",
@@ -35,5 +35,5 @@
       }
 		}
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "dev"
 }
