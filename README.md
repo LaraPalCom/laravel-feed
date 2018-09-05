@@ -1,55 +1,72 @@
-# [laravel-feed](https://damianoff.com/en/projects/laravel-feed)
+# **[Laravelium Feed](https://laravelium.com) package**
 
-[![Latest Stable Version](https://poser.pugx.org/roumen/feed/version.png)](https://packagist.org/packages/roumen/feed) [![Total Downloads](https://poser.pugx.org/roumen/feed/d/total.png)](https://packagist.org/packages/roumen/feed) [![Build Status](https://travis-ci.org/Laravelium/laravel-feed.png?branch=master)](https://travis-ci.org/Laravelium/laravel-feed) [![License](https://poser.pugx.org/roumen/feed/license.png)](https://packagist.org/packages/roumen/feed)
-
-A simple feed generator for Laravel 5.
+*Laravelium Feed package for Laravel.*
 
 ## Notes
 
-Branch dev-master is for development and is UNSTABLE
+- Dev branches are for development and are **UNSTABLE** (*use on your own risk*)!
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v2.11.2) :
+Run the following command and provide the latest stable version (e.g v3.0.\*) :
 
 ```bash
-composer require roumen/feed
+composer require laravelium/feed
 ```
 
 or add the following to your `composer.json` file :
 
+#### For Laravel 5.7
 ```json
-"roumen/feed": "~2.11.2"
+"laravelium/feed": "3.0.*"
+```
+(development branch)
+```json
+"laravelium/feed": "3.0.x-dev"
 ```
 
-Then register this service provider with Laravel :
-
-```php
-Roumen\Feed\FeedServiceProvider::class,
+#### For Laravel 5.6
+```json
+"laravelium/feed": "2.12.*"
+```
+(development branch)
+```json
+"laravelium/feed": "2.12.x-dev"
 ```
 
-and add class alias :
-
-```php
-'Feed' => Roumen\Feed\Feed::class,
+#### For Laravel 5.5
+```json
+"laravelium/feed": "2.11.*"
+```
+(development branch)
+```json
+"laravelium/feed": "2.11.x-dev"
 ```
 
 Publish package views (OPTIONAL) :
 
 ```bash
-php artisan vendor:publish --provider="Roumen\Feed\FeedServiceProvider"
+php artisan vendor:publish --provider="Laravelium\Feed\FeedServiceProvider"
 ```
 
 ## Examples
 
-[How to generate basic feed (with optional caching)](https://github.com/Laravelium/laravel-feed/wiki/basic-feed)
+[How to generate basic feed (with optional caching)](https://gitlab.com/Laravelium/Feed/wikis/basic-feed)
 
-[How to generate multiple feeds](https://github.com/Laravelium/laravel-feed/wiki/multiple-feeds)
+[How to generate multiple feeds](https://gitlab.com/Laravelium/Feed/wikis/multiple-feeds)
 
-[How to add images to your feed](https://github.com/Laravelium/laravel-feed/wiki/How-to-add-images-to-your-feed)
+[How to add images to your feed](https://gitlab.com/Laravelium/Feed/wikis/How-to-add-images-to-your-feed)
 
-[How to use custom view for your feed](https://github.com/Laravelium/laravel-feed/wiki/How-to-use-custom-view)
+[How to use custom view for your feed](https://gitlab.com/Laravelium/Feed/wikis/How-to-use-custom-view)
 
-[How to use custom content-type for your feed](https://github.com/Laravelium/laravel-feed/wiki/How-to-use-custom-content-type)
+[How to use custom content-type for your feed](https://gitlab.com/Laravelium/Feed/wikis/How-to-use-custom-content-type)
 
-and more in the [Wiki](https://github.com/Laravelium/laravel-feed/wiki)
+and more in the [Wiki](https://gitlab.com/Laravelium/Feed/wikis)
+
+## Contribution guidelines
+
+Before submiting new merge request or creating new issue, please read [contribution guidelines](https://gitlab.com/Laravelium/Feed/blob/master/CONTRIBUTING.md).
+
+## License
+
+This package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

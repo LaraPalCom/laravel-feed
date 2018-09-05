@@ -1,5 +1,7 @@
 {!! '<'.'?'.'xml version="1.0" encoding="UTF-8" ?>' !!}
-<feed xmlns="http://www.w3.org/2005/Atom"<?php foreach($namespaces as $n) echo " ".$n; ?>>
+<feed xmlns="http://www.w3.org/2005/Atom"<?php foreach ($namespaces as $n) {
+    echo " ".$n;
+} ?>>
 	<title type="text">{!! $channel['title'] !!}</title>
 	<subtitle type="html"><![CDATA[{!! $channel['description'] !!}]]></subtitle>
 	<link href="{{ $channel['rssLink'] }}"></link>
