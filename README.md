@@ -1,14 +1,14 @@
-# [Laravelium Feed](https://laravelium.com)
+# **[Laravelium Feed](https://laravelium.com) package**
 
-A simple feed generator for Laravel 5.
+*Laravelium Feed package for Laravel.*
 
 ## Notes
 
-Branch ``dev-master`` is for development and is UNSTABLE!
+- Dev branches are for development and are **UNSTABLE** (*use on your own risk*)!
 
 ## Installation
 
-Run the following command and provide the latest stable version (e.g v3.0.0) :
+Run the following command and provide the latest stable version (e.g v3.0.\*) :
 
 ```bash
 composer require laravelium/feed
@@ -20,7 +20,7 @@ or add the following to your `composer.json` file :
 ```json
 "laravelium/feed": "3.0.*"
 ```
-or (development branch)
+(development branch)
 ```json
 "laravelium/feed": "3.0.x-dev"
 ```
@@ -29,7 +29,7 @@ or (development branch)
 ```json
 "laravelium/feed": "2.12.*"
 ```
-or (development branch)
+(development branch)
 ```json
 "laravelium/feed": "2.12.x-dev"
 ```
@@ -38,7 +38,7 @@ or (development branch)
 ```json
 "laravelium/feed": "2.11.*"
 ```
-or (development branch)
+(development branch)
 ```json
 "laravelium/feed": "2.11.x-dev"
 ```
@@ -62,3 +62,11 @@ php artisan vendor:publish --provider="Laravelium\Feed\FeedServiceProvider"
 [How to use custom content-type for your feed](https://gitlab.com/Laravelium/Feed/wikis/How-to-use-custom-content-type)
 
 and more in the [Wiki](https://gitlab.com/Laravelium/Feed/wikis)
+
+## Contribution guidelines
+
+Before submiting new merge request or creating new issue, please read [contribution guidelines](https://gitlab.com/Laravelium/Feed/blob/master/CONTRIBUTING.md).
+
+## License
+
+This package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
