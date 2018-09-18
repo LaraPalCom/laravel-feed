@@ -262,6 +262,9 @@ class Feed
             return;
         }
 
+        // append ... to description
+        $append = '';
+        // shortening the description
         if ($this->shortening) {
             if (strlen($item['description']) > $this->shorteningLimit) {
                 //adds '...'' for shortened description
