@@ -10,7 +10,7 @@
  */
 
 use Illuminate\Cache\Repository as CacheRepository;
-use Illuminate\Config\Repository as ConfigRepository;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Filesystem\Filesystem as Filesystem;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactory;
 use Illuminate\View\Factory as ViewFactory;
