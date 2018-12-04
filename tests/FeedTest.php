@@ -29,7 +29,7 @@ class FeedTest extends TestCase
       'feed.cache_key' => 'Laravel.feed.',
       'feed.cache_duration' => 3600,
       'feed.testing' => true
-    ];
+      ];
 
         config($config);
 
@@ -121,49 +121,49 @@ class FeedTest extends TestCase
     public function testFeedAddItem()
     {
         $this->feed->addItem([
-      'title' => 'TestTitle',
-      'author' => 'TestAuthor',
-      'link' => 'TestUrl',
-      'pubdate' => '2014-02-29 00:00:00',
-      'description' => '<p>TestResume</p>',
-      'content' => '<p>TestContent</p>',
-      'category' => 'testCategory',
-      'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
-      'duration'  => '00:00:00'
-    ]);
+  'title' => 'TestTitle',
+  'author' => 'TestAuthor',
+  'link' => 'TestUrl',
+  'pubdate' => '2014-02-29 00:00:00',
+  'description' => '<p>TestResume</p>',
+  'content' => '<p>TestContent</p>',
+  'category' => 'testCategory',
+  'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
+  'duration'  => '00:00:00'
+  ]);
 
         $this->feed->addItem([
-      'title' => 'TestTitle2',
-      'author' => 'TestAuthor2',
-      'link' => 'TestUrl2',
-      'pubdate' => '2014-02-29 00:00:00',
-      'description' => '<p>TestResume2</p>'
-    ]);
+  'title' => 'TestTitle2',
+  'author' => 'TestAuthor2',
+  'link' => 'TestUrl2',
+  'pubdate' => '2014-02-29 00:00:00',
+  'description' => '<p>TestResume2</p>'
+  ]);
 
         // add multidimensional array
         $this->feed->addItem([
-      [
-        'title' => 'TestTitle3',
-        'author' => 'TestAuthor3',
-        'link' => 'TestUrl3',
-        'pubdate' => '2014-02-29 00:00:00',
-        'description' => '<p>TestResume3</p>'
-      ],
-      [
-        'title' => 'TestTitle4',
-        'author' => 'TestAuthor4',
-        'link' => 'TestUrl4',
-        'pubdate' => '2014-02-29 00:00:00',
-        'description' => '<p>TestResume4</p>'
-      ],
-      [
-        'title' => 'TestTitle5',
-        'author' => 'TestAuthor5',
-        'link' => 'TestUrl5',
-        'pubdate' => '2014-02-29 00:00:00',
-        'description' => '<p>TestResume5</p>'
-      ]
-    ]);
+  [
+  'title' => 'TestTitle3',
+  'author' => 'TestAuthor3',
+  'link' => 'TestUrl3',
+  'pubdate' => '2014-02-29 00:00:00',
+  'description' => '<p>TestResume3</p>'
+  ],
+  [
+  'title' => 'TestTitle4',
+  'author' => 'TestAuthor4',
+  'link' => 'TestUrl4',
+  'pubdate' => '2014-02-29 00:00:00',
+  'description' => '<p>TestResume4</p>'
+  ],
+  [
+  'title' => 'TestTitle5',
+  'author' => 'TestAuthor5',
+  'link' => 'TestUrl5',
+  'pubdate' => '2014-02-29 00:00:00',
+  'description' => '<p>TestResume5</p>'
+  ]
+  ]);
 
         // get items
         $items = $this->feed->getItems();
@@ -319,12 +319,12 @@ class FeedTest extends TestCase
         $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
 
         $this->feed->addItem([
-      'title' => 'TestTitle',
-      'author' => 'TestAuthor',
-      'link' => 'TestUrl',
-      'pubdate' => '2014-02-29 00:00:00',
-      'description' => '<p>Test2Resume</p>'
-    ]);
+  'title' => 'TestTitle',
+  'author' => 'TestAuthor',
+  'link' => 'TestUrl',
+  'pubdate' => '2014-02-29 00:00:00',
+  'description' => '<p>Test2Resume</p>'
+  ]);
 
         $items = $this->feed->getItems();
 
