@@ -4,7 +4,7 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@damianoff.com>
- * @version 3.0
+ * @version 3.1
  * @link https://laravelium.com
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -231,17 +231,17 @@ class Feed
 
         // add to items
         $this->setItem([
-            'title' => htmlspecialchars(strip_tags($title), ENT_COMPAT, 'UTF-8'),
-            'author' => $author,
-            'link' => $link,
-            'pubdate' => $pubdate,
-            'description' => $description,
-            'content' => $content,
-            'enclosure' => $enclosure,
-            'category' => $category,
-            'subtitle' => htmlspecialchars(strip_tags($subtitle), ENT_COMPAT, 'UTF-8'),
-              'duration' => $duration
-        ]);
+      'title' => htmlspecialchars(strip_tags($title), ENT_COMPAT, 'UTF-8'),
+      'author' => $author,
+      'link' => $link,
+      'pubdate' => $pubdate,
+      'description' => $description,
+      'content' => $content,
+      'enclosure' => $enclosure,
+      'category' => $category,
+      'subtitle' => htmlspecialchars(strip_tags($subtitle), ENT_COMPAT, 'UTF-8'),
+        'duration' => $duration
+    ]);
     }
 
     /**
@@ -264,6 +264,7 @@ class Feed
 
         // append ... to description
         $append = '';
+
         // shortening the description
         if ($this->shortening) {
             if (strlen($item['description']) > $this->shorteningLimit) {
@@ -292,7 +293,9 @@ class Feed
             $format = "atom";
         }
 
-        if (null != $cache) {
+        if (0 == $cache || (null == $cache && 0 == $this->caching)) {
+            $this->clearCache();
+        } else {
             $this->caching = $cache;
         }
 
@@ -306,10 +309,14 @@ class Feed
             $view = 'feed::'.$format;
         }
 
-        $this->ctype = ($format == 'atom') ? 'application/atom+xml' : 'application/rss+xml';
+        if (null != $this->getCtype()) {
+            $ctype = $this->getCtype();
+        } else {
+            $ctype = ($format == 'atom') ? 'application/atom+xml' : 'application/rss+xml';
+        }
 
         // if cache is on and there is cached feed => return it
-        if ($this->caching > 0 && $this->cache->has($this->cacheKey)) {
+        if (0 < $this->caching && $this->cache->has($this->cacheKey)) {
             return $this->response->make($this->cache->get($this->cacheKey), 200, ['Content-Type' => $this->cache->get($this->cacheKey."_ctype").'; charset='.$this->charset]);
         }
 
@@ -327,43 +334,43 @@ class Feed
         }
 
         $channel = [
-            'title'         =>  htmlspecialchars(strip_tags($this->title), ENT_COMPAT, 'UTF-8'),
-            'subtitle'      =>  htmlspecialchars(strip_tags($this->subtitle), ENT_COMPAT, 'UTF-8'),
-            'description'   =>  $this->description,
-            'logo'          =>  $this->logo,
-            'icon'          =>  $this->icon,
-            'color'         =>  $this->color,
-            'cover'         =>  $this->cover,
-            'ga'            =>  $this->ga,
-            'related'       =>  $this->related,
-            'rssLink'       =>  $this->getRssLink(),
-            'link'          =>  $this->link,
-            'ref'           =>  $this->ref,
-            'pubdate'       =>  $this->formatDate($this->pubdate, $format),
-            'lang'          =>  $this->lang,
-            'copyright'     =>  $this->copyright
-        ];
+      'title'     =>  htmlspecialchars(strip_tags($this->title), ENT_COMPAT, 'UTF-8'),
+      'subtitle'    =>  htmlspecialchars(strip_tags($this->subtitle), ENT_COMPAT, 'UTF-8'),
+      'description'   =>  $this->description,
+      'logo'      =>  $this->logo,
+      'icon'      =>  $this->icon,
+      'color'     =>  $this->color,
+      'cover'     =>  $this->cover,
+      'ga'      =>  $this->ga,
+      'related'     =>  $this->related,
+      'rssLink'     =>  $this->getRssLink(),
+      'link'      =>  $this->link,
+      'ref'       =>  $this->ref,
+      'pubdate'     =>  $this->formatDate($this->pubdate, $format),
+      'lang'      =>  $this->lang,
+      'copyright'   =>  $this->copyright
+    ];
 
         $viewData = [
-            'items'         => $this->items,
-            'channel'       => $channel,
-            'namespaces'    => $this->getNamespaces()
-        ];
+      'items'     => $this->items,
+      'channel'     => $channel,
+      'namespaces'  => $this->getNamespaces()
+    ];
 
         // if cache is on put this feed in cache and return it
-        if ($this->caching > 0) {
+        if (0 < $this->caching) {
 
-            // cache the view
+      // cache the view
             $this->cache->put($this->cacheKey, $this->view->make($view, $viewData)->render(), $this->caching);
             // cache the ctype
-            $this->cache->put($this->cacheKey."_ctype", $this->ctype, $this->caching);
+            $this->cache->put($this->cacheKey."_ctype", $ctype, $this->caching);
 
             return $this->response->make($this->cache->get($this->cacheKey), 200, ['Content-Type' => $this->cache->get($this->cacheKey."_ctype").'; charset='.$this->charset]);
         } else {
             // if cache is 0 delete the key (if exists) and return response
             $this->clearCache();
 
-            return $this->response->make($this->view->make($view, $viewData), 200, ['Content-Type' => $this->ctype.'; charset='.$this->charset]);
+            return $this->response->make($this->view->make($view, $viewData), 200, ['Content-Type' => $ctype.'; charset='.$this->charset]);
         }
     }
 
@@ -505,28 +512,28 @@ class Feed
     {
         if ($format == "atom") {
             switch ($this->dateFormat) {
-                case "carbon":
-                    $date = date('c', strtotime($date->toDateTimeString()));
-                    break;
-                case "timestamp":
-                    $date = date('c', strtotime('@'.$date));
-                    break;
-                case "datetime":
-                    $date = date('c', strtotime($date));
-                    break;
-            }
+        case "carbon":
+          $date = date('c', strtotime($date->toDateTimeString()));
+          break;
+        case "timestamp":
+          $date = date('c', strtotime('@'.$date));
+          break;
+        case "datetime":
+          $date = date('c', strtotime($date));
+          break;
+      }
         } else {
             switch ($this->dateFormat) {
-                case "carbon":
-                    $date = date('D, d M Y H:i:s O', strtotime($date->toDateTimeString()));
-                    break;
-                case "timestamp":
-                    $date = date('D, d M Y H:i:s O', strtotime('@'.$date));
-                    break;
-                case "datetime":
-                    $date = date('D, d M Y H:i:s O', strtotime($date));
-                    break;
-            }
+        case "carbon":
+          $date = date('D, d M Y H:i:s O', strtotime($date->toDateTimeString()));
+          break;
+        case "timestamp":
+          $date = date('D, d M Y H:i:s O', strtotime('@'.$date));
+          break;
+        case "datetime":
+          $date = date('D, d M Y H:i:s O', strtotime($date));
+          break;
+      }
         }
 
         return $date;
@@ -635,5 +642,25 @@ class Feed
     public function getCacheDuration()
     {
         return $this->caching;
+    }
+
+    /**
+     * Setter for $ctype
+     *
+     * @return string
+     */
+    public function setCtype($ctype=null)
+    {
+        $this->ctype = $ctype;
+    }
+
+    /**
+     * Getter for $ctype
+     *
+     * @return string
+     */
+    public function getCtype()
+    {
+        return $this->ctype;
     }
 }
