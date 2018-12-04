@@ -6,11 +6,11 @@ use Laravelium\Feed\Feed;
 class FeedServiceProvider extends ServiceProvider
 {
 
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
+  /**
+   * Indicates if loading of the provider is deferred.
+   *
+   * @var bool
+   */
     protected $defer = true;
 
     /**
@@ -23,16 +23,16 @@ class FeedServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../views', 'feed');
 
         $this->publishes([
-            __DIR__ . '/../../views' => base_path('resources/views/vendor/feed')
-        ], 'views');
+      __DIR__ . '/../../views' => base_path('resources/views/vendor/feed')
+    ], 'views');
 
         $config_file = __DIR__ . '/../../config/config.php';
 
         $this->mergeConfigFrom($config_file, 'feed');
 
         $this->publishes([
-            $config_file => config_path('feed.php')
-        ], 'config');
+      $config_file => config_path('feed.php')
+    ], 'config');
     }
 
     /**
@@ -46,13 +46,13 @@ class FeedServiceProvider extends ServiceProvider
             $config = config('feed');
 
             return new Feed(
-                $config,
-                $app['Illuminate\Cache\Repository'],
-                $app['config'],
-                $app['files'],
-                $app['Illuminate\Contracts\Routing\ResponseFactory'],
-                $app['view']
-            );
+        $config,
+        $app['Illuminate\Cache\Repository'],
+        $app['config'],
+        $app['files'],
+        $app['Illuminate\Contracts\Routing\ResponseFactory'],
+        $app['view']
+      );
         });
 
         $this->app->alias('feed', Feed::class);
