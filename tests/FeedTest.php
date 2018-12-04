@@ -25,11 +25,11 @@ class FeedTest extends TestCase
         parent::setUp();
 
         $config = [
-            'feed.use_cache' => false,
-            'feed.cache_key' => 'Laravel.feed.',
-            'feed.cache_duration' => 3600,
-            'feed.testing' => true
-        ];
+      'feed.use_cache' => false,
+      'feed.cache_key' => 'Laravel.feed.',
+      'feed.cache_duration' => 3600,
+      'feed.testing' => true
+    ];
 
         config($config);
 
@@ -84,6 +84,17 @@ class FeedTest extends TestCase
         $this->assertEquals('http://domain.tld/images/cover.png', $this->feed->cover);
         $this->assertEquals('UA-1525185-18', $this->feed->ga);
         $this->assertEquals(false, $this->feed->related);
+
+        $this->assertEquals(null, $this->feed->getCtype());
+        $this->feed->setCtype('plain/text');
+        $this->assertEquals('plain/text', $this->feed->getCtype());
+
+        $this->assertEquals('laravel-feed', $this->feed->getCacheKey());
+        $this->assertEquals(0, $this->feed->getCacheDuration());
+
+        $this->feed->setCache(30, 'laravel-feed1');
+        $this->assertEquals('laravel-feed1', $this->feed->getCacheKey());
+        $this->assertEquals(30, $this->feed->getCacheDuration());
     }
 
 
@@ -110,49 +121,49 @@ class FeedTest extends TestCase
     public function testFeedAddItem()
     {
         $this->feed->addItem([
-            'title' => 'TestTitle',
-            'author' => 'TestAuthor',
-            'link' => 'TestUrl',
-            'pubdate' => '2014-02-29 00:00:00',
-            'description' => '<p>TestResume</p>',
-            'content' => '<p>TestContent</p>',
-            'category' => 'testCategory',
-            'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
-            'duration'  => '00:00:00'
-        ]);
+      'title' => 'TestTitle',
+      'author' => 'TestAuthor',
+      'link' => 'TestUrl',
+      'pubdate' => '2014-02-29 00:00:00',
+      'description' => '<p>TestResume</p>',
+      'content' => '<p>TestContent</p>',
+      'category' => 'testCategory',
+      'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
+      'duration'  => '00:00:00'
+    ]);
 
         $this->feed->addItem([
-            'title' => 'TestTitle2',
-            'author' => 'TestAuthor2',
-            'link' => 'TestUrl2',
-            'pubdate' => '2014-02-29 00:00:00',
-            'description' => '<p>TestResume2</p>'
-        ]);
+      'title' => 'TestTitle2',
+      'author' => 'TestAuthor2',
+      'link' => 'TestUrl2',
+      'pubdate' => '2014-02-29 00:00:00',
+      'description' => '<p>TestResume2</p>'
+    ]);
 
         // add multidimensional array
         $this->feed->addItem([
-            [
-                'title' => 'TestTitle3',
-                'author' => 'TestAuthor3',
-                'link' => 'TestUrl3',
-                'pubdate' => '2014-02-29 00:00:00',
-                'description' => '<p>TestResume3</p>'
-            ],
-            [
-                'title' => 'TestTitle4',
-                'author' => 'TestAuthor4',
-                'link' => 'TestUrl4',
-                'pubdate' => '2014-02-29 00:00:00',
-                'description' => '<p>TestResume4</p>'
-            ],
-            [
-                'title' => 'TestTitle5',
-                'author' => 'TestAuthor5',
-                'link' => 'TestUrl5',
-                'pubdate' => '2014-02-29 00:00:00',
-                'description' => '<p>TestResume5</p>'
-            ]
-        ]);
+      [
+        'title' => 'TestTitle3',
+        'author' => 'TestAuthor3',
+        'link' => 'TestUrl3',
+        'pubdate' => '2014-02-29 00:00:00',
+        'description' => '<p>TestResume3</p>'
+      ],
+      [
+        'title' => 'TestTitle4',
+        'author' => 'TestAuthor4',
+        'link' => 'TestUrl4',
+        'pubdate' => '2014-02-29 00:00:00',
+        'description' => '<p>TestResume4</p>'
+      ],
+      [
+        'title' => 'TestTitle5',
+        'author' => 'TestAuthor5',
+        'link' => 'TestUrl5',
+        'pubdate' => '2014-02-29 00:00:00',
+        'description' => '<p>TestResume5</p>'
+      ]
+    ]);
 
         // get items
         $items = $this->feed->getItems();
@@ -204,14 +215,26 @@ class FeedTest extends TestCase
         $this->assertEquals(200, $response->status());
         $this->assertEquals('application/atom+xml; charset=utf-8', $response->headers->get('Content-Type'));
 
-        $response = $this->feed->render('rss', 60, 'testFeed');
+        $response = $this->feed->render('rss', 60, 'testFeed2');
         $this->assertEquals(200, $response->status());
         $this->assertEquals('application/rss+xml; charset=utf-8', $response->headers->get('Content-Type'));
 
+        // nonexisting custom view, won't get an error, because will use the cached view from above
         $this->feed->setCustomView('vendor.feed.test2');
-        $response = $this->feed->render('atom', 60, 'testFeed');
+        $response = $this->feed->render('atom', 60, 'testFeed2');
         $this->assertEquals(200, $response->status());
+        // returns wrong ctype, because will use the cached view/ctype for 'testFeed' key
         $this->assertEquals('application/rss+xml; charset=utf-8', $response->headers->get('Content-Type'));
+
+        $this->feed->setCustomView(null);
+        $response = $this->feed->render('atom', 0, 'testFeed2');
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals('application/atom+xml; charset=utf-8', $response->headers->get('Content-Type'));
+
+        $this->feed->setCtype('application/atom+json');
+        $response = $this->feed->render('atom', 0, 'testFeed2');
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals('application/atom+json; charset=utf-8', $response->headers->get('Content-Type'));
     }
 
     public function testIsCached()
@@ -296,12 +319,12 @@ class FeedTest extends TestCase
         $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
 
         $this->feed->addItem([
-            'title' => 'TestTitle',
-            'author' => 'TestAuthor',
-            'link' => 'TestUrl',
-            'pubdate' => '2014-02-29 00:00:00',
-            'description' => '<p>Test2Resume</p>'
-        ]);
+      'title' => 'TestTitle',
+      'author' => 'TestAuthor',
+      'link' => 'TestUrl',
+      'pubdate' => '2014-02-29 00:00:00',
+      'description' => '<p>Test2Resume</p>'
+    ]);
 
         $items = $this->feed->getItems();
 
