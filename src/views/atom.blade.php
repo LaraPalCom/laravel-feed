@@ -16,7 +16,7 @@
 @foreach($items as $item)
         <entry>
             <author>
-                <name>{{ $item['author'] }}</name>
+                <name>{!! $item['author'] !!}</name>
             </author>
             <title type="text"><![CDATA[{!! $item['title'] !!}]]></title>
             <link rel="alternate" type="text/html" href="{{ $item['link'] }}"></link>
