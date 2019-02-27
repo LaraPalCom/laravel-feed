@@ -20,7 +20,7 @@ class FeedTest extends TestCase
         return ['Feed' => Feed::class];
     }
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
 
