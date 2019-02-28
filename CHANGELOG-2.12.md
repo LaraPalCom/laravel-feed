@@ -1,8 +1,13 @@
 # Change log
 
+## v2.12.3 (2019-02-28)
+
+### Fixed
+
+- Fixed issue #76
+
 
 ## v2.12.2 (2018-09-05)
-
 
 ### Changed
 
