@@ -1,8 +1,17 @@
 # Change log
 
+## v3.0.2 (2019-02-28)
+
+### Added
+
+- Added new CI/CD test for PHP7.3
+
+### Fixed
+
+- Fixed issue #76
+
 
 ## v3.0.1 (2018-09-05)
-
 
 ### Changed
 
