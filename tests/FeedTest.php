@@ -255,6 +255,75 @@ class FeedTest extends TestCase
         $this->assertEquals(false, $this->feed->IsCached());
     }
 
+    public function testCacheIsNotClearedWhenSet()
+    {
+        $this->feed->setCache(69, 'TestKey');
+        $this->feed->addItem([
+          'title' => 'FirstTitle',
+          'author' => 'TestAuthor',
+          'link' => 'TestUrl',
+          'pubdate' => '2014-02-29 00:00:00',
+          'description' => '<p>TestResume</p>',
+          'content' => '<p>TestContent</p>',
+          'category' => 'testCategory',
+          'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
+          'duration'  => '00:00:00'
+        ]);
+        $response = $this->feed->render();
+        $this->assertTrue(strpos($response, 'FirstTitle') >= 0);
+        $this->assertFalse(strpos($response, 'SecondTitle'));
+
+        $this->feed->addItem([
+          'title' => 'SecondTitle',
+          'author' => 'TestAuthor',
+          'link' => 'TestUrl',
+          'pubdate' => '2014-02-29 00:00:00',
+          'description' => '<p>TestResume</p>',
+          'content' => '<p>TestContent</p>',
+          'category' => 'testCategory',
+          'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
+          'duration'  => '00:00:00'
+        ]);
+
+        $response = $this->feed->render();
+        $this->assertTrue(strpos($response, 'FirstTitle') >= 0);
+        $this->assertFalse(strpos($response, 'SecondTitle'));
+    }
+
+    public function testCacheIsClearedWhenNotSet()
+    {
+        $this->feed->addItem([
+          'title' => 'FirstTitle',
+          'author' => 'TestAuthor',
+          'link' => 'TestUrl',
+          'pubdate' => '2014-02-29 00:00:00',
+          'description' => '<p>TestResume</p>',
+          'content' => '<p>TestContent</p>',
+          'category' => 'testCategory',
+          'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
+          'duration'  => '00:00:00'
+        ]);
+        $response = $this->feed->render();
+        $this->assertTrue(strpos($response, 'FirstTitle') >= 0);
+        $this->assertFalse(strpos($response, 'SecondTitle'));
+
+        $this->feed->addItem([
+          'title' => 'SecondTitle',
+          'author' => 'TestAuthor',
+          'link' => 'TestUrl',
+          'pubdate' => '2014-02-29 00:00:00',
+          'description' => '<p>TestResume</p>',
+          'content' => '<p>TestContent</p>',
+          'category' => 'testCategory',
+          'enclosure' => ['url'=>'http://foobar.dev/someThing.jpg', 'type' => 'image/jpeg'],
+          'duration'  => '00:00:00'
+        ]);
+
+        $response = $this->feed->render();
+        $this->assertTrue(strpos($response, 'FirstTitle') >= 0);
+        $this->assertTrue(strpos($response, 'SecondTitle') >= 0);
+    }
+
     public function testGetRssLink()
     {
         $this->assertEquals('http://localhost', $this->feed->getRssLink());
