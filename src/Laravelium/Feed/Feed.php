@@ -289,27 +289,29 @@ class Feed
      */
     public function render($format = null, $cache = null, $key = null)
     {
-        if (null == $format) {
+        if (null === $format) {
             $format = "atom";
         }
 
-        if (0 == $cache || (null == $cache && 0 == $this->caching)) {
+        if (0 === $cache || (null === $cache && 0 === $this->caching)) {
             $this->clearCache();
-        } else {
+        }
+
+        if (0 < $cache) {
             $this->caching = $cache;
         }
 
-        if (null != $key) {
+        if (null !== $key) {
             $this->cacheKey = $key;
         }
 
-        if (null != $this->customView) {
+        if (null !== $this->customView) {
             $view = $this->customView;
         } else {
             $view = 'feed::'.$format;
         }
 
-        if (null != $this->getCtype()) {
+        if (null !== $this->getCtype()) {
             $ctype = $this->getCtype();
         } else {
             $ctype = ($format == 'atom') ? 'application/atom+xml' : 'application/rss+xml';
