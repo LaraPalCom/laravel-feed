@@ -4,16 +4,16 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@damianoff.com>
- * @version 3.1
+ * @version 6.0.1
  * @link https://laravelium.com
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Illuminate\Cache\Repository as CacheRepository;
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Filesystem\Filesystem as Filesystem;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactory;
-use Illuminate\View\Factory as ViewFactory;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 
 class Feed
 {
@@ -289,27 +289,29 @@ class Feed
      */
     public function render($format = null, $cache = null, $key = null)
     {
-        if (null == $format) {
+        if (null === $format) {
             $format = "atom";
         }
 
-        if (0 == $cache || (null == $cache && 0 == $this->caching)) {
+        if (0 === $cache || (null === $cache && 0 === $this->caching)) {
             $this->clearCache();
-        } else {
+        }
+
+        if (0 < $cache) {
             $this->caching = $cache;
         }
 
-        if (null != $key) {
+        if (null !== $key) {
             $this->cacheKey = $key;
         }
 
-        if (null != $this->customView) {
+        if (null !== $this->customView) {
             $view = $this->customView;
         } else {
             $view = 'feed::'.$format;
         }
 
-        if (null != $this->getCtype()) {
+        if (null !== $this->getCtype()) {
             $ctype = $this->getCtype();
         } else {
             $ctype = ($format == 'atom') ? 'application/atom+xml' : 'application/rss+xml';
