@@ -4,16 +4,16 @@
  * Feed generator class for laravel-feed package.
  *
  * @author Roumen Damianoff <roumen@damianoff.com>
- * @version 3.1
+ * @version 6.0.1
  * @link https://laravelium.com
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Illuminate\Cache\Repository as CacheRepository;
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Filesystem\Filesystem as Filesystem;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactory;
-use Illuminate\View\Factory as ViewFactory;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 
 class Feed
 {

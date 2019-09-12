@@ -1,18 +1,14 @@
-<?php namespace Laravelium\Feed;
+<?php
+
+namespace Laravelium\Feed;
 
 use Illuminate\Support\ServiceProvider;
-use Laravelium\Feed\Feed;
+use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
-class FeedServiceProvider extends ServiceProvider
+class FeedServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-
-  /**
-   * Indicates if loading of the provider is deferred.
-   *
-   * @var bool
-   */
-    protected $defer = true;
-
     /**
      * Bootstrap the application events.
      *
@@ -42,7 +38,7 @@ class FeedServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('feed', function ($app) {
+        $this->app->bind('feed', function (Container $app) {
             $config = config('feed');
 
             return new Feed(
@@ -50,7 +46,7 @@ class FeedServiceProvider extends ServiceProvider
         $app['Illuminate\Cache\Repository'],
         $app['config'],
         $app['files'],
-        $app['Illuminate\Contracts\Routing\ResponseFactory'],
+        $app[ResponseFactory::class],
         $app['view']
       );
         });
