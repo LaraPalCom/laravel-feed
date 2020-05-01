@@ -1,5 +1,7 @@
 # **[Laravelium Feed](https://laravelium.com) package**
 
+[![License](https://poser.pugx.org/laravelium/feed/license)](https://packagist.org/packages/laravelium/feed) [![Build Status](https://travis-ci.org/Laravelium/laravel-feed.svg?branch=master)](https://travis-ci.org/Laravelium/laravel-feed) [![Coverage Status](https://coveralls.io/repos/github/Laravelium/laravel-feed/badge.svg?branch=master)](https://coveralls.io/github/Laravelium/laravel-feed?branch=master) [![Latest Stable Version](https://poser.pugx.org/laravelium/feed/v/stable)](https://packagist.org/packages/laravelium/feed) [![Total Downloads](https://poser.pugx.org/laravelium/feed/downloads)](https://packagist.org/packages/laravelium/feed)
+
 *Laravelium Feed package for Laravel.*
 
 ## Notes
@@ -78,21 +80,21 @@ php artisan vendor:publish --provider="Laravelium\Feed\FeedServiceProvider"
 
 ## Examples
 
-[How to generate basic feed (with optional caching)](https://gitlab.com/Laravelium/Feed/wikis/basic-feed)
+[How to generate basic feed (with optional caching)](https://github.com/Laravelium/laravel-feed/wiki/basic-feed)
 
-[How to generate multiple feeds](https://gitlab.com/Laravelium/Feed/wikis/multiple-feeds)
+[How to generate multiple feeds](https://github.com/Laravelium/laravel-feed/wiki/Multiple-Feeds)
 
-[How to add images to your feed](https://gitlab.com/Laravelium/Feed/wikis/How-to-add-images-to-your-feed)
+[How to add images to your feed](https://github.com/Laravelium/laravel-feed/wiki/How-to-add-images-to-your-feed)
 
-[How to use custom view for your feed](https://gitlab.com/Laravelium/Feed/wikis/How-to-use-custom-view)
+[How to use custom view for your feed](https://github.com/Laravelium/laravel-feed/wiki/How-to-use-custom-view)
 
-[How to use custom content-type for your feed](https://gitlab.com/Laravelium/Feed/wikis/How-to-use-custom-content-type)
+[How to use custom content-type for your feed](https://github.com/Laravelium/laravel-feed/wiki/How-to-use-custom-content-type)
 
-and more in the [Wiki](https://gitlab.com/Laravelium/Feed/wikis)
+and more in the [Wiki](https://github.com/Laravelium/laravel-feed/wiki)
 
 ## Contribution guidelines
 
-Before submiting new merge request or creating new issue, please read [contribution guidelines](https://gitlab.com/Laravelium/Feed/blob/master/CONTRIBUTING.md).
+Before submiting new merge request or creating new issue, please read [contribution guidelines](https://github.com/Laravelium/laravel-feed/blob/master/CONTRIBUTING.md).
 
 ## License
 
