@@ -4,9 +4,9 @@
 ## New Merge Requests
 
 - Your commits must be **Verified**
-- Your **Code Coverage** must be **100%**
-- Your tests ([*GitLab CI/CD*](https://docs.gitlab.com/ee/ci/)) must be with **Passing** status (**no broken tests!**)
-- Your **Coding Style** must be valid [*PSR-2*](https://www.php-fig.org/psr/psr-2/) (*use this:* [*php-cs-fixer config*](https://gitlab.com/snippets/1749141))
+- Your **code coverage** must be **100%**
+- Your **unit tests** must be with **Passing** status (**no broken tests!**)
+- Your **coding style** must be valid [*PSR-2*](https://www.php-fig.org/psr/psr-2/) (*use this:* [*php-cs-fixer config*](https://gitlab.com/snippets/1749141))
 
 
 ## New Issues

@@ -1,6 +1,6 @@
 # **[Laravelium Feed](https://laravelium.com) package**
 
-[![License](https://poser.pugx.org/laravelium/feed/license)](https://packagist.org/packages/laravelium/feed) [![Build Status](https://travis-ci.org/Laravelium/laravel-feed.svg?branch=master)](https://travis-ci.org/Laravelium/laravel-feed) [![Coverage Status](https://coveralls.io/repos/github/Laravelium/laravel-feed/badge.svg?branch=master)](https://coveralls.io/github/Laravelium/laravel-feed?branch=master) [![Latest Stable Version](https://poser.pugx.org/laravelium/feed/v/stable)](https://packagist.org/packages/laravelium/feed) [![Total Downloads](https://poser.pugx.org/laravelium/feed/downloads)](https://packagist.org/packages/laravelium/feed)
+[![License](https://poser.pugx.org/laravelium/feed/license)](https://packagist.org/packages/laravelium/feed) [![Build Status](https://travis-ci.org/Laravelium/laravel-feed.svg?branch=master)](https://travis-ci.org/Laravelium/laravel-feed) [![Coverage Status](https://coveralls.io/repos/github/Laravelium/laravel-feed/badge.svg?branch=master)](https://coveralls.io/github/Laravelium/laravel-feed?branch=master) [![Style Status](https://github.styleci.io/repos/10391723/shield?style=normal&branch=master)](https://github.styleci.io/repos/10391723) [![Latest Stable Version](https://poser.pugx.org/laravelium/feed/v/stable)](https://packagist.org/packages/laravelium/feed) [![Total Downloads](https://poser.pugx.org/laravelium/feed/downloads)](https://packagist.org/packages/laravelium/feed)
 
 *Laravelium Feed package for Laravel.*
 
