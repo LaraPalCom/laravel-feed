@@ -1,7 +1,7 @@
 {
 	"name": "laravelium/feed",
 	"description": "Laravelium Feed package for Laravel.",
-	"homepage": "https://gitlab.com/Laravelium",
+	"homepage": "https://laravelium.com",
 	"keywords": ["laravelium", "laravel", "feed", "generator", "rss", "atom"],
 	"license": "MIT",
 	"authors": [
@@ -13,9 +13,9 @@
 		}
 	],
 	"support": {
-		"issues": "https://gitlab.com/Laravelium/Feed/issues",
-		"source": "https://gitlab.com/Laravelium/Feed",
-		"wiki": "https://gitlab.com/Laravelium/Feed/wikis/home"
+		"issues": "https://github.com/Laravelium/laravel-feed/issues",
+		"source": "https://github.com/Laravelium/laravel-feed",
+		"wiki": "https://github.com/Laravelium/laravel-feed/wiki"
 	},
 	"require": {
 		"php": ">=7.2.5",
@@ -25,7 +25,8 @@
 	"require-dev": {
 		"laravel/framework": "^7.0",
 		"phpunit/phpunit": "^8.0",
-		"orchestra/testbench-core": "^5.0"
+		"orchestra/testbench-core": "^5.0",
+		"php-coveralls/php-coveralls" : "^2.2"
 	},
 	"autoload": {
 		"psr-0": {
