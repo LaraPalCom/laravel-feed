@@ -38,15 +38,6 @@ jobs:
     - name: Execute PHPUnit tests
       run: vendor/bin/phpunit --configuration phpunit.xml --coverage-text
 
-    - name: Upload coverage results to Coveralls
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        composer require cedx/coveralls
-        mkdir -p build/logs
-        vendor/bin/phpunit tests --coverage-clover build/logs/clover.xml
-        vendor/bin/coveralls build/logs/clover.xml
-
     - name: Upload coverage results to Codeclimate
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
