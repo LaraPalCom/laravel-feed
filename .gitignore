@@ -10,3 +10,5 @@ Thumbs.db
 /.php_cs.cache
 /.phpunit.result.cache
 .idea/
+/build
+/html

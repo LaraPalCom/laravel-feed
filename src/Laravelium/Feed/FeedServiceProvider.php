@@ -39,16 +39,15 @@ class FeedServiceProvider extends ServiceProvider implements DeferrableProvider
     public function register()
     {
         $this->app->bind('feed', function (Container $app) {
-            $config = config('feed');
+            $params = [
+                'cache' => $app['Illuminate\Cache\Repository'],
+                'config' => $app['config'],
+                'files' => $app['files'],
+                'response' => $app[ResponseFactory::class],
+                'view' => $app['view']
+            ];
 
-            return new Feed(
-                $config,
-                $app['Illuminate\Cache\Repository'],
-                $app['config'],
-                $app['files'],
-                $app[ResponseFactory::class],
-                $app['view']
-            );
+            return new Feed($params);
         });
 
         $this->app->alias('feed', Feed::class);

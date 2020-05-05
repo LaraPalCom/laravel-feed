@@ -55,11 +55,11 @@ class FeedTest extends TestCase
         $this->feed->title = 'TestTitle';
         $this->feed->subtitle = 'TestSubtitle';
         $this->feed->description = 'TestDescription';
-        $this->feed->domain = 'https://damianoff.com/';
-        $this->feed->link = 'https://damianoff.com/';
+        $this->feed->domain = 'https://darumen.com/';
+        $this->feed->link = 'https://darumen.com/';
         $this->feed->ref = 'hub';
-        $this->feed->logo = "https://damianoff.com/favicon.png";
-        $this->feed->icon = "https://damianoff.com/favicon.png";
+        $this->feed->logo = "https://darumen.com/favicon.png";
+        $this->feed->icon = "https://darumen.com/favicon.png";
         $this->feed->pubdate = '2014-02-29 00:00:00';
         $this->feed->lang = 'en';
         $this->feed->copyright = 'All rights reserved by Foobar Corporation';
@@ -72,11 +72,11 @@ class FeedTest extends TestCase
         $this->assertEquals('TestTitle', $this->feed->title);
         $this->assertEquals('TestSubtitle', $this->feed->subtitle);
         $this->assertEquals('TestDescription', $this->feed->description);
-        $this->assertEquals('https://damianoff.com/', $this->feed->domain);
-        $this->assertEquals('https://damianoff.com/', $this->feed->link);
+        $this->assertEquals('https://darumen.com/', $this->feed->domain);
+        $this->assertEquals('https://darumen.com/', $this->feed->link);
         $this->assertEquals('hub', $this->feed->ref);
-        $this->assertEquals("https://damianoff.com/favicon.png", $this->feed->logo);
-        $this->assertEquals("https://damianoff.com/favicon.png", $this->feed->icon);
+        $this->assertEquals("https://darumen.com/favicon.png", $this->feed->logo);
+        $this->assertEquals("https://darumen.com/favicon.png", $this->feed->icon);
         $this->assertEquals('2014-02-29 00:00:00', $this->feed->pubdate);
         $this->assertEquals('en', $this->feed->lang);
         $this->assertEquals('All rights reserved by Foobar Corporation', $this->feed->copyright);
@@ -85,9 +85,9 @@ class FeedTest extends TestCase
         $this->assertEquals('UA-1525185-18', $this->feed->ga);
         $this->assertEquals(false, $this->feed->related);
 
-        $this->assertEquals(null, $this->feed->getCtype());
-        $this->feed->setCtype('plain/text');
-        $this->assertEquals('plain/text', $this->feed->getCtype());
+        $this->assertEquals(null, $this->feed->ctype);
+        $this->feed->ctype = 'plain/text';
+        $this->assertEquals('plain/text', $this->feed->ctype);
 
         $this->assertEquals('laravel-feed', $this->feed->getCacheKey());
         $this->assertEquals(0, $this->feed->getCacheDuration());
@@ -97,31 +97,11 @@ class FeedTest extends TestCase
         $this->assertEquals(30, $this->feed->getCacheDuration());
     }
 
-
-    public function testFeedAdd()
-    {
-        $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>', '<p>TestContent</p>', ['url' => 'http://foobar.dev/someThing.jpg','type' => 'image/jpeg'], 'testCategory', 'testSubtitle');
-        $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
-
-        $items = $this->feed->getItems();
-
-        $this->assertCount(2, $items);
-
-        $this->assertEquals('TestTitle', $items[0]['title']);
-        $this->assertEquals('TestAuthor', $items[0]['author']);
-        $this->assertEquals('TestUrl', $items[0]['link']);
-        $this->assertEquals('2014-02-29 00:00:00', $items[0]['pubdate']);
-        $this->assertEquals('<p>TestResume</p>', $items[0]['description']);
-        $this->assertEquals('<p>TestContent</p>', $items[0]['content']);
-        $this->assertEquals('http://foobar.dev/someThing.jpg', $items[0]['enclosure']['url']);
-        $this->assertEquals('testCategory', $items[0]['category']);
-        $this->assertEquals('testSubtitle', $items[0]['subtitle']);
-    }
-
     public function testFeedAddItem()
     {
         $this->feed->addItem([
       'title' => 'TestTitle',
+      'subtitle' => 'TestSubTitle',
       'author' => 'TestAuthor',
       'link' => 'TestUrl',
       'pubdate' => '2014-02-29 00:00:00',
@@ -164,15 +144,13 @@ class FeedTest extends TestCase
         'description' => '<p>TestResume5</p>'
       ]
     ]);
-
-        // get items
-        $items = $this->feed->getItems();
-
         // count items
+        $items = $this->feed->items;
         $this->assertCount(5, $items);
 
         // check items
         $this->assertEquals('TestTitle', $items[0]['title']);
+        $this->assertEquals('TestSubTitle', $items[0]['subtitle']);
         $this->assertEquals('TestAuthor', $items[0]['author']);
         $this->assertEquals('TestUrl', $items[0]['link']);
         $this->assertEquals('2014-02-29 00:00:00', $items[0]['pubdate']);
@@ -231,7 +209,7 @@ class FeedTest extends TestCase
         $this->assertEquals(200, $response->status());
         $this->assertEquals('application/atom+xml; charset=utf-8', $response->headers->get('Content-Type'));
 
-        $this->feed->setCtype('application/atom+json');
+        $this->feed->ctype = 'application/atom+json';
         $response = $this->feed->render('atom', 0, 'testFeed2');
         $this->assertEquals(200, $response->status());
         $this->assertEquals('application/atom+json; charset=utf-8', $response->headers->get('Content-Type'));
@@ -246,7 +224,7 @@ class FeedTest extends TestCase
         $this->assertEquals('TestKey', $this->feed->getCacheKey());
         $this->assertEquals(69, $this->feed->getCacheDuration());
 
-        $this->feed->cache->put($this->feed->getCacheKey(), $this->feed->getItems(), $this->feed->getCacheDuration());
+        $this->feed->cache->put($this->feed->getCacheKey(), $this->feed->items, $this->feed->getCacheDuration());
 
         $this->assertEquals(true, $this->feed->IsCached());
 
@@ -324,15 +302,6 @@ class FeedTest extends TestCase
         $this->assertTrue(strpos($response, 'SecondTitle') >= 0);
     }
 
-    public function testGetRssLink()
-    {
-        $this->assertEquals('http://localhost', $this->feed->getRssLink());
-
-        $this->feed->domain = 'https://testDomain.local';
-
-        $this->assertEquals('https://testDomain.local/', $this->feed->getRssLink());
-    }
-
     public function testGetDateFormat()
     {
         $this->assertEquals('datetime', $this->feed->getDateFormat());
@@ -359,11 +328,11 @@ class FeedTest extends TestCase
 
     public function testGetNamespaces()
     {
-        $this->assertEquals([], $this->feed->getNamespaces());
+        $this->assertEquals([], $this->feed->namespaces);
 
-        $this->feed->addNamespace('testNamespace');
+        $this->feed->namespaces[] = 'testNamespace';
 
-        $this->assertEquals(['testNamespace'], $this->feed->getNamespaces());
+        $this->assertEquals(['testNamespace'], $this->feed->namespaces);
     }
 
     public function testShortening()
@@ -385,8 +354,6 @@ class FeedTest extends TestCase
 
         $this->feed->setShortening(true);
 
-        $this->feed->add('TestTitle', 'TestAuthor', 'TestUrl', '2014-02-29 00:00:00', '<p>TestResume</p>');
-
         $this->feed->addItem([
       'title' => 'TestTitle',
       'author' => 'TestAuthor',
@@ -395,9 +362,8 @@ class FeedTest extends TestCase
       'description' => '<p>Test2Resume</p>'
     ]);
 
-        $items = $this->feed->getItems();
+        $items = $this->feed->items;
 
-        $this->assertEquals('<p>TestRes...', $items[0]['description']);
-        $this->assertEquals('<p>Test2Re...', $items[1]['description']);
+        $this->assertEquals('<p>Test2Re...', $items[0]['description']);
     }
 }

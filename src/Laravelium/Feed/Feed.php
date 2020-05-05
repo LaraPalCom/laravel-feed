@@ -3,8 +3,8 @@
 /**
  * Feed generator class for laravel-feed package.
  *
- * @author Roumen Damianoff <roumen@damianoff.com>
- * @version 6.0.1
+ * @author Rumen Damyanov <r@alfamatter.com>
+ * @version 7.0.1
  * @link https://laravelium.com
  * @license http://opensource.org/licenses/mit-license.php MIT License
  */
@@ -57,7 +57,7 @@ class Feed
     /**
      * @var array
      */
-    private $items = [];
+    public $items = [];
 
     /**
      * @var string
@@ -172,7 +172,7 @@ class Feed
     /**
      * @var array
      */
-    private $namespaces = [];
+    public $namespaces = [];
 
     /**
      * @var string
@@ -189,59 +189,15 @@ class Feed
      * Using constructor we populate our model from configuration file
      * and loading dependencies
      *
-     * @param array $config
+     * @param array $params
      */
-    public function __construct(array $config, CacheRepository $cache, ConfigRepository $configRepository, Filesystem $file, ResponseFactory $response, ViewFactory $view)
+    public function __construct($params)
     {
-        $this->cache = $cache;
-        $this->configRepository = $configRepository;
-        $this->file = $file;
-        $this->response = $response;
-        $this->view = $view;
-    }
-
-    /**
-     * Add new item to $items array
-     *
-     * @param string $title
-     * @param string $author
-     * @param string $link
-     * @param string $pubdate
-     * @param string $description
-     * @param string $content
-     * @param array $enclosure (optional)
-     * @param string $category (optional)
-     * @param string $subtitle (optional)
-     * @param string $duration (optional)
-     *
-     * @return void
-     */
-    public function add($title, $author, $link, $pubdate, $description, $content='', $enclosure = [], $category='', $subtitle='', $duration ='')
-    {
-        // append ... to description
-        $append = '';
-        // shortening the description
-        if ($this->shortening) {
-            if (strlen($description) > $this->shorteningLimit) {
-                //adds ... for shortened description
-                $append = '...';
-            }
-            $description = mb_substr($description, 0, $this->shorteningLimit, 'UTF-8') . $append;
-        }
-
-        // add to items
-        $this->setItem([
-      'title' => htmlspecialchars(strip_tags($title), ENT_COMPAT, 'UTF-8'),
-      'author' => $author,
-      'link' => $link,
-      'pubdate' => $pubdate,
-      'description' => $description,
-      'content' => $content,
-      'enclosure' => $enclosure,
-      'category' => $category,
-      'subtitle' => htmlspecialchars(strip_tags($subtitle), ENT_COMPAT, 'UTF-8'),
-        'duration' => $duration
-    ]);
+        $this->cache = $params['cache'];
+        $this->configRepository = $params['config'];
+        $this->file = $params['files'];
+        $this->response = $params['response'];
+        $this->view = $params['view'];
     }
 
     /**
@@ -258,24 +214,23 @@ class Feed
             foreach ($item as $i) {
                 $this->addItem($i);
             }
-
             return;
         }
 
-        // append ... to description
-        $append = '';
-
-        // shortening the description
         if ($this->shortening) {
-            if (strlen($item['description']) > $this->shorteningLimit) {
-                //adds '...'' for shortened description
-                $append = '...';
-            }
-
+            $append = (strlen($item['description']) > $this->shorteningLimit) ? '...' : '';
             $item['description'] = mb_substr($item['description'], 0, $this->shorteningLimit, 'UTF-8') . $append;
         }
 
-        $this->setItem($item);
+        if (isset($item['title'])) {
+            $item['title'] = htmlspecialchars(strip_tags($item['title']), ENT_COMPAT, 'UTF-8');
+        }
+
+        if (isset($item['subtitle'])) {
+            $item['subtitle'] = htmlspecialchars(strip_tags($item['subtitle']), ENT_COMPAT, 'UTF-8');
+        }
+
+        $this->items[] = $item;
     }
 
     /**
@@ -311,8 +266,8 @@ class Feed
             $view = 'feed::'.$format;
         }
 
-        if (null !== $this->getCtype()) {
-            $ctype = $this->getCtype();
+        if (null !== $this->ctype) {
+            $ctype = $this->ctype;
         } else {
             $ctype = ($format == 'atom') ? 'application/atom+xml' : 'application/rss+xml';
         }
@@ -335,6 +290,8 @@ class Feed
             $this->pubdate = date('D, d M Y H:i:s O');
         }
 
+        $rssLink = (!empty($this->domain)) ? sprintf('%s/%s', rtrim($this->domain, '/'), ltrim(request()->path(), '/')) : request()->url();
+
         $channel = [
       'title'     =>  htmlspecialchars(strip_tags($this->title), ENT_COMPAT, 'UTF-8'),
       'subtitle'    =>  htmlspecialchars(strip_tags($this->subtitle), ENT_COMPAT, 'UTF-8'),
@@ -345,7 +302,7 @@ class Feed
       'cover'     =>  $this->cover,
       'ga'      =>  $this->ga,
       'related'     =>  $this->related,
-      'rssLink'     =>  $this->getRssLink(),
+      'rssLink'     =>  $rssLink,
       'link'      =>  $this->link,
       'ref'       =>  $this->ref,
       'pubdate'     =>  $this->formatDate($this->pubdate, $format),
@@ -356,7 +313,7 @@ class Feed
         $viewData = [
       'items'     => $this->items,
       'channel'     => $channel,
-      'namespaces'  => $this->getNamespaces()
+      'namespaces'  => $this->namespaces
     ];
 
         // if cache is on put this feed in cache and return it
@@ -388,15 +345,12 @@ class Feed
        */
     public static function link($url, $type='atom', $title=null, $lang=null)
     {
-        if ($type == 'rss') {
-            $type = 'application/rss+xml';
-        }
-        if ($type == 'atom') {
-            $type = 'application/atom+xml';
-        }
+        $type = (in_array($type, ['rss', 'atom'], true)) ? 'application/'.$type.'+xml' : $type;
+
         if ($title != null) {
             $title = ' title="'.$title.'"';
         }
+
         if ($lang != null) {
             $lang = ' hreflang="'.$lang.'"';
         }
@@ -512,57 +466,16 @@ class Feed
      */
     public function formatDate($date, $format='atom')
     {
-        if ($format == "atom") {
-            switch ($this->dateFormat) {
-        case "carbon":
-          $date = date('c', strtotime($date->toDateTimeString()));
-          break;
-        case "timestamp":
-          $date = date('c', strtotime('@'.$date));
-          break;
-        case "datetime":
-          $date = date('c', strtotime($date));
-          break;
-      }
+        if ('carbon' == $this->dateFormat) {
+            $date = ('atom' == $format) ? date('c', strtotime($date->toDateTimeString())) : date('D, d M Y H:i:s O', strtotime($date->toDateTimeString()));
+        } elseif ('timestamp' == $this->dateFormat) {
+            $date = ('atom' == $format) ? date('c', strtotime('@'.$date)) : date('D, d M Y H:i:s O', strtotime('@'.$date));
         } else {
-            switch ($this->dateFormat) {
-        case "carbon":
-          $date = date('D, d M Y H:i:s O', strtotime($date->toDateTimeString()));
-          break;
-        case "timestamp":
-          $date = date('D, d M Y H:i:s O', strtotime('@'.$date));
-          break;
-        case "datetime":
-          $date = date('D, d M Y H:i:s O', strtotime($date));
-          break;
-      }
+            // datetime
+            $date = ('atom' == $format) ? date('c', strtotime($date)) : date('D, d M Y H:i:s O', strtotime($date));
         }
 
         return $date;
-    }
-
-    /**
-     * Add namespace
-     *
-     * @param string $n
-     *
-     * @return void
-     */
-    public function addNamespace($n)
-    {
-        $this->namespaces[] = $n;
-    }
-
-    /**
-     * Get all namespaces
-     *
-     * @param string $n
-     *
-     * @return void
-     */
-    public function getNamespaces()
-    {
-        return $this->namespaces;
     }
 
     /**
@@ -590,43 +503,6 @@ class Feed
     }
 
     /**
-     * Returns $items array
-     *
-     * @return array
-     */
-    public function getItems()
-    {
-        return $this->items;
-    }
-
-    /**
-     * Adds item to $items array
-     *
-     * @param array $item
-     */
-    public function setItem($item)
-    {
-        $this->items[] = $item;
-    }
-
-    /**
-     * Generate rss link
-     *
-     * @author Cara Wang <caraw@cnyes.com>
-     * @since  2016/09/09
-     */
-    public function getRssLink()
-    {
-        $rssLink = request()->url();
-
-        if (!empty($this->domain)) {
-            $rssLink = sprintf('%s/%s', rtrim($this->domain, '/'), ltrim(request()->path(), '/'));
-        }
-
-        return $rssLink;
-    }
-
-    /**
      * Returns $CacheKey value
      *
      * @return string
@@ -644,25 +520,5 @@ class Feed
     public function getCacheDuration()
     {
         return $this->caching;
-    }
-
-    /**
-     * Setter for $ctype
-     *
-     * @return string
-     */
-    public function setCtype($ctype=null)
-    {
-        $this->ctype = $ctype;
-    }
-
-    /**
-     * Getter for $ctype
-     *
-     * @return string
-     */
-    public function getCtype()
-    {
-        return $this->ctype;
     }
 }
