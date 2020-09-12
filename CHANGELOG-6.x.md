@@ -7,4 +7,4 @@
 ### Added
 
 - Added support for Laravel 6
-- Added new branch for development ``6.0.x-dev``
+- Added new branch for development ``6.x-dev``
