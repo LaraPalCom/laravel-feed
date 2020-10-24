@@ -48,6 +48,7 @@
       <content:encoded><![CDATA[{!! $item['content'] !!}]]></content:encoded>
       @endif
       <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">{!! $item['author'] !!}</dc:creator>
+      <author>{!! $item['author'] !!}</author>
       <pubDate>{{ $item['pubdate'] }}</pubDate>
       @if (!empty($item['enclosure']))
       <enclosure
